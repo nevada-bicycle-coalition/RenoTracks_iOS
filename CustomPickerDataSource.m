@@ -128,6 +128,20 @@
             [viewArray addObject:view];
             [view release];
             
+            //Bike events
+            view = [[CustomView alloc] initWithFrame:CGRectZero];
+            view.title = @"Bike Event";
+            view.image = [UIImage imageNamed:kTripPurposeBikeEventIcon];
+            [viewArray addObject:view];
+            [view release];
+            
+            //ScalleyCat
+            view = [[CustomView alloc] initWithFrame:CGRectZero];
+            view.title = @"ScalleyCat";
+            view.image = [UIImage imageNamed:kTripPurposeScalleyCatIcon];
+            [viewArray addObject:view];
+            [view release];
+            
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Other";
             view.image = [UIImage imageNamed:kTripPurposeOtherIcon];

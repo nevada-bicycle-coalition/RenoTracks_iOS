@@ -511,6 +511,12 @@
             case kTripPurposeErrand:
                 image = [UIImage imageNamed:kTripPurposeErrandIcon];
                 break;
+            case kTripPurposeBikeEvent:
+                image = [UIImage imageNamed:kTripPurposeBikeEventIcon];
+                break;
+            case kTripPurposeScalleyCat:
+                image = [UIImage imageNamed:kTripPurposeScalleyCatIcon];
+                break;
             case kTripPurposeOther:
                 image = [UIImage imageNamed:kTripPurposeOtherIcon];
                 break;

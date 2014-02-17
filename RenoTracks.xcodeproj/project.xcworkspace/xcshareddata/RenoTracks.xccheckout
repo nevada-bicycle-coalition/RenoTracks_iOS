@@ -5,36 +5,36 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>F87351FD-086D-4112-B77A-007373971E35</string>
+	<string>294E1514-2C2E-401E-9F34-BA2D78C617A6</string>
 	<key>IDESourceControlProjectName</key>
 	<string>RenoTracks</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>D6C9657E-24EC-44F1-B359-F458C927CA75</key>
-		<string>https://github.com/hack4reno2013/RenoTracks-iOS.git</string>
+		<key>D9420455-4329-44BB-B00C-505AB478C44F</key>
+		<string>https://github.com/hack4reno2013/RenoTracks_iOS.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>RenoTracks.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>D6C9657E-24EC-44F1-B359-F458C927CA75</key>
+		<key>D9420455-4329-44BB-B00C-505AB478C44F</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/hack4reno2013/RenoTracks-iOS.git</string>
+	<string>https://github.com/hack4reno2013/RenoTracks_iOS.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>D6C9657E-24EC-44F1-B359-F458C927CA75</string>
+	<string>D9420455-4329-44BB-B00C-505AB478C44F</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>D6C9657E-24EC-44F1-B359-F458C927CA75</string>
+			<string>D9420455-4329-44BB-B00C-505AB478C44F</string>
 			<key>IDESourceControlWCCName</key>
-			<string>RenoTracks-iOS</string>
+			<string>RenoTracks_iOS</string>
 		</dict>
 	</array>
 </dict>

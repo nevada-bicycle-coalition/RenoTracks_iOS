@@ -43,34 +43,40 @@
 #define kTripPurposeSocial		4
 #define kTripPurposeShopping	5
 #define kTripPurposeErrand		6
-#define kTripPurposeOther		7
+#define kTripPurposeBikeEvent	7
+#define kTripPurposeScalleyCat	8
+#define kTripPurposeOther		9
 //#define kTripPurposeRecording   8
 
-#define kTripPurposeCommuteIcon		@"commute.png"
-#define kTripPurposeSchoolIcon		@"school.png"
-#define kTripPurposeWorkIcon		@"workRelated.png"
-#define kTripPurposeExerciseIcon	@"exercise.png"
-#define kTripPurposeSocialIcon		@"social.png"
-#define kTripPurposeShoppingIcon	@"shopping.png"
-#define kTripPurposeErrandIcon		@"errands.png"
-#define kTripPurposeOtherIcon		@"other.png"
-#define kTripPurposeOtherRedIcon	@"otherRed.png"
+#define kTripPurposeCommuteIcon         @"commute.png"
+#define kTripPurposeSchoolIcon          @"school.png"
+#define kTripPurposeWorkIcon            @"workRelated.png"
+#define kTripPurposeExerciseIcon        @"exercise.png"
+#define kTripPurposeSocialIcon          @"social.png"
+#define kTripPurposeShoppingIcon        @"shopping.png"
+#define kTripPurposeErrandIcon          @"errands.png"
+#define kTripPurposeBikeEventIcon       @"bikeEvent.png"
+#define kTripPurposeScalleyCatIcon      @"scalleyCat.png"
+#define kTripPurposeOtherIcon           @"other.png"
+#define kTripPurposeOtherRedIcon        @"otherRed.png"
 
 
 
-#define kNoteThisAsset              @"noteAssetPicker.png"
-#define kNoteThisIssue              @"noteIssuePicker.png"
-#define kNoteBlank                  @"noteBlankPicker.png"
+#define kNoteThisAsset                  @"noteAssetPicker.png"
+#define kNoteThisIssue                  @"noteIssuePicker.png"
+#define kNoteBlank                      @"noteBlankPicker.png"
 
-#define kTripPurposeCommuteString	@"Commute"
-#define kTripPurposeSchoolString	@"School"
-#define kTripPurposeWorkString		@"Work-Related"
-#define kTripPurposeExerciseString	@"Exercise"
-#define kTripPurposeSocialString	@"Social"
-#define kTripPurposeShoppingString	@"Shopping"
-#define kTripPurposeErrandString	@"Errand"
-#define kTripPurposeOtherString		@"Other"
-#define kTripPurposeRecordingString @"Recording..."
+#define kTripPurposeCommuteString       @"Commute"
+#define kTripPurposeSchoolString        @"School"
+#define kTripPurposeWorkString          @"Work-Related"
+#define kTripPurposeExerciseString      @"Exercise"
+#define kTripPurposeSocialString        @"Social"
+#define kTripPurposeShoppingString      @"Shopping"
+#define kTripPurposeErrandString        @"Errand"
+#define kTripPurposeBikeEventString     @"Bike Event"
+#define kTripPurposeScalleyCatString    @"ScalleyCat"
+#define kTripPurposeOtherString         @"Other"
+#define kTripPurposeRecordingString     @"Recording..."
 
 
 @protocol TripPurposeDelegate <NSObject>

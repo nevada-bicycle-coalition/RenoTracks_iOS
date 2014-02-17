@@ -43,6 +43,8 @@
 #define kDescSocial		@"The primary reason for this bike trip is going to or from a social activity (e.g. at a friend's house, the park, a restaurant, the movies)."
 #define kDescShopping	@"The primary reason for this bike trip is to purchase or bring home goods or groceries."
 #define kDescErrand		@"The primary reason for this bike trip is to attend to personal business such as banking, doctor visit, going to the gym, etc."
+#define kDescBikeEvent  @"The primary reason for this bike trip was an event such as a race, fund raiser, or scavenger hunt."
+#define kDescScalleyCat @"The baddest, longest, toughest, drunkest, mayhem-est bike race in the world in the Biggest Little City in the World."
 #define kDescOther		@"If none of the other reasons apply to this trip, you can enter trip comments after saving your trip to tell us more."
 
 // Issue descriptions

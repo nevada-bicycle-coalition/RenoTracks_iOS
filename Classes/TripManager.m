@@ -1036,9 +1036,15 @@
 		return kTripPurposeSocial;
 	else if ( [string isEqualToString:kTripPurposeShoppingString] )
 		return kTripPurposeShopping;
+    else if ( [string isEqualToString:kTripPurposeErrandString] )
+		return kTripPurposeErrand;
+    else if ( [string isEqualToString:kTripPurposeBikeEventString] )
+		return kTripPurposeBikeEvent;
+    else if ( [string isEqualToString:kTripPurposeScalleyCatString] )
+		return kTripPurposeScalleyCat;
     else
 //	else ( [string isEqualToString:kTripPurposeErrandString] )
-		return kTripPurposeErrand;
+		return kTripPurposeOther;
 //	else
 //		return kTripPurposeRecording;
 }
@@ -1066,6 +1072,12 @@
 			break;
 		case kTripPurposeErrand:
 			return @"Errand";
+			break;
+        case kTripPurposeBikeEvent:
+			return @"Bike Event";
+			break;
+        case kTripPurposeScalleyCat:
+			return @"ScalleyCat";
 			break;
 		case kTripPurposeOther:
 		default:
