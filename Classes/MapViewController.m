@@ -234,7 +234,7 @@
 		// filter coords by hAccuracy
 		NSPredicate *filterByAccuracy	= [NSPredicate predicateWithFormat:@"hAccuracy < 100.0"];
 		NSArray		*filteredCoords		= [[trip.coords allObjects] filteredArrayUsingPredicate:filterByAccuracy];
-		NSLog(@"count of filtered coords = %d", [filteredCoords count]);
+		NSLog(@"count of filtered coords = %lu", (unsigned long)[filteredCoords count]);
 		
 		// sort filtered coords by recorded date
 		NSSortDescriptor *sortByDate	= [[[NSSortDescriptor alloc] initWithKey:@"recorded" ascending:YES] autorelease];

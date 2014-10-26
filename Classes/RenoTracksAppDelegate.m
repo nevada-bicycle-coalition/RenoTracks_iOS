@@ -76,7 +76,7 @@
     tabBarController.tabBar.translucent = false;
     
     // set color of selected icons and text to white
-    //tabBar.tintColor = plainWhite;
+    tabBar.tintColor = plainWhite;
     //[[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: plainWhite, NSForegroundColorAttributeName, nil] forState:UIControlStateSelected];
     
     // set color of unselected text to light grey

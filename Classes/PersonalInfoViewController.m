@@ -207,7 +207,7 @@
 	
 	NSError *error;
 	NSInteger count = [managedObjectContext countForFetchRequest:request error:&error];
-	NSLog(@"saved user count  = %d", count);
+	NSLog(@"saved user count  = %ld", (long)count);
 	if ( count == 0 )
 	{
 		// create an empty User entity

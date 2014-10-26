@@ -21,7 +21,7 @@
     <UINavigationControllerDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
 {
     NSMutableArray *notes;
-    NoteManager *noteManager;
+    NoteManager *noteManager; 
     NSManagedObjectContext *managedObjectContext;
     LoadingView *loading;
     NSInteger pickerCategory;

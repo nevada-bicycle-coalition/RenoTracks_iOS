@@ -179,7 +179,7 @@
     
 	if ( note )
 	{
-        
+        //Mark nvigation header
         NSString *title = [[[NSString alloc] init] autorelease];
         switch ([note.note_type intValue]) {
             case 0:
@@ -192,7 +192,7 @@
                 title = @"Enforcement";
                 break;
             case 3:
-                title = @"Rack'em Up";
+                title = @"Rack Em Up";
                 break;
             case 4:
                 title = @"Bike lane issue";
@@ -201,7 +201,7 @@
                 title = @"Note this issue";
                 break;
             case 6:
-                title = @"Rack'em Up";
+                title = @"Rack Em Up";
                 break;
             case 7:
                 title = @"Bike shops";

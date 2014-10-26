@@ -51,14 +51,14 @@
 #define kIssueDescPavementIssue  @"Here’s a spot where the road needs to be repaired (pothole, rough concrete, gravel in the road, manhole cover, sewer grate)."
 #define kIssueDescTrafficSignal  @"Here’s a signal that you can’t activate with your bike."
 #define kIssueDescEnforcement    @"The bike lane is always blocked here, cars disobey \"no right on red\"… anything where the cops can help make cycling safer."
-#define kIssueDescNeedParking    @"Rack'em Down!? You wish you had a bike rack at this spot to secure your bike."
+#define kIssueDescNeedParking    @"Rack Em Up - future parking. You wish you had a bike rack at this spot to secure your bike."
 #define kIssueDescBikeLaneIssue  @"Where the bike lane ends (abruptly) or is too narrow (pesky parked cars)."
 #define kIssueDescNoteThisSpot   @"Anything else ripe for improvement: want a sharrow, a sign, a bike lane? Share the details."
 
 #define kDescNoteThis   @"Anything about this spot?"
 
 // Asset descriptions
-#define kAssetDescBikeParking   @"Rack'em Up! Park you bike here and remember to secure it well! Please only include racks or other objects intended for bikes."
+#define kAssetDescBikeParking   @"Rack Em Up! Park your bike here and remember to secure it well! Please only include racks or other objects intended for bikes."
 #define kAssetDescBikeShops @"Have a flat, a broken chain, or spongy brakes? Or do you need a bike to jump into this world of cycling in the first place? Here's a shop ready to help."
 #define kAssetDescPublicRestrooms   @"Help us make cycling mainstream… here’s a place to refresh yourself before you re-enter the fashionable world of Reno."
 #define kAssetDescSecretPassage @"Here's an access point under the tracks, through the park, onto a trail, or over a ravine."

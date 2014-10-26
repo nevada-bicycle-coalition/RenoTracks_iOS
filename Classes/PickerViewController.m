@@ -159,7 +159,7 @@
         
         pickedNotedType = [[NSUserDefaults standardUserDefaults] integerForKey:@"pickedNotedType"];
         
-        NSLog(@"pickedNotedType is %d", pickedNotedType);
+        NSLog(@"pickedNotedType is %ld", (long)pickedNotedType);
     }
     else if (pickerCategory == 2){
         NSLog(@"Asset Save button pressed");
@@ -180,7 +180,7 @@
         
         pickedNotedType = [[NSUserDefaults standardUserDefaults] integerForKey:@"pickedNotedType"];
         
-        NSLog(@"pickedNotedType is %d", pickedNotedType);
+        NSLog(@"pickedNotedType is %ld", (long)pickedNotedType);
         
     }
     else if (pickerCategory == 3){
@@ -200,7 +200,7 @@
         NSNumber *tempType = 0;
 
         
-        if(row>=7){
+        if(row >= 7){
             tempType = [NSNumber numberWithInt:row-7];
         }
         else if (row<=5){

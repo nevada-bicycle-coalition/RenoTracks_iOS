@@ -162,7 +162,7 @@
 	
 	NSError *error;
 	NSInteger count = [tripManager.managedObjectContext countForFetchRequest:request error:&error];
-	NSLog(@"count = %d", count);
+	NSLog(@"count = %ld", (long)count);
 	
 	NSMutableArray *mutableFetchResults = [[tripManager.managedObjectContext executeFetchRequest:request error:&error] mutableCopy];
 	if (mutableFetchResults == nil) {
@@ -785,7 +785,7 @@
 //- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-	NSLog(@"actionSheet clickedButtonAtIndex %d", buttonIndex);
+	NSLog(@"actionSheet clickedButtonAtIndex %ld", (long)buttonIndex);
     
 	switch ( buttonIndex )
 	{
@@ -871,7 +871,7 @@
 	switch (alertView.tag) {
 		case 202:
 		{
-			NSLog(@"zeroDistance didDismissWithButtonIndex: %d", buttonIndex);
+			NSLog(@"zeroDistance didDismissWithButtonIndex: %ld", (long)buttonIndex);
 			switch (buttonIndex) {
 				case 0:
 					// nothing to do
@@ -886,7 +886,7 @@
 			break;
 		case 303:
 		{
-			NSLog(@"unSyncedTrips didDismissWithButtonIndex: %d", buttonIndex);
+			NSLog(@"unSyncedTrips didDismissWithButtonIndex: %ld", (long)buttonIndex);
 			switch (buttonIndex) {
 				case 0:
 					// Nevermind
@@ -901,7 +901,7 @@
 			break;
 		default:
 		{
-			NSLog(@"SavedTripsView alertView: didDismissWithButtonIndex: %d", buttonIndex);
+			NSLog(@"SavedTripsView alertView: didDismissWithButtonIndex: %ld", (long)buttonIndex);
 			[self displaySelectedTripMap];
 		}
 	}
