@@ -146,9 +146,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-	// Set the title.
-	// self.title = @"Personal Info";
     
     genderArray = [[NSArray alloc]initWithObjects: @" ", @"Female",@"Male", nil];
     
@@ -184,6 +181,16 @@
     self.cyclingFreq = [self initTextFieldBeta];
     self.riderType  =  [self initTextFieldBeta];
     self.riderHistory =[self initTextFieldBeta];
+    
+    // Assign picker view to selection inputs
+    self.age.inputView = pickerView;
+    self.gender.inputView = pickerView;
+    self.ethnicity.inputView = pickerView;
+    self.income.inputView = pickerView;
+    self.cyclingFreq.inputView = pickerView;
+    self.riderType.inputView = pickerView;
+    self.riderHistory.inputView = pickerView;
+    
 
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -265,6 +272,14 @@
 
 #pragma mark UITextFieldDelegate methods
 
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if(textField.inputView == pickerView) {
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     if(currentTextField == email || currentTextField == workZIP || currentTextField == homeZIP || currentTextField == schoolZIP || textField != email || textField != workZIP || textField != homeZIP || textField != schoolZIP){
         NSLog(@"currentTextField: text2");
@@ -285,14 +300,17 @@
     currentTextField = myTextField;
     
     if(myTextField == gender || myTextField == age || myTextField == ethnicity || myTextField == income || myTextField == cyclingFreq || myTextField == riderType || myTextField == riderHistory){
+      
         
-        [myTextField resignFirstResponder];
+        //[myTextField resignFirstResponder];
         
-        actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil]; //as we want to display a subview we won't be using the default buttons but rather we're need to create a toolbar to display the buttons on
+        //TODO: Fix this!!
+       /* actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil]; //as we want to display a subview we won't be using the default buttons but rather we're need to create a toolbar to display the buttons on
         
-        [actionSheet setActionSheetStyle:UIActionSheetStyleBlackTranslucent];
+        [actionSheet setActionSheetStyle:UIActionSheetStyleBlackTranslucent];*/
         
-        [actionSheet addSubview:pickerView];
+       /* [actionSheet addSubview:pickerView];
+        
         
         doneToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
         doneToolbar.barStyle = UIBarStyleBlackOpaque;
@@ -313,7 +331,7 @@
         
         [doneToolbar setItems:barItems animated:YES];
         
-        [actionSheet addSubview:doneToolbar];
+        [actionSheet addSubview:doneToolbar];*/
         
         selectedItem = 0;
         if(myTextField == gender){
@@ -332,15 +350,25 @@
             selectedItem = [user.rider_history integerValue];
         }
         
-        [pickerView selectRow:selectedItem inComponent:0 animated:NO];
+        //[pickerView selectRow:selectedItem inComponent:0 animated:NO];
         
-        [pickerView reloadAllComponents];
+        //[pickerView reloadAllComponents];
+        //[pickerView setBackgroundColor:[UIColor whiteColor]];
         
-        [actionSheet addSubview:pickerView];
         
-        [actionSheet showInView:self.view];
+        //[self.view addSubview:pickerView];*/
         
-        [actionSheet setBounds:CGRectMake(0, 0, 320, 485)];
+        //Bottom constraint
+        /*[self.view addConstraint:[NSLayoutConstraint constraintWithItem:pickerView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view  attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0  ]];
+        
+        //Center constraint
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:pickerView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0  ]];*/
+        
+        //[actionSheet addSubview:pickerView];
+        
+        //[actionSheet showInView:self.view];
+        
+        //[actionSheet setBounds:CGRectMake(0, 0, 320, 485)];
 
     }
 }
@@ -349,7 +377,7 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
 	NSLog(@"textFieldShouldReturn");
-	[textField resignFirstResponder];
+	//[textField resignFirstResponder];
 	return YES;
 }
 
@@ -831,6 +859,8 @@
 	}
 }
 
+#pragma mark Picker View Methods
+
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)thePickerView {
     return 1;
 }
@@ -883,6 +913,11 @@
         return [riderHistoryArray objectAtIndex:row];
     }
     return nil;
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    [self doneButtonPressed:pickerView];
+    [self.view endEditing:YES];
 }
 
 - (void)doneButtonPressed:(id)sender{
@@ -958,7 +993,7 @@
         NSString *riderHistorySelect = [riderHistoryArray objectAtIndex:selectedRow];
         riderHistory.text = riderHistorySelect;
     }
-    [actionSheet dismissWithClickedButtonIndex:1 animated:YES];
+    //[actionSheet dismissWithClickedButtonIndex:1 animated:YES];
 }
 
 - (void)cancelButtonPressed:(id)sender{
