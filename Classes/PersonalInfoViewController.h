@@ -59,27 +59,18 @@
     UITextField *cyclingFreq;
     UITextField *riderType;
     UITextField *riderHistory;
-    UIToolbar *doneToolbar;
-    UIActionSheet *actionSheet;
-    UIPickerView *pickerView;
-    UITextField *currentTextField;
+    UIPickerView *demographicsPicker;
     
     NSArray *genderArray;
     NSArray *ageArray;
     NSArray *ethnicityArray;
     NSArray *incomeArray;
     NSArray *cyclingFreqArray;
-    NSArray *riderTypeArray;
-    NSArray *riderHistoryArray;
+    NSArray *rider_typeArray;
+    NSArray *rider_historyArray;
+    NSArray *textFieldArray;
     
-    NSInteger ageSelectedRow;
-    NSInteger genderSelectedRow;
-    NSInteger ethnicitySelectedRow;
-    NSInteger incomeSelectedRow;
-    NSInteger cyclingFreqSelectedRow;
-    NSInteger riderTypeSelectedRow;
-    NSInteger riderHistorySelectedRow;
-    NSInteger selectedItem;
+    NSInteger selectedTextField;
 }
 
 
@@ -112,6 +103,5 @@
 // DEPRECATED
 - (id)initWithManagedObjectContext:(NSManagedObjectContext*)context;
 
-- (void)done;
 
 @end
