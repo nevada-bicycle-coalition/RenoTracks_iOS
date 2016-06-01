@@ -291,6 +291,9 @@ typedef NS_ENUM(NSInteger, textFieldTags) {
 - (void)textFieldDidBeginEditing:(UITextField *)myTextField{
     
     selectedTextField = myTextField.tag;
+    if(myTextField.inputView == demographicsPicker) {
+        [demographicsPicker reloadAllComponents];
+    }
     
 }
 

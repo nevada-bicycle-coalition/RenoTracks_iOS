@@ -30,7 +30,7 @@ class Reno_TracksUITests: XCTestCase {
         super.tearDown()
     }
     
-    func testDemographics() {
+    func testDemographicsShouldUpdateWithPicker() {
         let app = XCUIApplication()
         app.tabBars.buttons["Settings"].tap()
         
@@ -55,6 +55,31 @@ class Reno_TracksUITests: XCTestCase {
         
     }
     
+    func testDemographicsPickerShouldUpdateOnChange () {
+        let app = XCUIApplication()
+        app.tabBars.buttons["Settings"].tap()
+        
+        let ageTextField = app.tables.cells.containingType(.StaticText, identifier:"Age").childrenMatchingType(.TextField).element
+        ageTextField.tap()
+        //FIXME not finding options as static texts. Comes in as Other element type with no value
+        //XCTAssert(app.staticTexts[values["Age"]!].exists)
+        testPicker("Gender", in: app)
+        
+        
+        let genderTextField = app.tables.cells.containingType(.StaticText, identifier:"Gender").childrenMatchingType(.TextField).element
+        genderTextField.tap()
+        //XCTAssert(app.staticTexts[values["Gender"]!].exists)
+        
+        let emailTextField = app.tables.cells.containingType(.StaticText, identifier:"Email").childrenMatchingType(.TextField).element
+        emailTextField.tap()
+        XCTAssertFalse(app.pickerWheels.element.exists)
+        
+        testPicker("Age", in: app)
+        
+        //ageTextField.tap()
+        //XCTAssert(app.staticTexts[values["Age"]!].exists)
+    }
+    
     func testTextField(key:String, in app:XCUIApplication) {
         let textField = app.tables.cells.containingType(.StaticText, identifier:key).childrenMatchingType(.TextField).element
         if(textField.value as! String != "") {
@@ -62,7 +87,6 @@ class Reno_TracksUITests: XCTestCase {
             app.menuItems["Select All"].tap()
         } else {
             textField.tap()
-            NSThread.sleepForTimeInterval(0.5)
         }
         app.typeText(values[key]!)
         NSThread.sleepForTimeInterval(0.5)
@@ -70,6 +94,22 @@ class Reno_TracksUITests: XCTestCase {
     }
     
     func testPicker(key:String, in app:XCUIApplication) {
+        let pickerTextField = app.tables.cells.containingType(.StaticText, identifier:key).childrenMatchingType(.TextField).element
+        
+        //Set to blank
+        pickerTextField.tap()
+        app.pickerWheels.element.swipeDown()
+        XCTAssertEqual((pickerTextField.value as! String), " ")
+        
+        //set to first option
+        pickerTextField.tap()
+        app.pickerWheels.element.selectNextOption()
+        NSThread.sleepForTimeInterval(0.5)
+        XCTAssertEqual((pickerTextField.value as! String), values[key])
+        
+    }
+    
+    func testPickerClick(key:String, in app:XCUIApplication) {
         let pickerTextField = app.tables.cells.containingType(.StaticText, identifier:key).childrenMatchingType(.TextField).element
         
         //Set to blank
