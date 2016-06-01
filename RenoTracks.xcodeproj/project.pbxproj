@@ -153,7 +153,19 @@
 		A2B263381801C8140015F89B /* workRelated@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B263181801C8140015F89B /* workRelated@2x.png */; };
 		A2B2633B1801D6460015F89B /* greyButtonHighlight.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B263391801D6460015F89B /* greyButtonHighlight.png */; };
 		A2B2633C1801D6460015F89B /* greyButtonHighlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B2633A1801D6460015F89B /* greyButtonHighlight@2x.png */; };
+		E91AA6AB1CFE185800840AD0 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91AA6AA1CFE185800840AD0 /* extensions.swift */; };
+		E970FA851CF8A7C900A4E73B /* Reno_TracksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E970FA841CF8A7C900A4E73B /* Reno_TracksUITests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E970FA871CF8A7C900A4E73B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1D6058900D05DD3D006BFB54;
+			remoteInfo = Tracks;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		1C4134CD186CDB8200116DCA /* otherRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = otherRed.png; path = TripPurposePickerIcons/otherRed.png; sourceTree = SOURCE_ROOT; };
@@ -339,6 +351,10 @@
 		A2B263181801C8140015F89B /* workRelated@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "workRelated@2x.png"; path = "TripPurposePickerIcons/workRelated@2x.png"; sourceTree = SOURCE_ROOT; };
 		A2B263391801D6460015F89B /* greyButtonHighlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greyButtonHighlight.png; sourceTree = "<group>"; };
 		A2B2633A1801D6460015F89B /* greyButtonHighlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greyButtonHighlight@2x.png"; sourceTree = "<group>"; };
+		E91AA6AA1CFE185800840AD0 /* extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
+		E970FA821CF8A7C900A4E73B /* Reno TracksUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Reno TracksUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E970FA841CF8A7C900A4E73B /* Reno_TracksUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reno_TracksUITests.swift; sourceTree = "<group>"; };
+		E970FA861CF8A7C900A4E73B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -358,6 +374,13 @@
 				642F151C1071D9DD0050BCB9 /* MapKit.framework in Frameworks */,
 				642647FD107435A200E43DEF /* AudioToolbox.framework in Frameworks */,
 				64ED1621112F364200E617E1 /* QuartzCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E970FA7F1CF8A7C900A4E73B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -423,6 +446,7 @@
 			isa = PBXGroup;
 			children = (
 				1D6058910D05DD3D006BFB54 /* RenoTracks.app */,
+				E970FA821CF8A7C900A4E73B /* Reno TracksUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -454,6 +478,7 @@
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
+				E970FA831CF8A7C900A4E73B /* Reno TracksUITests */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -650,6 +675,16 @@
 			path = "UI Elements";
 			sourceTree = "<group>";
 		};
+		E970FA831CF8A7C900A4E73B /* Reno TracksUITests */ = {
+			isa = PBXGroup;
+			children = (
+				E970FA841CF8A7C900A4E73B /* Reno_TracksUITests.swift */,
+				E970FA861CF8A7C900A4E73B /* Info.plist */,
+				E91AA6AA1CFE185800840AD0 /* extensions.swift */,
+			);
+			path = "Reno TracksUITests";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -670,16 +705,39 @@
 			productReference = 1D6058910D05DD3D006BFB54 /* RenoTracks.app */;
 			productType = "com.apple.product-type.application";
 		};
+		E970FA811CF8A7C900A4E73B /* Reno TracksUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E970FA8E1CF8A7C900A4E73B /* Build configuration list for PBXNativeTarget "Reno TracksUITests" */;
+			buildPhases = (
+				E970FA7E1CF8A7C900A4E73B /* Sources */,
+				E970FA7F1CF8A7C900A4E73B /* Frameworks */,
+				E970FA801CF8A7C900A4E73B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E970FA881CF8A7C900A4E73B /* PBXTargetDependency */,
+			);
+			name = "Reno TracksUITests";
+			productName = "Reno TracksUITests";
+			productReference = E970FA821CF8A7C900A4E73B /* Reno TracksUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = J456M95AJV;
+					};
+					E970FA811CF8A7C900A4E73B = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = 1D6058900D05DD3D006BFB54;
 					};
 				};
 			};
@@ -695,6 +753,7 @@
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* Tracks */,
+				E970FA811CF8A7C900A4E73B /* Reno TracksUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -810,6 +869,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E970FA801CF8A7C900A4E73B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -851,7 +917,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E970FA7E1CF8A7C900A4E73B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E970FA851CF8A7C900A4E73B /* Reno_TracksUITests.swift in Sources */,
+				E91AA6AB1CFE185800840AD0 /* extensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E970FA881CF8A7C900A4E73B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1D6058900D05DD3D006BFB54 /* Tracks */;
+			targetProxy = E970FA871CF8A7C900A4E73B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
@@ -868,6 +951,7 @@
 				GCC_PREFIX_HEADER = RenoTracks_Prefix.pch;
 				INFOPLIST_FILE = "RenoTracks-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nevadabike.RenoTracks;
 				PRODUCT_NAME = RenoTracks;
 				PROVISIONING_PROFILE = "9BB01C32-9BE0-4F97-9E14-B59A100E6C5F";
 				SDKROOT = iphoneos;
@@ -886,6 +970,7 @@
 				GCC_PREFIX_HEADER = RenoTracks_Prefix.pch;
 				INFOPLIST_FILE = "RenoTracks-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nevadabike.RenoTracks;
 				PRODUCT_NAME = RenoTracks;
 				PROVISIONING_PROFILE = "9BB01C32-9BE0-4F97-9E14-B59A100E6C5F";
 				SDKROOT = iphoneos;
@@ -916,6 +1001,7 @@
 				GCC_PREFIX_HEADER = RenoTracks_Prefix.pch;
 				INFOPLIST_FILE = "RenoTracks-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nevadabike.RenoTracks;
 				PRODUCT_NAME = RenoTracks;
 				PROVISIONING_PROFILE = "9BB01C32-9BE0-4F97-9E14-B59A100E6C5F";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "803E7958-869D-4D96-8433-216B0F29D0B3";
@@ -951,6 +1037,7 @@
 				GCC_PREFIX_HEADER = RenoTracks_Prefix.pch;
 				INFOPLIST_FILE = "RenoTracks-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nevadabike.RenoTracks;
 				PRODUCT_NAME = RenoTracks;
 				PROVISIONING_PROFILE = "9BB01C32-9BE0-4F97-9E14-B59A100E6C5F";
 				SDKROOT = iphoneos;
@@ -982,6 +1069,7 @@
 				GCC_PREFIX_HEADER = RenoTracks_Prefix.pch;
 				INFOPLIST_FILE = "RenoTracks-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nevadabike.RenoTracks;
 				PRODUCT_NAME = RenoTracks;
 				PROVISIONING_PROFILE = "9BB01C32-9BE0-4F97-9E14-B59A100E6C5F";
 				SDKROOT = iphoneos;
@@ -992,6 +1080,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Christopher Le Dantec (PKMEYDVVL2)";
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -1012,6 +1101,221 @@
 				SDKROOT = iphoneos;
 			};
 			name = Release;
+		};
+		E970FA891CF8A7C900A4E73B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "Reno TracksUITests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.nevadabike.Reno-TracksUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "9BB01C32-9BE0-4F97-9E14-B59A100E6C5F";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TEST_TARGET_NAME = Tracks;
+			};
+			name = Debug;
+		};
+		E970FA8A1CF8A7C900A4E73B /* Beta */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "Reno TracksUITests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.nevadabike.Reno-TracksUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "9BB01C32-9BE0-4F97-9E14-B59A100E6C5F";
+				TEST_TARGET_NAME = Tracks;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Beta;
+		};
+		E970FA8B1CF8A7C900A4E73B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "Reno TracksUITests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.nevadabike.Reno-TracksUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "9BB01C32-9BE0-4F97-9E14-B59A100E6C5F";
+				TEST_TARGET_NAME = Tracks;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E970FA8C1CF8A7C900A4E73B /* Release Beta */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "Reno TracksUITests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.nevadabike.Reno-TracksUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "9BB01C32-9BE0-4F97-9E14-B59A100E6C5F";
+				TEST_TARGET_NAME = Tracks;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Release Beta";
+		};
+		E970FA8D1CF8A7C900A4E73B /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "Reno TracksUITests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.nevadabike.Reno-TracksUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "9BB01C32-9BE0-4F97-9E14-B59A100E6C5F";
+				TEST_TARGET_NAME = Tracks;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Distribution;
 		};
 /* End XCBuildConfiguration section */
 
@@ -1036,6 +1340,18 @@
 				C01FCF5008A954540054247B /* Release */,
 				64D31CD9108E80E400D52130 /* Release Beta */,
 				64577E10106DB5D8003ACBFD /* Distribution */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E970FA8E1CF8A7C900A4E73B /* Build configuration list for PBXNativeTarget "Reno TracksUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E970FA891CF8A7C900A4E73B /* Debug */,
+				E970FA8A1CF8A7C900A4E73B /* Beta */,
+				E970FA8B1CF8A7C900A4E73B /* Release */,
+				E970FA8C1CF8A7C900A4E73B /* Release Beta */,
+				E970FA8D1CF8A7C900A4E73B /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
