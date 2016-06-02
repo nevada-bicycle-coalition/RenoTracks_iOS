@@ -88,7 +88,7 @@
     
 
 
-	NSTimer *timer;
+	NSTimer *__weak timer;
 	
 	// pointer to opacity mask, TabBar view
 	UIView *opacityMask;
@@ -114,29 +114,29 @@
 @property (nonatomic, retain) UITableViewCell	*tripPurposeCell;
 @property (nonatomic, retain) UITableViewCell	*personalInfoCell;
 */
-@property (nonatomic, retain) UIButton *infoButton;
-@property (nonatomic, retain) UIButton *saveButton;
-@property (nonatomic, retain) UIButton *startButton;
-@property (nonatomic, retain) UIButton *noteButton;
+@property (nonatomic, strong) UIButton *infoButton;
+@property (nonatomic, strong) UIButton *saveButton;
+@property (nonatomic, strong) UIButton *startButton;
+@property (nonatomic, strong) UIButton *noteButton;
 
-@property (nonatomic, retain) UILabel *timeCounter;
-@property (nonatomic, retain) UILabel *distCounter;
-@property (nonatomic, retain) UIActionSheet *saveActionSheet;
+@property (nonatomic, strong) UILabel *timeCounter;
+@property (nonatomic, strong) UILabel *distCounter;
+@property (nonatomic, strong) UIActionSheet *saveActionSheet;
 
-@property (assign) NSTimer *timer;
+@property (weak) NSTimer *timer;
 
-@property (nonatomic, retain) UIView   *parentView;
+@property (nonatomic, strong) UIView   *parentView;
 
 @property (assign) BOOL recording;
 @property (assign) BOOL shouldUpdateCounter;
 @property (assign) BOOL userInfoSaved;
 
 //@property (nonatomic, retain) ReminderManager *reminderManager;
-@property (nonatomic, retain) TripManager *tripManager;
+@property (nonatomic, strong) TripManager *tripManager;
 
-@property (nonatomic, retain) NoteManager *noteManager;
+@property (nonatomic, strong) NoteManager *noteManager;
 
-@property (nonatomic, retain) RenoTracksAppDelegate *appDelegate;
+@property (nonatomic, strong) RenoTracksAppDelegate *appDelegate;
 
 - (void)initTripManager:(TripManager*)manager;
 

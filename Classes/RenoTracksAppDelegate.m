@@ -136,8 +136,8 @@
 	[self initUniqueIDHash];
 	
 	// initialize trip manager with the managed object context
-	TripManager *tripManager = [[[TripManager alloc] initWithManagedObjectContext:context] autorelease];
-    NoteManager *noteManager = [[[NoteManager alloc] initWithManagedObjectContext:context] autorelease];
+	TripManager *tripManager = [[TripManager alloc] initWithManagedObjectContext:context];
+    NoteManager *noteManager = [[NoteManager alloc] initWithManagedObjectContext:context];
 	
 	UINavigationController	*recordNav	= (UINavigationController*)[tabBarController.viewControllers 
 																	objectAtIndex:0];
@@ -302,28 +302,6 @@
 	return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
 }
 
-
-#pragma mark -
-#pragma mark Memory management
-
-- (void)dealloc {
-    self.window = nil;
-    self.tabBarController = nil;
-    self.uniqueIDHash = nil;
-    self.isRecording = nil;
-    self.locationManager = nil;
-    
-    [tabBarController release];
-    [uniqueIDHash release];
-    [locationManager release];
-	[window release];
-    
-    [managedObjectContext release];
-    [managedObjectModel release];
-    [persistentStoreCoordinator release];
-    
-	[super dealloc];
-}
 
 
 @end

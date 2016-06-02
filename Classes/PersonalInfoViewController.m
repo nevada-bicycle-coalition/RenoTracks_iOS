@@ -74,7 +74,7 @@
     return self;
 }
 
-- (UITextField*)initTextFieldAlpha
+- (UITextField*)createTextFieldAlpha
 {
 	CGRect frame = CGRectMake( 152, 7, 138, 29 );
 	UITextField *textField = [[UITextField alloc] initWithFrame:frame];
@@ -85,7 +85,7 @@
 	return textField;
 }
 
-- (UITextField*)initTextFieldBeta
+- (UITextField*)createTextFieldBeta
 {
 	CGRect frame = CGRectMake( 152, 7, 138, 29 );
 	UITextField *textField = [[UITextField alloc] initWithFrame:frame];
@@ -97,7 +97,7 @@
 }
 
 
-- (UITextField*)initTextFieldEmail
+- (UITextField*)createTextFieldEmail
 {
 	CGRect frame = CGRectMake( 152, 7, 138, 29 );
 	UITextField *textField = [[UITextField alloc] initWithFrame:frame];
@@ -112,7 +112,7 @@
 }
 
 
-- (UITextField*)initTextFieldNumeric
+- (UITextField*)createTextFieldNumeric
 {
 	CGRect frame = CGRectMake( 152, 7, 138, 29 );
 	UITextField *textField = [[UITextField alloc] initWithFrame:frame];
@@ -129,7 +129,7 @@
 - (User *)createUser
 {
 	// Create and configure a new instance of the User entity
-	User *noob = (User *)[[NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:managedObjectContext] retain];
+	User *noob = (User *)[NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:managedObjectContext];
 	
 	NSError *error;
 	if (![managedObjectContext save:&error]) {
@@ -137,7 +137,7 @@
 		NSLog(@"createUser error %@, %@", error, [error localizedDescription]);
 	}
 	
-	return [noob autorelease];
+	return noob;
 }
 
 //currently this is tied to the textFieldArray
@@ -186,17 +186,17 @@ typedef NS_ENUM(NSInteger, textFieldTags) {
     
     
 	// initialize text fields
-	self.age		= [self initTextFieldAlpha];
-	self.email		= [self initTextFieldEmail];
-	self.gender		= [self initTextFieldAlpha];
-    self.ethnicity  = [self initTextFieldAlpha];
-    self.income     = [self initTextFieldAlpha];
-	self.homeZIP	= [self initTextFieldNumeric];
-	self.workZIP	= [self initTextFieldNumeric];
-	self.schoolZIP	= [self initTextFieldNumeric];
-    self.cyclingFreq = [self initTextFieldBeta];
-    self.riderType  =  [self initTextFieldBeta];
-    self.riderHistory =[self initTextFieldBeta];
+	self.age		= [self createTextFieldAlpha];
+	self.email		= [self createTextFieldEmail];
+	self.gender		= [self createTextFieldAlpha];
+    self.ethnicity  = [self createTextFieldAlpha];
+    self.income     = [self createTextFieldAlpha];
+	self.homeZIP	= [self createTextFieldNumeric];
+	self.workZIP	= [self createTextFieldNumeric];
+	self.schoolZIP	= [self createTextFieldNumeric];
+    self.cyclingFreq = [self createTextFieldBeta];
+    self.riderType  =  [self createTextFieldBeta];
+    self.riderHistory =[self createTextFieldBeta];
     
     // Assign picker view to selection inputs
     self.age.inputView = demographicsPicker;
@@ -272,8 +272,6 @@ typedef NS_ENUM(NSInteger, textFieldTags) {
 	else
 		NSLog(@"init FAIL");
 	
-	[mutableFetchResults release];
-	[request release];
 }
 
 
@@ -403,7 +401,7 @@ typedef NS_ENUM(NSInteger, textFieldTags) {
 			static NSString *CellIdentifier = @"CellInstruction";
 			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 			if (cell == nil) {
-				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+				cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 			}
             
 			// inner switch statement identifies row
@@ -423,7 +421,7 @@ typedef NS_ENUM(NSInteger, textFieldTags) {
 			static NSString *CellIdentifier = @"CellPersonalInfo";
 			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 			if (cell == nil) {
-				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+				cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 			}
 
 			// inner switch statement identifies row
@@ -460,7 +458,7 @@ typedef NS_ENUM(NSInteger, textFieldTags) {
 			static NSString *CellIdentifier = @"CellZip";
 			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 			if (cell == nil) {
-				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+				cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 			}
 
 			switch ([indexPath indexAtPosition:1])
@@ -488,7 +486,7 @@ typedef NS_ENUM(NSInteger, textFieldTags) {
 			static NSString *CellIdentifier = @"CellFrequecy";
 			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 			if (cell == nil) {
-				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+				cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 			}
             
 			// inner switch statement identifies row
@@ -508,7 +506,7 @@ typedef NS_ENUM(NSInteger, textFieldTags) {
 			static NSString *CellIdentifier = @"CellType";
 			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 			if (cell == nil) {
-				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+				cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 			}
             
 			// inner switch statement identifies row
@@ -529,7 +527,7 @@ typedef NS_ENUM(NSInteger, textFieldTags) {
 			static NSString *CellIdentifier = @"CellHistory";
 			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 			if (cell == nil) {
-				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+				cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 			}
             
 			// inner switch statement identifies row
@@ -599,49 +597,6 @@ typedef NS_ENUM(NSInteger, textFieldTags) {
 }
 
 
-- (void)dealloc {
-    self.delegate = nil;
-    self.managedObjectContext = nil;
-    self.user = nil;
-    self.age = nil;
-    self.email = nil;
-    self.gender = nil;
-    self.ethnicity = nil;
-    self.income = nil;
-    self.homeZIP = nil;
-    self.workZIP = nil;
-    self.schoolZIP = nil;
-    self.cyclingFreq = nil;
-    self.riderType = nil;
-    self.riderHistory = nil;
-
-    [delegate release];
-    [managedObjectContext release];
-    [user release];
-    [age release];
-    [email release];
-    [gender release];
-    [ethnicity release];
-    [income release];
-    [homeZIP release];
-    [workZIP release];
-    [schoolZIP release];
-    [cyclingFreq release];
-    [riderType release];
-    [riderHistory release];
-    
-    [demographicsPicker release];
-    [genderArray release];
-    [ageArray release];
-    [ethnicityArray release];
-    [incomeArray release];
-    [cyclingFreqArray release];
-    [rider_typeArray release];
-    [rider_historyArray release];
-    [textFieldArray release];
-    
-    [super dealloc];
-}
 
 @end
 

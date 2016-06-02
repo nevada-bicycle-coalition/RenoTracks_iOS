@@ -26,11 +26,11 @@
 	UIView *infoView;
 }
 
-@property (nonatomic, retain) id <TripPurposeDelegate> delegate;
-@property (nonatomic, retain) Note *note;
-@property (nonatomic ,retain) UIBarButtonItem *doneButton;
-@property (nonatomic, retain) UIBarButtonItem *flipButton;
-@property (nonatomic, retain) UIView *infoView;
+@property (nonatomic, strong) id <TripPurposeDelegate> delegate;
+@property (nonatomic, strong) Note *note;
+@property (nonatomic ,strong) UIBarButtonItem *doneButton;
+@property (nonatomic, strong) UIBarButtonItem *flipButton;
+@property (nonatomic, strong) UIView *infoView;
 
 -(id)initWithNote:(Note *)note;
 

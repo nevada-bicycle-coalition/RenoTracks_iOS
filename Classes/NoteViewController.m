@@ -76,10 +76,10 @@
     int row = 1+(textLength-1)/34;
     
     //Mark date details
-    NSDateFormatter *outputDateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    NSDateFormatter *outputDateFormatter = [[NSDateFormatter alloc] init];
     [outputDateFormatter setDateStyle:kCFDateFormatterLongStyle];
     
-    NSDateFormatter *outputTimeFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    NSDateFormatter *outputTimeFormatter = [[NSDateFormatter alloc] init];
     [outputTimeFormatter setTimeStyle:kCFDateFormatterShortStyle];
     
     NSString *newDateString = [outputDateFormatter stringFromDate:note.recorded];
@@ -89,9 +89,9 @@
         infoView.alpha = 1.0;
         infoView.backgroundColor = [UIColor blackColor];
         
-        UIScrollView *scrollView = [[[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 427)] autorelease];
+        UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 427)];
         
-        UIImageViewResizable *noteImageResize = [[[UIImageViewResizable alloc] initWithFrame:CGRectMake(0, 0, 320, 427)] autorelease];
+        UIImageViewResizable *noteImageResize = [[UIImageViewResizable alloc] initWithFrame:CGRectMake(0, 0, 320, 427)];
         
         noteImageResize.image= [UIImage imageWithData:note.image_data];
         noteImageResize.contentMode = UIViewContentModeScaleAspectFill;
@@ -100,12 +100,12 @@
         
         [infoView addSubview:scrollView];
         
-        UIImageView *bgImageHeader      = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 80)] autorelease];
+        UIImageView *bgImageHeader      = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 80)];
         bgImageHeader.backgroundColor = [UIColor blackColor];
         bgImageHeader.alpha = 0.8;
         [infoView addSubview:bgImageHeader];
         
-        UILabel *notesHeader		= [[[UILabel alloc] initWithFrame:CGRectMake(130,5,160,25)] autorelease];
+        UILabel *notesHeader		= [[UILabel alloc] initWithFrame:CGRectMake(130,5,160,25)];
         notesHeader.backgroundColor = [UIColor clearColor];
         notesHeader.font			= [UIFont boldSystemFontOfSize:18.0];
         notesHeader.opaque			= NO;
@@ -118,7 +118,7 @@
 //        bgImageText.alpha = 0.8;
 //        [infoView addSubview:bgImageText];
         
-        UITextView *notesText		= [[[UITextView alloc] initWithFrame:CGRectMake(0,30,320,25*row+25)] autorelease];
+        UITextView *notesText		= [[UITextView alloc] initWithFrame:CGRectMake(0,30,320,25*row+25)];
         notesText.backgroundColor	= [UIColor clearColor];
         notesText.editable			= NO;
         notesText.font				= [UIFont systemFontOfSize:16.0];
@@ -130,8 +130,8 @@
         infoView.alpha = 1.0;
         infoView.backgroundColor = [UIColor blackColor];
         
-        UIScrollView *scrollView = [[[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 427)] autorelease];
-        UIImageView *noteImage   = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 427)] autorelease];
+        UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 427)];
+        UIImageView *noteImage   = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 427)];
         noteImage.image= [UIImage imageWithData:note.image_data];
         noteImage.contentMode = UIViewContentModeScaleAspectFill;
         
@@ -145,7 +145,7 @@
         infoView.alpha				= kInfoViewAlpha;
         infoView.backgroundColor	= [UIColor blackColor];
         
-        UILabel *notesHeader		= [[[UILabel alloc] initWithFrame:CGRectMake(130,5,160,25)] autorelease];
+        UILabel *notesHeader		= [[UILabel alloc] initWithFrame:CGRectMake(130,5,160,25)];
         notesHeader.backgroundColor = [UIColor clearColor];
         notesHeader.font			= [UIFont boldSystemFontOfSize:18.0];
         notesHeader.opaque			= NO;
@@ -153,7 +153,7 @@
         notesHeader.textColor		= [UIColor whiteColor];
         [infoView addSubview:notesHeader];
         
-        UITextView *notesText		= [[[UITextView alloc] initWithFrame:CGRectMake(0,30,320,200)] autorelease];
+        UITextView *notesText		= [[UITextView alloc] initWithFrame:CGRectMake(0,30,320,200)];
         notesText.backgroundColor	= [UIColor clearColor];
         notesText.editable			= NO;
         notesText.font				= [UIFont systemFontOfSize:16.0];
@@ -180,7 +180,7 @@
 	if ( note )
 	{
         //Mark nvigation header
-        NSString *title = [[[NSString alloc] init] autorelease];
+        NSString *title = [[NSString alloc] init];
         switch ([note.note_type intValue]) {
             case 0:
                 title = @"Pavement issue";
@@ -243,7 +243,7 @@
         noteCoordinate.longitude = [note.longitude doubleValue];
         NSLog(@"noteCoordinate is: %f, %f", noteCoordinate.latitude, noteCoordinate.longitude);
         
-        MKPointAnnotation *notePoint = [[[MKPointAnnotation alloc] init] autorelease];
+        MKPointAnnotation *notePoint = [[MKPointAnnotation alloc] init];
         notePoint.coordinate = noteCoordinate;
         notePoint.title = @"Mark";
         [noteView addAnnotation:notePoint];
@@ -280,8 +280,8 @@
     UIImage *thumbnail;
     thumbnail = shrinkImage1(newImage, size);
     
-    NSData *thumbnailData = [[[NSData alloc] initWithData:UIImageJPEGRepresentation(thumbnail, 0)] autorelease];
-    NSLog(@"Size of Thumbnail Image(bytes):%d",[thumbnailData length]);
+    NSData *thumbnailData = [[NSData alloc] initWithData:UIImageJPEGRepresentation(thumbnail, 0)];
+    NSLog(@"Size of Thumbnail Image(bytes):%lu",(unsigned long)[thumbnailData length]);
     NSLog(@"Size: %f, %f", thumbnail.size.height, thumbnail.size.width);
     
     [delegate getNoteThumbnail:thumbnailData];
@@ -363,8 +363,7 @@ UIImage *shrinkImage1(UIImage *original, CGSize size) {
     if (!noteAnnotation)
     {
         // If an existing pin view was not available, create one
-        noteAnnotation = [[[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"notePin"]
-                          autorelease];
+        noteAnnotation = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"notePin"];
         if ([note.note_type intValue]>=0 && [note.note_type intValue]<=5) {
             noteAnnotation.image = [UIImage imageNamed:@"noteIssueMapGlyph.png"];
             //noteAnnotation.centerOffset = CGPointMake(-(noteAnnotation.image.size.width/4),(noteAnnotation.image.size.height/3));
@@ -409,20 +408,5 @@ UIImage *shrinkImage1(UIImage *original, CGSize size) {
 	[loading removeView];
 }
 
-- (void)dealloc {
-    self.note = nil;
-    self.doneButton = nil;
-    self.flipButton = nil;
-    self.infoView = nil;
-    
-	[doneButton release];
-	[flipButton release];
-    [infoView release];
-    [note release];
-    
-    [noteView release];
-    
-    [super dealloc];
-}
 
 @end

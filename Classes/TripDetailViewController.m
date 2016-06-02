@@ -77,14 +77,4 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)dealloc {
-    self.delegate = nil;
-    self.detailTextView = nil;
-    
-    [delegate release];
-    [detailTextView release];
-    
-    [super dealloc];
-}
-
 @end

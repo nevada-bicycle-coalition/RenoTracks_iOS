@@ -51,7 +51,7 @@
 	if (self = [super init])
 	{
 		// create request.
-        self.request = [[[NSMutableURLRequest alloc] init] autorelease];
+        self.request = [[NSMutableURLRequest alloc] init];
         [request setURL:[NSURL URLWithString:kSaveURL]];
         [request setHTTPMethod:@"POST"];
         
@@ -152,20 +152,6 @@
 {
     
 	NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:delegate];
-	return [conn autorelease];
+	return conn;
 }
-
-- (void)dealloc
-{
-	self.request = nil;
-    self.postVars = nil;
-    self.deviceUniqueIdHash = nil;
-    
-	[postVars release];
-	[request release];
-	[deviceUniqueIdHash release];
-    
-    [super dealloc];
-}
-
 @end

@@ -28,10 +28,10 @@
     Note * selectedNote;
 }
 
-@property (nonatomic, retain) NSMutableArray *notes;
-@property (nonatomic, retain) NoteManager *noteManager;
-@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, retain) Note *selectedNote;
+@property (nonatomic, strong) NSMutableArray *notes;
+@property (nonatomic, strong) NoteManager *noteManager;
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, strong) Note *selectedNote;
 
 - (void)initNoteManager:(NoteManager*)manager;
 

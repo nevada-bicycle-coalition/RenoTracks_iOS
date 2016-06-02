@@ -74,22 +74,22 @@
 }
 
 
-@property (nonatomic, retain) id <PersonalInfoDelegate> delegate;
-@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, retain) User *user;
+@property (nonatomic, strong) id <PersonalInfoDelegate> delegate;
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, strong) User *user;
 
-@property (nonatomic, retain) UITextField	*age;
-@property (nonatomic, retain) UITextField	*email;
-@property (nonatomic, retain) UITextField	*gender;
-@property (nonatomic, retain) UITextField   *ethnicity;
-@property (nonatomic, retain) UITextField   *income;
-@property (nonatomic, retain) UITextField	*homeZIP;
-@property (nonatomic, retain) UITextField	*workZIP;
-@property (nonatomic, retain) UITextField	*schoolZIP;
+@property (nonatomic, strong) UITextField	*age;
+@property (nonatomic, strong) UITextField	*email;
+@property (nonatomic, strong) UITextField	*gender;
+@property (nonatomic, strong) UITextField   *ethnicity;
+@property (nonatomic, strong) UITextField   *income;
+@property (nonatomic, strong) UITextField	*homeZIP;
+@property (nonatomic, strong) UITextField	*workZIP;
+@property (nonatomic, strong) UITextField	*schoolZIP;
 
-@property (nonatomic, retain) UITextField   *cyclingFreq;
-@property (nonatomic, retain) UITextField   *riderType;
-@property (nonatomic, retain) UITextField   *riderHistory;
+@property (nonatomic, strong) UITextField   *cyclingFreq;
+@property (nonatomic, strong) UITextField   *riderType;
+@property (nonatomic, strong) UITextField   *riderHistory;
 
 @property (nonatomic) NSInteger ageSelectedRow;
 @property (nonatomic) NSInteger genderSelectedRow;

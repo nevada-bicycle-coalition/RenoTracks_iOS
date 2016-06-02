@@ -68,7 +68,7 @@
         return appDelegate.locationManager;
     }
 	
-    appDelegate.locationManager = [[[CLLocationManager alloc] init] autorelease];
+    appDelegate.locationManager = [[CLLocationManager alloc] init];
     appDelegate.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     //locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     appDelegate.locationManager.delegate = self;
@@ -87,11 +87,10 @@
 	CLLocationDistance deltaDistance = [newLocation distanceFromLocation:oldLocation];
     
     if (!myLocation) {
-        myLocation = [newLocation retain];
+        myLocation = newLocation;
     }
     else if ([myLocation distanceFromLocation:newLocation]) {
-        [myLocation release];
-        myLocation = [newLocation retain];
+        myLocation = newLocation;
     }
     
 	if ( !didUpdateUserLocation )
@@ -205,7 +204,6 @@
 	else
 		NSLog(@"no saved user");
 	
-	[request release];
 	return response;
 }
 
@@ -270,7 +268,7 @@
     NSManagedObjectContext *context = [appDelegate managedObjectContext];
     
     // setup the noteManager
-    [self initNoteManager:[[[NoteManager alloc] initWithManagedObjectContext:context]autorelease]];
+    [self initNoteManager:[[NoteManager alloc] initWithManagedObjectContext:context]];
 
 	// check if any user data has already been saved and pre-select personal info cell accordingly
 	if ( [self hasUserInfoBeenSaved] )
@@ -330,7 +328,6 @@
     MapViewController *mvc = [[MapViewController alloc] initWithTrip:trip];
     [[self navigationController] pushViewController:mvc animated:YES];
     NSLog(@"displayUploadedTripMap");
-    [mvc release];
 }
 
 
@@ -342,7 +339,6 @@
     NoteViewController *mvc = [[NoteViewController alloc] initWithNote:note];
     [[self navigationController] pushViewController:mvc animated:YES];
     NSLog(@"displayUploadedNote");
-    [mvc release];
 }
 
 
@@ -375,11 +371,11 @@
     [startButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [startButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
     [startButton setTitle:@"Start" forState:UIControlStateNormal];
-	[startButton setTitleColor:[[[UIColor alloc] initWithRed:255.0 / 255 green:255.0 / 255 blue:255.0 / 255 alpha:1.0 ] autorelease] forState:UIControlStateNormal];
+	[startButton setTitleColor:[[UIColor alloc] initWithRed:255.0 / 255 green:255.0 / 255 blue:255.0 / 255 alpha:1.0 ] forState:UIControlStateNormal];
     
 	// reset trip, reminder managers
 	NSManagedObjectContext *context = tripManager.managedObjectContext;
-	[self initTripManager:[[[TripManager alloc] initWithManagedObjectContext:context] autorelease]];
+	[self initTripManager:[[TripManager alloc] initWithManagedObjectContext:context]];
 	tripManager.dirty = YES;
 
 	[self resetCounter];
@@ -466,7 +462,6 @@
 			// load map view of saved trip
 			MapViewController *mvc = [[MapViewController alloc] initWithTrip:trip];
 			[[self navigationController] pushViewController:mvc animated:YES];
-			[mvc release];
 		}
 			break;
 	}
@@ -475,8 +470,8 @@
 
 - (NSDictionary *)newTripTimerUserInfo
 {
-    return [[NSDictionary dictionaryWithObjectsAndKeys:[NSDate date], @"StartDate",
-			tripManager, @"TripManager", nil ] retain ];
+    return [NSDictionary dictionaryWithObjectsAndKeys:[NSDate date], @"StartDate",
+			tripManager, @"TripManager", nil ];
 }
 
 
@@ -561,7 +556,6 @@
 		[tripPurposePickerView setDelegate:self];
 		//[[self navigationController] pushViewController:pickerViewController animated:YES];
 		[self.navigationController presentViewController:tripPurposePickerView animated:YES completion:nil];
-		[tripPurposePickerView release];
 	}
 	
 	// prompt to confirm first
@@ -589,7 +583,6 @@
 		UITabBarController *tbc = (UITabBarController *)pvc.parentViewController;
 		
 		[actionSheet showFromTabBar:tbc.tabBar];
-		[actionSheet release];
 	}
     
 }
@@ -623,7 +616,6 @@
         
         //add location information
         
-		[notePickerView release];
 	}
 	
 	// prompt to confirm first
@@ -651,7 +643,6 @@
 		UITabBarController *tbc = (UITabBarController *)pvc.parentViewController;
 		
 		[actionSheet showFromTabBar:tbc.tabBar];
-		[actionSheet release];
 	}
 }
 
@@ -680,12 +671,12 @@
 		
 		static NSDateFormatter *inputFormatter = nil;
 		if ( inputFormatter == nil )
-			inputFormatter = [[[NSDateFormatter alloc] init] autorelease];
+			inputFormatter = [[NSDateFormatter alloc] init];
 		
 		[inputFormatter setDateFormat:@"HH:mm:ss"];
 		NSDate *fauxDate = [inputFormatter dateFromString:@"00:00:00"];
 		[inputFormatter setDateFormat:@"HH:mm:ss"];
-		NSDate *outputDate = [[[NSDate alloc] initWithTimeInterval:interval sinceDate:fauxDate] autorelease];
+		NSDate *outputDate = [[NSDate alloc] initWithTimeInterval:interval sinceDate:fauxDate];
 		
 		timeCounter.text = [inputFormatter stringFromDate:outputDate];
 	}
@@ -712,7 +703,7 @@
 		[inputFormatter setDateFormat:@"HH:mm:ss"];
 		NSDate *fauxDate = [inputFormatter dateFromString:@"00:00:00"];
 		[inputFormatter setDateFormat:@"HH:mm:ss"];
-		NSDate *outputDate = [[[NSDate alloc] initWithTimeInterval:interval sinceDate:fauxDate] autorelease];
+		NSDate *outputDate = [[NSDate alloc] initWithTimeInterval:interval sinceDate:fauxDate];
 		
 		//NSLog(@"Timer started on %@", startDate);
 		//NSLog(@"Timer started %f seconds ago", interval);
@@ -905,7 +896,6 @@ shouldSelectViewController:(UIViewController *)viewController
 - (void)didSaveImage:(NSData *)imgData{
     [noteManager.note setImage_data:imgData];
     NSLog(@"Added image, Size of Image(bytes):%lu", (unsigned long)[imgData length]);
-    [imgData release];
 }
 
 - (void)getTripThumbnail:(NSData *)imgData{
@@ -935,52 +925,6 @@ shouldSelectViewController:(UIViewController *)viewController
 		return tripManager.trip;
 	else
 		return nil;
-}
-
-
-- (void)dealloc {
-    
-    appDelegate.locationManager = nil;
-    self.startButton = nil;
-    self.infoButton = nil;
-    self.saveButton = nil;
-    self.noteButton = nil;
-    self.timeCounter = nil;
-    self.distCounter = nil;
-    self.saveActionSheet = nil;
-    self.timer = nil;
-    self.parentView = nil;
-    self.recording = nil;
-    self.shouldUpdateCounter = nil;
-    self.userInfoSaved = nil;
-    self.tripManager = nil;
-    self.noteManager = nil;
-    self.appDelegate = nil;
-    
-//    [appDelegate.locationManager release];
-    [appDelegate release];
-    [infoButton release];
-    [saveButton release];
-    [startButton release];
-    [noteButton release];
-    [timeCounter release];
-    [distCounter release];
-    [speedCounter release];
-    [saveActionSheet release];
-    [timer release];
-    [opacityMask release];
-    [parentView release];
-    [tripManager release];
-    [noteManager release];
-    [myLocation release];
-    
-    [managedObjectContext release];
-    [mapView release];
-    
-    [calorieCount release];
-    [C02Count release];
-
-    [super dealloc];
 }
 
 @end

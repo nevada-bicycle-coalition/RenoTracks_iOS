@@ -49,7 +49,6 @@
 #define kMinLatDelta	0.0039
 #define kMinLonDelta	0.0034
 
-
 @implementation MapViewController
 
 @synthesize doneButton, flipButton, infoView, trip, routeLine;
@@ -132,7 +131,7 @@
     [inputFormatter setDateFormat:@"HH:mm:ss"];
     NSDate *fauxDate = [inputFormatter dateFromString:@"00:00:00"];
     [inputFormatter setDateFormat:@"HH:mm:ss"];
-    NSDate *outputDate = [[[NSDate alloc] initWithTimeInterval:(NSTimeInterval)[trip.duration doubleValue] sinceDate:fauxDate] autorelease];
+    NSDate *outputDate = [[NSDate alloc] initWithTimeInterval:(NSTimeInterval)[trip.duration doubleValue] sinceDate:fauxDate];
     
     //Average Speed
     double mph = ( [trip.distance doubleValue] / 1609.344 ) / ( [trip.duration doubleValue] / 3600. );
@@ -155,7 +154,7 @@
 	infoView.alpha				= kInfoViewAlpha;
 	infoView.backgroundColor	= [UIColor blackColor];
 	
-	UILabel *notesHeader		= [[[UILabel alloc] initWithFrame:CGRectMake(115,10,160,25)] autorelease];
+	UILabel *notesHeader		= [[UILabel alloc] initWithFrame:CGRectMake(115,10,160,25)];
 	notesHeader.backgroundColor = [UIColor clearColor];
 	notesHeader.font			= [UIFont boldSystemFontOfSize:18.0];
 	notesHeader.opaque			= NO;
@@ -163,7 +162,7 @@
 	notesHeader.textColor		= [UIColor whiteColor];
 	[infoView addSubview:notesHeader];
     
-    UITextView *tripTime		= [[[UITextView alloc] initWithFrame:CGRectMake(0,35,320,200)] autorelease];
+    UITextView *tripTime		= [[UITextView alloc] initWithFrame:CGRectMake(0,35,320,200)];
 	tripTime.backgroundColor	= [UIColor clearColor];
 	tripTime.editable			= NO;
 	tripTime.font				= [UIFont systemFontOfSize:16.0];
@@ -237,7 +236,7 @@
 		NSLog(@"count of filtered coords = %lu", (unsigned long)[filteredCoords count]);
 		
 		// sort filtered coords by recorded date
-		NSSortDescriptor *sortByDate	= [[[NSSortDescriptor alloc] initWithKey:@"recorded" ascending:YES] autorelease];
+		NSSortDescriptor *sortByDate	= [[NSSortDescriptor alloc] initWithKey:@"recorded" ascending:YES];
 		NSArray		*sortDescriptors	= [NSArray arrayWithObjects:sortByDate, nil];
 		NSArray		*sortedCoords		= [filteredCoords sortedArrayUsingDescriptors:sortDescriptors];
 		
@@ -253,7 +252,7 @@
 		NSNumber *minLon = [NSNumber numberWithDouble:0.0];
 		NSNumber *maxLon = [NSNumber numberWithDouble:0.0];
         
-        NSMutableArray *routeCoords = [[[NSMutableArray alloc]init] autorelease];
+        NSMutableArray *routeCoords = [[NSMutableArray alloc]init];
         
 		for ( Coord *coord in sortedCoords )
 		{
@@ -266,7 +265,7 @@
 				coordinate.latitude  = [coord.latitude doubleValue];
 				coordinate.longitude = [coord.longitude doubleValue];
                 
-                CLLocation *routePoint = [[[CLLocation alloc] initWithLatitude:coordinate.latitude longitude:coordinate.longitude] autorelease];
+                CLLocation *routePoint = [[CLLocation alloc] initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
 				[routeCoords addObject:routePoint];
                 
 				//pin = [[MapCoord alloc] init];
@@ -309,7 +308,7 @@
 			// update last coord pointer so we can cull redundant coords above
 			last = coord;
 		}
-        NSLog(@"routeCoords array is this long: %d@", [routeCoords count]);
+        NSLog(@"routeCoords array is this long: %lu@", (unsigned long)[routeCoords count]);
         
         NSUInteger numPoints = [routeCoords count];
         CLLocationCoordinate2D *routePath = malloc(numPoints * sizeof(CLLocationCoordinate2D));
@@ -322,11 +321,11 @@
         [mapView setNeedsDisplay];
         
         //add start/end pins
-        MKPointAnnotation *startPoint = [[[MKPointAnnotation alloc] init] autorelease];
+        MKPointAnnotation *startPoint = [[MKPointAnnotation alloc] init];
         startPoint.coordinate = routePath[0];
         startPoint.title = @"Start";
         [mapView addAnnotation:startPoint];
-        MKPointAnnotation *endPoint = [[[MKPointAnnotation alloc] init] autorelease];
+        MKPointAnnotation *endPoint = [[MKPointAnnotation alloc] init];
         endPoint.coordinate = routePath[numPoints-1];
         endPoint.title = @"End";
         [mapView addAnnotation:endPoint];
@@ -334,7 +333,7 @@
         
         //free(routePath);
 		
-		NSLog(@"added %d unique GPS coordinates of %d to map", count, [sortedCoords count]);
+		NSLog(@"added %d unique GPS coordinates of %lu to map", count, (unsigned long)[sortedCoords count]);
 		
 		// add end point as a pin annotation
 		if ( last == [sortedCoords lastObject] )
@@ -411,8 +410,8 @@
     UIImage *thumbnail;
     thumbnail = shrinkImage(newImage, size);
     
-    NSData *thumbnailData = [[[NSData alloc] initWithData:UIImageJPEGRepresentation(thumbnail, 0)] autorelease];
-    NSLog(@"Size of Thumbnail Image(bytes):%d",[thumbnailData length]);
+    NSData *thumbnailData = [[NSData alloc] initWithData:UIImageJPEGRepresentation(thumbnail, 0)];
+    NSLog(@"Size of Thumbnail Image(bytes):%lu",(unsigned long)[thumbnailData length]);
     NSLog(@"Size: %f, %f", thumbnail.size.height, thumbnail.size.width);
     
     [delegate getTripThumbnail:thumbnailData];
@@ -442,13 +441,10 @@ UIImage *shrinkImage(UIImage *original, CGSize size) {
 {
     NSLog(@"Screen Shoot");
     // Create a graphics context with the target size
-    // On iOS 4 and later, use UIGraphicsBeginImageContextWithOptions to take the scale into consideration
-    // On iOS prior to 4, fall back to use UIGraphicsBeginImageContext
+    // Note: iOS4 support dropped
     CGSize imageSize = [[UIScreen mainScreen] bounds].size;
-    if (NULL != UIGraphicsBeginImageContextWithOptions)
-        UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
-    else
-        UIGraphicsBeginImageContext(imageSize);
+    
+    UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     
@@ -540,8 +536,7 @@ UIImage *shrinkImage(UIImage *original, CGSize size) {
 			if ( !pinView )
 			{
 				// If an existing pin view was not available, create one
-				pinView = [[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"FirstCoord"]
-						   autorelease];
+				pinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"FirstCoord"];
                 pinView.image = [UIImage imageNamed:@"tripStart.png"];
                 pinView.centerOffset = CGPointMake(0,-20);
                 NSLog(@"START GLYPH");
@@ -558,8 +553,7 @@ UIImage *shrinkImage(UIImage *original, CGSize size) {
 			if ( !pinView )
 			{
 				// If an existing pin view was not available, create one
-				pinView = [[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"LastCoord"]
-						   autorelease];
+				pinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"LastCoord"];
                 pinView.image = [UIImage imageNamed:@"tripEnd.png"];
                 NSLog(@"STOP GLYPH");
 			}
@@ -575,8 +569,7 @@ UIImage *shrinkImage(UIImage *original, CGSize size) {
 			if (!annotationView)
 			{
 				// If an existing pin view was not available, create one
-				annotationView = [[[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"MapCoord"]
-								  autorelease];
+				annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"MapCoord"];
 				
 				annotationView.image = [UIImage imageNamed:@"MapCoord.png"];
 				
@@ -600,13 +593,13 @@ UIImage *shrinkImage(UIImage *original, CGSize size) {
         //handle 'normal' pins
         
         if([annotation.title isEqual:@"Start"]){
-            MKAnnotationView *pinView=[[[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"tripPin"] autorelease];
+            MKAnnotationView *pinView=[[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"tripPin"];
             pinView.image = [UIImage imageNamed:@"tripStart.png"];;
             //annView.centerOffset = CGPointMake(-(annView.image.size.width/6),(annView.image.size.height/4));
             pinView.centerOffset = (CGPoint){0.0f, 0.0f};
             return pinView;
         }else if ([annotation.title isEqual:@"End"]){
-            MKAnnotationView *pinView=[[[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"tripPin"] autorelease];
+            MKAnnotationView *pinView=[[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"tripPin"];
             pinView.image = [UIImage imageNamed:@"tripEnd.png"];
             pinView.centerOffset = (CGPoint){0.0f, 0.0f};
             return pinView;
@@ -618,31 +611,12 @@ UIImage *shrinkImage(UIImage *original, CGSize size) {
 
 - (MKOverlayView*)mapView:(MKMapView*)theMapView viewForOverlay:(id <MKOverlay>)overlay
 {
-    MKPolylineView* lineView = [[[MKPolylineView alloc] initWithPolyline:self.routeLine] autorelease];
+    MKPolylineView* lineView = [[MKPolylineView alloc] initWithPolyline:self.routeLine];
     lineView.strokeColor = renoGreen;
     lineView.lineWidth = 5;
     return lineView;
 }
 
-- (void)dealloc {
-    self.trip = nil;
-    self.doneButton = nil;
-    self.flipButton = nil;
-    self.infoView = nil;
-    self.routeLine = nil;
-    self.delegate = nil;
-    
-    [delegate release];
-	[doneButton release];
-	[flipButton release];
-	[trip release];
-    [infoView release];
-    [routeLine release];
-    
-    [mapView release];
-    
-    [super dealloc];
-}
 
 
 @end

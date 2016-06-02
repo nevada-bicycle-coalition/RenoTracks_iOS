@@ -46,6 +46,7 @@
 #import "RecordTripViewController.h"
 #import "RenoTracksAppDelegate.h"
 #import "ImageResize.h"
+#import "SavedNotesViewController.h"
 
 
 #define kSaveNoteProtocolVersion	4
@@ -87,7 +88,7 @@
 	NSLog(@"createNote");
 	
 	// Create and configure a new instance of the Note entity
-    note = [(Note *)[NSEntityDescription insertNewObjectForEntityForName:@"Note" inManagedObjectContext:managedObjectContext] retain];
+    note = (Note *)[NSEntityDescription insertNewObjectForEntityForName:@"Note" inManagedObjectContext:managedObjectContext];
     
 //    [note setRecorded:[NSDate date]];
 //    NSLog(@"Date: %@", note.recorded);
@@ -139,6 +140,7 @@
 }
 
 //called in DetailViewController once pressing skip or save
+//TODO too much code is duplicated between the two saveNotes
 - (void)saveNote
 {
     [note setRecorded:[NSDate date]];
@@ -147,15 +149,15 @@
     NSMutableDictionary *noteDict;
 	
 	// format date as a string
-	NSDateFormatter *outputFormatter = [[[NSDateFormatter alloc] init] autorelease];
+	NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
 	[outputFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    NSDateFormatter *outputFormatterURL = [[[NSDateFormatter alloc] init] autorelease];
+    NSDateFormatter *outputFormatterURL = [[NSDateFormatter alloc] init];
 	[outputFormatterURL setDateFormat:@"yyyy-MM-dd-HH-mm-ss"];
     
     NSLog(@"saving using protocol version 4");
 	
     // create a noteDict for each note
-    noteDict = [[[NSMutableDictionary alloc] initWithCapacity:10] autorelease];
+    noteDict = [[NSMutableDictionary alloc] initWithCapacity:10];
     [noteDict setValue:note.altitude  forKey:@"a"];  //altitude
     [noteDict setValue:note.latitude  forKey:@"l"];  //latitude
     [noteDict setValue:note.longitude forKey:@"n"];  //longitude
@@ -224,7 +226,7 @@
 	NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:[saveRequest request] delegate:self];
 	
     // create loading view to indicate trip is being uploaded
-    uploadingView = [[LoadingView loadingViewInView:parent.parentViewController.view messageString:kSavingNoteTitle] retain];
+    uploadingView = [LoadingView loadingViewInView:parent.parentViewController.view messageString:kSavingNoteTitle];
     
     //switch to map w/ trip view
     
@@ -232,14 +234,21 @@
     
     
     if (recording == 0) {
-        [parent displayUploadedNote];
+        //TODO displayuploadednote should not work like this.
+        if([parent isKindOfClass:[SavedNotesViewController class]]) {
+            [(SavedNotesViewController*)parent displayUploadedNote];
+        }
+        else if ([parent isKindOfClass:[RecordTripViewController class]]) {
+            [(RecordTripViewController*)parent displayUploadedNote];
+        }
+
     }
     
     NSLog(@"note save and parent");
     
     if ( theConnection )
     {
-        receivedDataNoted=[[NSMutableData data] retain];
+        receivedDataNoted=[NSMutableData data];
     }
     else
     {
@@ -247,11 +256,6 @@
         
     }
     
-    [noteJson release];
-    [noteJsonData release];
-    [castedImage release];
-    [uploadData release];
-    [saveRequest release];
 }
 
 
@@ -260,15 +264,15 @@
     NSMutableDictionary *noteDict;
 	
 	// format date as a string
-	NSDateFormatter *outputFormatter = [[[NSDateFormatter alloc] init] autorelease];
+	NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
 	[outputFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    NSDateFormatter *outputFormatterURL = [[[NSDateFormatter alloc] init] autorelease];
+    NSDateFormatter *outputFormatterURL = [[NSDateFormatter alloc] init];
 	[outputFormatterURL setDateFormat:@"yyyy-MM-dd-HH-mm-ss"];
     
     NSLog(@"saving using protocol version 4");
 	
     // create a noteDict for each note
-    noteDict = [[[NSMutableDictionary alloc] initWithCapacity:10] autorelease];
+    noteDict = [[NSMutableDictionary alloc] initWithCapacity:10];
     [noteDict setValue:_note.altitude  forKey:@"a"];  //altitude
     [noteDict setValue:_note.latitude  forKey:@"l"];  //latitude
     [noteDict setValue:_note.longitude forKey:@"n"];  //longitude
@@ -339,7 +343,7 @@
 	NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:[saveRequest request] delegate:self];
 	
     // create loading view to indicate trip is being uploaded
-    uploadingView = [[LoadingView loadingViewInView:parent.parentViewController.view messageString:kSavingNoteTitle] retain];
+    uploadingView = [LoadingView loadingViewInView:parent.parentViewController.view messageString:kSavingNoteTitle];
     
     //switch to map w/ trip view
     
@@ -347,14 +351,20 @@
     
     
     if (recording == 0) {
-        [parent displayUploadedNote];
+        //TODO displayuploadednote should not work like this.
+        if([parent isKindOfClass:[SavedNotesViewController class]]) {
+            [(SavedNotesViewController*)parent displayUploadedNote];
+        }
+        else if ([parent isKindOfClass:[RecordTripViewController class]]) {
+            [(RecordTripViewController*)parent displayUploadedNote];
+        }
     }
     
     NSLog(@"note save and parent");
     
     if ( theConnection )
     {
-        receivedDataNoted=[[NSMutableData data] retain];
+        receivedDataNoted=[NSMutableData data];
     }
     else
     {
@@ -362,11 +372,6 @@
         
     }
     
-    [noteJson release];
-    [noteJsonData release];
-    [castedImage release];
-    [uploadData release];
-    [saveRequest release];
 }
 
 
@@ -455,11 +460,6 @@
 - (void)connection:(NSURLConnection *)connection
   didFailWithError:(NSError *)error
 {
-    // release the connection, and the data object
-    [connection release];
-	
-    // receivedData is declared as a method instance elsewhere
-    [receivedDataNoted release];
     
     // TODO: is this really adequate...?
     [uploadingView loadingComplete:kConnectionError delayInterval:1.5];
@@ -476,11 +476,9 @@
 {
 	// do something with the data
     NSLog(@"+++++++DEBUG: Received %lu bytes of data", (unsigned long)[receivedDataNoted length]);
-	NSLog(@"%@", [[[NSString alloc] initWithData:receivedDataNoted encoding:NSUTF8StringEncoding] autorelease] );
+	NSLog(@"%@", [[NSString alloc] initWithData:receivedDataNoted encoding:NSUTF8StringEncoding] );
     
     // release the connection, and the data object
-    [connection release];
-    [receivedDataNoted release];
 }
 
 - (id)initWithNote:(Note *)_note
@@ -510,32 +508,5 @@
     }
     return YES;
 }
-
-- (void)dealloc {
-    self.deviceUniqueIdHash1 = nil;
-    self.activityDelegate = nil;
-    self.alertDelegate = nil;
-    self.activityIndicator = nil;
-    self.uploadingView = nil;
-    self.parent = nil;
-    self.dirty = nil;
-    self.note = nil;
-    self.managedObjectContext = nil;
-    self.receivedDataNoted = nil;
-    
-    
-    [deviceUniqueIdHash1 release];
-    [_activityDelegate release];
-    [_alertDelegate release];
-    [_activityIndicator release];
-    [uploadingView release];
-    [parent release];
-    [note release];
-    [managedObjectContext release];
-    [receivedDataNoted release];
-    
-    [super dealloc];
-}
-
 
 @end
