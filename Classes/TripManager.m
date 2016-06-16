@@ -233,8 +233,9 @@
 		if ( !realTime || deltaTime < kEpsilonTimeInterval )
 		{
 			// sanity check speed
-			if ( !realTime || (deltaDist / deltaTime < kEpsilonSpeed) )
-			{
+            //TODO: Re-Enable and test on a real device. Not working with simulator
+//			if ( !realTime || (deltaDist / deltaTime < kEpsilonSpeed) )
+//			{
 				// consider distance delta as valid
 				newDist += deltaDist;
 				
@@ -246,10 +247,10 @@
 				 NSLog(@"est speed = %f", deltaDist / deltaTime);
 				 }
 				 */
-			}
-			else
-				NSLog(@"WARNING speed exceeds epsilon: %f => throw out deltaDist: %f, deltaTime: %f", 
-					  deltaDist / deltaTime, deltaDist, deltaTime);
+//			}
+//			else
+//				NSLog(@"WARNING speed exceeds epsilon: %f => throw out deltaDist: %f, deltaTime: %f",
+//					  deltaDist / deltaTime, deltaDist, deltaTime);
 		}
 		else
 			NSLog(@"WARNING deltaTime exceeds epsilon: %f => throw out deltaDist: %f", deltaTime, deltaDist);

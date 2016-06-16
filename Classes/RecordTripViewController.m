@@ -72,6 +72,8 @@
     appDelegate.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     //locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     appDelegate.locationManager.delegate = self;
+    [appDelegate.locationManager requestAlwaysAuthorization];
+    
     
     return appDelegate.locationManager;
 }
@@ -80,58 +82,43 @@
     
 }
 
-- (void)locationManager:(CLLocationManager *)manager
-    didUpdateToLocation:(CLLocation *)newLocation
-           fromLocation:(CLLocation *)oldLocation
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(nonnull NSArray<CLLocation *> *)locations
 {
-	CLLocationDistance deltaDistance = [newLocation distanceFromLocation:oldLocation];
+    MKCoordinateRegion region = { locations.lastObject.coordinate, { 0.0078, 0.0068 } };
+    [mapView setRegion:region animated:YES];
     
-    if (!myLocation) {
-        myLocation = newLocation;
-    }
-    else if ([myLocation distanceFromLocation:newLocation]) {
-        myLocation = newLocation;
-    }
+    //TODO: Verify if this is needed. Used by note manager in this class
+    myLocation = locations.lastObject;
     
-	if ( !didUpdateUserLocation )
-	{
-		NSLog(@"zooming to current user location");
-		MKCoordinateRegion region = { newLocation.coordinate, { 0.0078, 0.0068 } };
-		[mapView setRegion:region animated:YES];
-
-		didUpdateUserLocation = YES;
-	}
-	
-	// only update map if deltaDistance is at least some epsilon 
-	else if ( deltaDistance > 1.0 )
-	{
-		//NSLog(@"center map to current user location");
-		[mapView setCenterCoordinate:newLocation.coordinate animated:YES];
-	}
-    
-	if ( recording )
-	{
-		// add to CoreData store
-		CLLocationDistance distance = [tripManager addCoord:newLocation];
-		self.distCounter.text = [NSString stringWithFormat:@"%.1f", distance / 1609.344];
+    if(recording) {
+        for (CLLocation *location in locations) {
+            // add to CoreData store
+            CLLocationDistance distance = [tripManager addCoord:location];
+            self.distCounter.text = [NSString stringWithFormat:@"%.1f", distance / 1609.344];
+            
+            //Calorie text
+            double calorie = 49 * distance / 1609.344 - 1.69;
+            if (calorie <= 0) {
+                calorieCount.text = [NSString stringWithFormat:@"0.0"];
+            }
+            else
+                calorieCount.text = [NSString stringWithFormat:@"%.1f", calorie];
+            
+            //CO2 text
+            C02Count.text = [NSString stringWithFormat:@"%.1f", 0.93 * distance / 1609.344];
         
-        //Calory text
-        double calory = 49 * distance / 1609.344 - 1.69;
-        if (calory <= 0) {
-            calorieCount.text = [NSString stringWithFormat:@"0.0"];
+        
         }
-        else
-            calorieCount.text = [NSString stringWithFormat:@"%.1f", calory];
         
-        //CO2 text
-        C02Count.text = [NSString stringWithFormat:@"%.1f", 0.93 * distance / 1609.344];
-	}
-	
-	// 	double mph = ( [trip.distance doubleValue] / 1609.344 ) / ( [trip.duration doubleValue] / 3600. );
-	if ( newLocation.speed >= 0. )
-		speedCounter.text = [NSString stringWithFormat:@"%.1f", newLocation.speed * 3600 / 1609.344];
-	else
-		speedCounter.text = @"0.0";
+    }
+    
+    //TODO: Test on actual device, failing with simulator test
+    // 	double mph = ( [trip.distance doubleValue] / 1609.344 ) / ( [trip.duration doubleValue] / 3600. );
+    if ( locations.lastObject.speed >= 0. )
+        speedCounter.text = [NSString stringWithFormat:@"%.1f", locations.lastObject.speed * 3600 / 1609.344];
+    else
+        speedCounter.text = @"0.0";
+    
 
 }
 
@@ -264,6 +251,7 @@
 	
 	// Start the location manager.
 	[[self getLocationManager] startUpdatingLocation];
+    [[self getLocationManager] requestAlwaysAuthorization];
     
     NSManagedObjectContext *context = [appDelegate managedObjectContext];
     
