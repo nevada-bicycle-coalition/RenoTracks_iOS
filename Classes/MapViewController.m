@@ -609,13 +609,15 @@ UIImage *shrinkImage(UIImage *original, CGSize size) {
     return nil;
 }
 
-- (MKOverlayView*)mapView:(MKMapView*)theMapView viewForOverlay:(id <MKOverlay>)overlay
+-(MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay
 {
-    MKPolylineView* lineView = [[MKPolylineView alloc] initWithPolyline:self.routeLine];
+    MKPolylineRenderer* lineView = [[MKPolylineRenderer alloc]initWithPolyline:self.routeLine];
     lineView.strokeColor = renoGreen;
     lineView.lineWidth = 5;
     return lineView;
 }
+
+
 
 
 
