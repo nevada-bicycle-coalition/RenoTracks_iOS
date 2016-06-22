@@ -155,6 +155,7 @@
 		A2B2633C1801D6460015F89B /* greyButtonHighlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B2633A1801D6460015F89B /* greyButtonHighlight@2x.png */; };
 		E91AA6AB1CFE185800840AD0 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91AA6AA1CFE185800840AD0 /* extensions.swift */; };
 		E970FA851CF8A7C900A4E73B /* Reno_TracksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E970FA841CF8A7C900A4E73B /* Reno_TracksUITests.swift */; };
+		E9FDD35D1D0E7C0B00CD95A4 /* UNRtoMeadowwood.gpx in Resources */ = {isa = PBXBuildFile; fileRef = E9FDD35C1D0E7C0B00CD95A4 /* UNRtoMeadowwood.gpx */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -355,6 +356,7 @@
 		E970FA821CF8A7C900A4E73B /* Reno TracksUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Reno TracksUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E970FA841CF8A7C900A4E73B /* Reno_TracksUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reno_TracksUITests.swift; sourceTree = "<group>"; };
 		E970FA861CF8A7C900A4E73B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E9FDD35C1D0E7C0B00CD95A4 /* UNRtoMeadowwood.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = UNRtoMeadowwood.gpx; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -678,6 +680,7 @@
 		E970FA831CF8A7C900A4E73B /* Reno TracksUITests */ = {
 			isa = PBXGroup;
 			children = (
+				E9FDD35C1D0E7C0B00CD95A4 /* UNRtoMeadowwood.gpx */,
 				E970FA841CF8A7C900A4E73B /* Reno_TracksUITests.swift */,
 				E970FA861CF8A7C900A4E73B /* Info.plist */,
 				E91AA6AA1CFE185800840AD0 /* extensions.swift */,
@@ -777,6 +780,7 @@
 				64C8D40311386B26008BCADE /* RecordMap.xib in Resources */,
 				9D4647B71604EBF400A4F9CB /* blueButton.png in Resources */,
 				1C9419651825F0F600D5925A /* tabbar_instructions.png in Resources */,
+				E9FDD35D1D0E7C0B00CD95A4 /* UNRtoMeadowwood.gpx in Resources */,
 				9D4647B81604EBF400A4F9CB /* blueButton@2x.png in Resources */,
 				9D4647B91604EBF400A4F9CB /* blueButtonHighlight.png in Resources */,
 				1C4134CF186CDB8200116DCA /* otherRed.png in Resources */,
