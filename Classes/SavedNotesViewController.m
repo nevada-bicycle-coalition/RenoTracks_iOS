@@ -113,6 +113,7 @@
 	NSFetchRequest *request = [[NSFetchRequest alloc] init];
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Note" inManagedObjectContext:noteManager.managedObjectContext];
 	[request setEntity:entity];
+    [request setPredicate:[NSPredicate predicateWithFormat:@"recorded != nil"]];
 
     [request setReturnsDistinctResults:YES];
     [request setPropertiesToFetch:[NSArray arrayWithObjects:@"note_type",@"recorded",nil]];
