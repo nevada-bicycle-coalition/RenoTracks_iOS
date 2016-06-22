@@ -531,8 +531,10 @@
 }
 - (void)save
 {
-//	[[NSUserDefaults standardUserDefaults] setInteger:0 forKey: @"pickerCategory"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    //TODO: user defaults should not be used to determine picker category
+    //Could create a new init to handle the different categories or even different nibs
+	[[NSUserDefaults standardUserDefaults] setInteger:0 forKey: @"pickerCategory"];
+    
 	// go directly to TripPurpose, user can cancel from there
 	if ( YES )
 	{
@@ -541,6 +543,9 @@
 		PickerViewController *tripPurposePickerView = [[PickerViewController alloc]
 													  //initWithPurpose:[tripManager getPurposeIndex]];
 													  initWithNibName:@"TripPurposePicker" bundle:nil];
+                                                    
+        
+        
 		[tripPurposePickerView setDelegate:self];
 		//[[self navigationController] pushViewController:pickerViewController animated:YES];
 		[self.navigationController presentViewController:tripPurposePickerView animated:YES completion:nil];
