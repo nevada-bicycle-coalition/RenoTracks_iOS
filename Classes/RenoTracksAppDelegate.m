@@ -44,7 +44,6 @@
 #import "SavedTripsViewController.h"
 #import "SavedNotesViewController.h"
 #import "TripManager.h"
-#import "NSString+MD5Addition.h"
 #import "UIDevice+IdentifierAddition.h"
 #import "constants.h"
 #import "DetailViewController.h"

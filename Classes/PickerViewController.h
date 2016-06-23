@@ -61,7 +61,7 @@
 @property (nonatomic, strong) IBOutlet UIPickerView *customPickerView;
 @property (nonatomic, strong) CustomPickerDataSource *customPickerDataSource;
 
-@property (nonatomic, strong) UITextView *description;
+@property (nonatomic, strong) UITextView *descriptionTextView;
 
 @property (nonatomic, strong) IBOutlet UILabel *descriptionText;
 

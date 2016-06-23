@@ -700,7 +700,7 @@
 }
 
 
-- (NSString *)setPurpose:(unsigned int)index
+- (NSString *)setPurpose:(NSInteger)index
 {
 	NSString *purpose = [self getPurposeString:index];
 	NSLog(@"setPurpose: %@", purpose);

@@ -847,7 +847,7 @@ shouldSelectViewController:(UIViewController *)viewController
 }
 
 
-- (void)didPickPurpose:(unsigned int)index
+- (void)didPickPurpose:(NSInteger)index
 {
 	//[self.navigationController dismissModalViewControllerAnimated:YES];
 	// update UI

@@ -469,7 +469,7 @@
     if ( trip.uploaded )
     {
         
-        int index = [TripPurpose getPurposeIndex:trip.purpose];
+        NSInteger index = [TripPurpose getPurposeIndex:trip.purpose];
         NSLog(@"trip.purpose: %d => %@", index, trip.purpose);
         
         // add purpose icon
@@ -546,7 +546,7 @@
     {
         
         
-        int index = [TripPurpose getPurposeIndex:trip.purpose];
+        NSInteger index = [TripPurpose getPurposeIndex:trip.purpose];
         NSLog(@"trip.purpose: %d => %@", index, trip.purpose);
         
         // add purpose icon
@@ -906,7 +906,7 @@
 }
 
 
-- (void)didPickPurpose:(unsigned int)index
+- (void)didPickPurpose:(NSInteger)index
 {
 	[self.navigationController dismissViewControllerAnimated:YES completion:nil];
 	[tripManager setPurpose:index];

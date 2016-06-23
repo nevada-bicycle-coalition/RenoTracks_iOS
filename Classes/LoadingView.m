@@ -193,16 +193,7 @@ CGPathRef NewPathWithRoundRect(CGRect rect, CGFloat cornerRadius)
 {
     self.loadingLabel.text=completeMessage;
     
-//    CGFloat totalHeight = self.loadingLabel.frame.size.height;
-//    CGRect labelFrame = CGRectMake(0, 0, DEFAULT_LABEL_WIDTH, 35.);
-//	labelFrame.origin.x = floor(0.5 * (self.frame.size.width - DEFAULT_LABEL_WIDTH));
-//	labelFrame.origin.y = floor(0.5 * (self.frame.size.height - totalHeight));
-    
-    CGSize maxLabelSize = CGSizeMake(DEFAULT_LABEL_WIDTH, 400);
-    CGSize labelSize = [self.loadingLabel.text sizeWithFont:self.loadingLabel.font constrainedToSize:maxLabelSize lineBreakMode:self.loadingLabel.lineBreakMode];
-    
     CGRect newFrame = self.loadingLabel.frame;
-    newFrame.size.height = labelSize.height;
     
     CGFloat totalHeight = newFrame.size.height;
     newFrame.origin.x = floor(0.5 * (self.frame.size.width - DEFAULT_LABEL_WIDTH));
@@ -210,7 +201,6 @@ CGPathRef NewPathWithRoundRect(CGRect rect, CGFloat cornerRadius)
     
     self.loadingLabel.frame = newFrame;
 	
-//    self.loadingLabel.frame = labelFrame;
     [self.activityIndicatorView stopAnimating];
 
     [self performSelector:@selector(removeView) withObject:nil afterDelay:delay];
