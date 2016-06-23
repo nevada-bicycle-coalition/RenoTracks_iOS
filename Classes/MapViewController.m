@@ -213,25 +213,21 @@
 //		NSDate *fauxDate = [inputFormatter dateFromString:@"00:00:00"];
 		[inputFormatter setDateFormat:@"HH:mm:ss"];
 
-		self.title = trip.purpose;
-		
-		// only add info view for trips with non-null notes
-		if ( ![trip.notes isEqualToString: @""] && trip.notes != NULL)
-		{
-			doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(infoAction:)];
-			
-            
-			UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
-			infoButton.showsTouchWhenHighlighted = YES;
-			[infoButton addTarget:self action:@selector(infoAction:) forControlEvents:UIControlEventTouchUpInside];
-			flipButton = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
-			self.navigationItem.rightBarButtonItem = flipButton;
-			
-			[self initInfoView];
-		}
-		
-		// filter coords by hAccuracy
-		NSPredicate *filterByAccuracy	= [NSPredicate predicateWithFormat:@"hAccuracy < 100.0"];
+        self.title = trip.purpose;
+        
+        doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(infoAction:)];
+        
+        
+        UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+        infoButton.showsTouchWhenHighlighted = YES;
+        [infoButton addTarget:self action:@selector(infoAction:) forControlEvents:UIControlEventTouchUpInside];
+        flipButton = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
+        self.navigationItem.rightBarButtonItem = flipButton;
+        
+        [self initInfoView];
+        
+        // filter coords by hAccuracy
+        NSPredicate *filterByAccuracy	= [NSPredicate predicateWithFormat:@"hAccuracy < 100.0"];
 		NSArray		*filteredCoords		= [[trip.coords allObjects] filteredArrayUsingPredicate:filterByAccuracy];
 		NSLog(@"count of filtered coords = %lu", (unsigned long)[filteredCoords count]);
 		
