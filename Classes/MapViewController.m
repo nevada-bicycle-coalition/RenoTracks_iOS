@@ -76,6 +76,15 @@
     return self;
 }
 
+-(instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    return [super initWithCoder:aDecoder];
+}
+
+-(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    return [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+}
 
 /*
  // Implement loadView to create a view hierarchy programmatically, without using a nib.

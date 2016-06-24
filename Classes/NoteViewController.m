@@ -41,6 +41,15 @@
     return self;
 }
 
+-(instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    return [super initWithCoder:aDecoder];
+}
+
+-(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    return [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+}
 
 
 - (void)infoAction:(UIButton*)sender
@@ -73,7 +82,7 @@
 {
 	infoView = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,560)];
     NSInteger textLength = (note.details).length;
-    int row = 1+(textLength-1)/34;
+    NSInteger row = 1+(textLength-1)/34;
     
     //Mark date details
     NSDateFormatter *outputDateFormatter = [[NSDateFormatter alloc] init];
@@ -310,14 +319,9 @@ UIImage *shrinkImage1(UIImage *original, CGSize size) {
 - (UIImage*)screenshot
 {
     NSLog(@"Screen Shoot");
-    // Create a graphics context with the target size
-    // On iOS 4 and later, use UIGraphicsBeginImageContextWithOptions to take the scale into consideration
-    // On iOS prior to 4, fall back to use UIGraphicsBeginImageContext
+    // No longer supporting iOS < 4.0
     CGSize imageSize = [UIScreen mainScreen].bounds.size;
-    if (NULL != UIGraphicsBeginImageContextWithOptions)
-        UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
-    else
-        UIGraphicsBeginImageContext(imageSize);
+    UIGraphicsBeginImageContext(imageSize);
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     

@@ -470,7 +470,7 @@
     {
         
         NSInteger index = [TripPurpose getPurposeIndex:trip.purpose];
-        NSLog(@"trip.purpose: %d => %@", index, trip.purpose);
+        NSLog(@"trip.purpose: %ld => %@", (long)index, trip.purpose);
         
         // add purpose icon
         switch ( index ) {
@@ -547,7 +547,7 @@
         
         
         NSInteger index = [TripPurpose getPurposeIndex:trip.purpose];
-        NSLog(@"trip.purpose: %d => %@", index, trip.purpose);
+        NSLog(@"trip.purpose: %ld => %@", (long)index, trip.purpose);
         
         // add purpose icon
         image = [UIImage imageNamed:kTripPurposeOtherRedIcon];
@@ -888,13 +888,13 @@
 #pragma mark TripPurposeDelegate methods
 
 
-- (NSString *)setPurpose:(unsigned int)index
+- (NSString *)setPurpose:(NSUInteger)index
 {
 	return [tripManager setPurpose:index];
 }
 
 
-- (NSString *)getPurposeString:(unsigned int)index
+- (NSString *)getPurposeString:(NSUInteger)index
 {
 	return [tripManager getPurposeString:index];
 }

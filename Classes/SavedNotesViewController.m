@@ -80,9 +80,19 @@
     return UIStatusBarStyleLightContent;
 }
 
+-(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    return [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+}
+
+-(instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    return [super initWithCoder:aDecoder];
+}
+
 - (instancetype)initWithManagedObjectContext:(NSManagedObjectContext*)context
 {
-    if (self = [super init]) {
+    if (self = [self init]) {
 		self.managedObjectContext = context;
         
 		// Set the title NOTE: important for tab bar tab item to set title here before view loads
@@ -98,7 +108,7 @@
 
 - (instancetype)initWithNoteManager:(NoteManager*)manager
 {
-    if (self = [super init]) {
+    if (self = [self init]) {
 		//NSLog(@"SavedTripsViewController::initWithTripManager");
 		self.noteManager = manager;
 		
@@ -125,7 +135,7 @@
 	
 	NSError *error;
 	NSInteger count = [noteManager.managedObjectContext countForFetchRequest:request error:&error];
-	NSLog(@"count = %d", count);
+	NSLog(@"count = %ld", (long)count);
 	
 	NSMutableArray *mutableFetchResults = [[noteManager.managedObjectContext executeFetchRequest:request error:&error] mutableCopy];
 	if (mutableFetchResults == nil) {
@@ -373,7 +383,7 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-	NSLog(@"actionSheet clickedButtonAtIndex %d", buttonIndex);
+	NSLog(@"actionSheet clickedButtonAtIndex %ld", (long)buttonIndex);
 	switch ( buttonIndex )
 	{
 		case 0:

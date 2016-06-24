@@ -60,6 +60,9 @@
 @property (nonatomic, strong) UIView *infoView;
 @property (nonatomic, strong) MKPolyline* routeLine;
 
+-(instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
+-(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil NS_DESIGNATED_INITIALIZER;
+
 - (instancetype)initWithTrip:(Trip *)trip NS_DESIGNATED_INITIALIZER;
 
 

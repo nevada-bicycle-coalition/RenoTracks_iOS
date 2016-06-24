@@ -74,6 +74,16 @@
     return self;
 }
 
+-(instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    return [super initWithCoder:aDecoder];
+}
+
+-(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    return [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+}
+
 - (UITextField*)createTextFieldAlpha
 {
 	CGRect frame = CGRectMake( 152, 7, 138, 29 );

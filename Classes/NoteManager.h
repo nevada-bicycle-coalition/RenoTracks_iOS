@@ -76,7 +76,7 @@
 @property (nonatomic, strong) NSMutableData *receivedDataNoted;
 
 
-- (instancetype)initWithManagedObjectContext:(NSManagedObjectContext*)context NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithManagedObjectContext:(NSManagedObjectContext*)context;
 
 - (void)saveNote;
 - (void)saveNote:(Note*)note;
@@ -85,7 +85,7 @@
 
 - (void)addLocation:(CLLocation*)locationNow;
 
-- (instancetype)initWithNote:(Note*)note NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithNote:(Note*)note;
 - (BOOL)loadNote:(Note *)note;
 
 @end

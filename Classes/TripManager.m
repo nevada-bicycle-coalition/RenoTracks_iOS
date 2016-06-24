@@ -692,13 +692,13 @@
 #pragma mark TripPurposeDelegate methods
 
 
-- (NSString *)getPurposeString:(unsigned int)index
+- (NSString *)getPurposeString:(NSUInteger)index
 {
 	return [TripPurpose getPurposeString:index];
 }
 
 
-- (NSString *)setPurpose:(NSInteger)index
+- (NSString *)setPurpose:(NSUInteger)index
 {
 	NSString *purpose = [self getPurposeString:index];
 	NSLog(@"setPurpose: %@", purpose);
@@ -715,7 +715,7 @@
 		}
 	}
 	else
-		[self createTrip:index];
+		[self createTrip];
 
 	dirty = YES;
 	return purpose;
@@ -776,7 +776,7 @@
 
 
 // count trips that have not yet been saved
-- (int)countUnSavedTrips
+- (NSInteger)countUnSavedTrips
 {
 	NSFetchRequest *request = [[NSFetchRequest alloc] init];
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Trip" inManagedObjectContext:managedObjectContext];
@@ -798,7 +798,7 @@
 }
 
 // count trips that have been saved but not uploaded
-- (int)countUnSyncedTrips
+- (NSInteger)countUnSyncedTrips
 {
 	NSFetchRequest *request = [[NSFetchRequest alloc] init];
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Trip" inManagedObjectContext:managedObjectContext];
@@ -820,7 +820,7 @@
 }
 
 // count trips that have been saved but have zero distance
-- (int)countZeroDistanceTrips
+- (NSInteger)countZeroDistanceTrips
 {
 	NSFetchRequest *request = [[NSFetchRequest alloc] init];
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Trip" inManagedObjectContext:managedObjectContext];
@@ -915,7 +915,7 @@
 }
 
 
-- (int)recalculateTripDistances
+- (NSInteger)recalculateTripDistances
 {
 	NSFetchRequest *request = [[NSFetchRequest alloc] init];
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Trip" inManagedObjectContext:managedObjectContext];
@@ -937,9 +937,9 @@
 		if ( error != nil )
 			NSLog(@"Unresolved error2 %@, %@", error, error.userInfo);
 	}
-	int count = mutableFetchResults.count;
+	NSUInteger count = mutableFetchResults.count;
 
-	NSLog(@"found %d trip(s) in need of distance recalcuation", count);
+	NSLog(@"found %lu trip(s) in need of distance recalcuation", (unsigned long)count);
 
 	for (Trip *_trip in mutableFetchResults)
 	{
@@ -963,7 +963,7 @@
 
 @implementation TripPurpose
 
-+ (unsigned int)getPurposeIndex:(NSString*)string
++ (NSUInteger)getPurposeIndex:(NSString*)string
 {
 	if ( [string isEqualToString:kTripPurposeCommuteString] )
 		return kTripPurposeCommute;
@@ -990,7 +990,7 @@
 //		return kTripPurposeRecording;
 }
 
-+ (NSString *)getPurposeString:(unsigned int)index
++ (NSString *)getPurposeString:(NSUInteger)index
 {
 	switch (index) {
 		case kTripPurposeCommute:

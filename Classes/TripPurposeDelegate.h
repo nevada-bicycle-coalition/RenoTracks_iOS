@@ -82,8 +82,8 @@
 @protocol TripPurposeDelegate <NSObject>
 
 @required
-- (NSString *)getPurposeString:(unsigned int)index;
-- (NSString *)setPurpose:(unsigned int)index;
+- (NSString *)getPurposeString:(NSUInteger)index;
+- (NSString *)setPurpose:(NSUInteger)index;
 
 @optional
 - (void)didCancelPurpose;

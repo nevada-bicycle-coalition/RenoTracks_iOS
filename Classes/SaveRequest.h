@@ -49,6 +49,6 @@
 @property (nonatomic, strong) NSMutableDictionary *postVars;
 @property (nonatomic, strong) NSString *deviceUniqueIdHash;
 
-- (instancetype) initWithPostVars:(NSDictionary *)inPostVars with:(NSInteger) type image:(NSData*) imageData NS_DESIGNATED_INITIALIZER;
+- (instancetype) initWithPostVars:(NSDictionary *)inPostVars with:(NSInteger) type image:(NSData*) imageData;
 
 @end

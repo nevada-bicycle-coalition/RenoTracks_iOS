@@ -94,12 +94,11 @@ UITextViewDelegate>
 @property (nonatomic, strong) NSMutableData *receivedData;
 
 
-- (instancetype)initWithManagedObjectContext:(NSManagedObjectContext*)context NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithTrip:(Trip*)trip NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithManagedObjectContext:(NSManagedObjectContext*)context;
+- (instancetype)initWithTrip:(Trip*)trip;
 - (BOOL)loadTrip:(Trip*)trip;
 
 - (void)createTrip;
-- (void)createTrip:(unsigned int)index;
 
 - (CLLocationDistance)addCoord:(CLLocation*)location;
 - (void)saveNotes:(NSString*)notes;
@@ -124,8 +123,8 @@ UITextViewDelegate>
 
 @interface TripPurpose : NSObject { }
 
-+ (NSInteger)getPurposeIndex:(NSString*)string;
-+ (NSString *)getPurposeString:(unsigned int)index;
++ (NSUInteger)getPurposeIndex:(NSString*)string;
++ (NSString *)getPurposeString:(NSUInteger)index;
 
 @end
 

@@ -810,7 +810,7 @@ shouldSelectViewController:(UIViewController *)viewController
 #pragma mark TripPurposeDelegate methods
 
 
-- (NSString *)setPurpose:(unsigned int)index
+- (NSString *)setPurpose:(NSUInteger)index
 {
 	NSString *purpose = [tripManager setPurpose:index];
 	NSLog(@"setPurpose: %@", purpose);
@@ -821,7 +821,7 @@ shouldSelectViewController:(UIViewController *)viewController
 }
 
 
-- (NSString *)getPurposeString:(unsigned int)index
+- (NSString *)getPurposeString:(NSUInteger)index
 {
 	return [tripManager getPurposeString:index];
 }

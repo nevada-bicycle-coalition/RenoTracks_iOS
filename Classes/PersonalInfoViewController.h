@@ -100,6 +100,12 @@
 @property (nonatomic) NSInteger riderHistorySelectedRow;
 @property (nonatomic) NSInteger selectedItem;
 
+-(instancetype)initWithStyle:(UITableViewStyle)style NS_DESIGNATED_INITIALIZER;
+-(instancetype)init NS_DESIGNATED_INITIALIZER;
+-(instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
+-(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil NS_DESIGNATED_INITIALIZER;
+
+
 // DEPRECATED
 - (instancetype)initWithManagedObjectContext:(NSManagedObjectContext*)context NS_DESIGNATED_INITIALIZER;
 

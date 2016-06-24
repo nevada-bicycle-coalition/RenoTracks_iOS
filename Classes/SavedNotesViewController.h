@@ -35,8 +35,11 @@
 
 - (void)initNoteManager:(NoteManager*)manager;
 
-- (instancetype)initWithManagedObjectContext:(NSManagedObjectContext*)context NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithNoteManager:(NoteManager*)manager NS_DESIGNATED_INITIALIZER;
+-(instancetype)initWithStyle:(UITableViewStyle)style NS_DESIGNATED_INITIALIZER;
+-(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil NS_DESIGNATED_INITIALIZER;
+-(instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithManagedObjectContext:(NSManagedObjectContext*)context;
+- (instancetype)initWithNoteManager:(NoteManager*)manager;
 
 - (void)displayUploadedNote;
 
