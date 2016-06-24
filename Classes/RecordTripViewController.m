@@ -63,7 +63,7 @@
 
 
 - (CLLocationManager *)getLocationManager {
-	appDelegate = [[UIApplication sharedApplication] delegate];
+	appDelegate = [UIApplication sharedApplication].delegate;
     if (appDelegate.locationManager != nil) {
         return appDelegate.locationManager;
     }
@@ -153,7 +153,7 @@
 	NSManagedObjectContext	*context = tripManager.managedObjectContext;
 	NSFetchRequest			*request = [[NSFetchRequest alloc] init];
 	NSEntityDescription		*entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:context];
-	[request setEntity:entity];
+	request.entity = entity;
 	
 	NSError *error;
 	NSInteger count = [context countForFetchRequest:request error:&error];
@@ -163,7 +163,7 @@
 		NSArray *fetchResults = [context executeFetchRequest:request error:&error];
 		if ( fetchResults != nil )
 		{
-			User *user = (User*)[fetchResults objectAtIndex:0];
+			User *user = (User*)fetchResults[0];
 			if (user			!= nil &&
 				(user.age		!= nil ||
 				 user.gender	!= nil ||
@@ -171,7 +171,7 @@
 				 user.homeZIP	!= nil ||
 				 user.workZIP	!= nil ||
 				 user.schoolZIP	!= nil ||
-				 ([user.cyclingFreq intValue] < 4 )))
+				 ((user.cyclingFreq).intValue < 4 )))
 			{
 				NSLog(@"found saved user info");
 				self.userInfoSaved = YES;
@@ -185,7 +185,7 @@
 			// Handle the error.
 			NSLog(@"no saved user");
 			if ( error != nil )
-				NSLog(@"PersonalInfo viewDidLoad fetch error %@, %@", error, [error localizedDescription]);
+				NSLog(@"PersonalInfo viewDidLoad fetch error %@, %@", error, error.localizedDescription);
 		}
 	}
 	else
@@ -219,7 +219,7 @@
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     
 	NSLog(@"RecordTripViewController viewDidLoad");
-    NSLog(@"Bundle ID: %@", [[NSBundle mainBundle] bundleIdentifier]);
+    NSLog(@"Bundle ID: %@", [NSBundle mainBundle].bundleIdentifier);
     [super viewDidLoad];
 	//[UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackTranslucent;
 	
@@ -242,7 +242,7 @@
 	[self.view addSubview:[self createStartButton]];
     [self.view addSubview:[self createNoteButton]];
 	
-    appDelegate = [[UIApplication sharedApplication] delegate];
+    appDelegate = [UIApplication sharedApplication].delegate;
     appDelegate.isRecording = NO;
 	self.recording = NO;
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey: @"recording"];
@@ -253,7 +253,7 @@
 	[[self getLocationManager] startUpdatingLocation];
     [[self getLocationManager] requestAlwaysAuthorization];
     
-    NSManagedObjectContext *context = [appDelegate managedObjectContext];
+    NSManagedObjectContext *context = appDelegate.managedObjectContext;
     
     // setup the noteManager
     [self initNoteManager:[[NoteManager alloc] initWithManagedObjectContext:context]];
@@ -314,7 +314,7 @@
     
     // load map view of saved trip
     MapViewController *mvc = [[MapViewController alloc] initWithTrip:trip];
-    [[self navigationController] pushViewController:mvc animated:YES];
+    [self.navigationController pushViewController:mvc animated:YES];
     NSLog(@"displayUploadedTripMap");
 }
 
@@ -325,7 +325,7 @@
     
     // load map view of note
     NoteViewController *mvc = [[NoteViewController alloc] initWithNote:note];
-    [[self navigationController] pushViewController:mvc animated:YES];
+    [self.navigationController pushViewController:mvc animated:YES];
     NSLog(@"displayUploadedNote");
 }
 
@@ -345,7 +345,7 @@
 - (void)resetRecordingInProgress
 {
 	// reset button states
-    appDelegate = [[UIApplication sharedApplication] delegate];
+    appDelegate = [UIApplication sharedApplication].delegate;
     appDelegate.isRecording = NO;
 	recording = NO;
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey: @"recording"];
@@ -449,7 +449,7 @@
 			
 			// load map view of saved trip
 			MapViewController *mvc = [[MapViewController alloc] initWithTrip:trip];
-			[[self navigationController] pushViewController:mvc animated:YES];
+			[self.navigationController pushViewController:mvc animated:YES];
 		}
 			break;
 	}
@@ -458,8 +458,8 @@
 
 - (NSDictionary *)newTripTimerUserInfo
 {
-    return [NSDictionary dictionaryWithObjectsAndKeys:[NSDate date], @"StartDate",
-			tripManager, @"TripManager", nil ];
+    return @{@"StartDate": [NSDate date],
+			@"TripManager": tripManager};
 }
 
 
@@ -505,7 +505,7 @@
         startButton.titleLabel.font = [UIFont boldSystemFontOfSize: 18];
         
         // set recording flag so future location updates will be added as coords
-        appDelegate = [[UIApplication sharedApplication] delegate];
+        appDelegate = [UIApplication sharedApplication].delegate;
         appDelegate.isRecording = YES;
         recording = YES;
         [[NSUserDefaults standardUserDefaults] setInteger:1 forKey: @"recording"];
@@ -546,7 +546,7 @@
                                                     
         
         
-		[tripPurposePickerView setDelegate:self];
+		tripPurposePickerView.delegate = self;
 		//[[self navigationController] pushViewController:pickerViewController animated:YES];
 		[self.navigationController presentViewController:tripPurposePickerView animated:YES completion:nil];
 	}
@@ -603,7 +603,7 @@
 		PickerViewController *notePickerView = [[PickerViewController alloc]
                                                        //initWithPurpose:[tripManager getPurposeIndex]];
                                                        initWithNibName:@"TripPurposePicker" bundle:nil];
-		[notePickerView setDelegate:self];
+		notePickerView.delegate = self;
 		//[[self navigationController] pushViewController:pickerViewController animated:YES];
 		[self.navigationController presentViewController:notePickerView animated:YES completion:nil];
         
@@ -666,9 +666,9 @@
 		if ( inputFormatter == nil )
 			inputFormatter = [[NSDateFormatter alloc] init];
 		
-		[inputFormatter setDateFormat:@"HH:mm:ss"];
+		inputFormatter.dateFormat = @"HH:mm:ss";
 		NSDate *fauxDate = [inputFormatter dateFromString:@"00:00:00"];
-		[inputFormatter setDateFormat:@"HH:mm:ss"];
+		inputFormatter.dateFormat = @"HH:mm:ss";
 		NSDate *outputDate = [[NSDate alloc] initWithTimeInterval:interval sinceDate:fauxDate];
 		
 		timeCounter.text = [inputFormatter stringFromDate:outputDate];
@@ -686,16 +686,16 @@
 	//NSLog(@"updateCounter");
 	if ( shouldUpdateCounter )
 	{
-		NSDate *startDate = [[theTimer userInfo] objectForKey:@"StartDate"];
+		NSDate *startDate = theTimer.userInfo[@"StartDate"];
 		NSTimeInterval interval = [[NSDate date] timeIntervalSinceDate:startDate];
 
 		static NSDateFormatter *inputFormatter = nil;
 		if ( inputFormatter == nil )
 			inputFormatter = [[NSDateFormatter alloc] init];
 		
-		[inputFormatter setDateFormat:@"HH:mm:ss"];
+		inputFormatter.dateFormat = @"HH:mm:ss";
 		NSDate *fauxDate = [inputFormatter dateFromString:@"00:00:00"];
-		[inputFormatter setDateFormat:@"HH:mm:ss"];
+		inputFormatter.dateFormat = @"HH:mm:ss";
 		NSDate *outputDate = [[NSDate alloc] initWithTimeInterval:interval sinceDate:fauxDate];
 		
 		//NSLog(@"Timer started on %@", startDate);
@@ -830,7 +830,7 @@ shouldSelectViewController:(UIViewController *)viewController
 - (void)didCancelPurpose
 {
 	[self.navigationController dismissViewControllerAnimated:YES completion:nil];
-    appDelegate = [[UIApplication sharedApplication] delegate];
+    appDelegate = [UIApplication sharedApplication].delegate;
     appDelegate.isRecording = YES;
 	recording = YES;
     [[NSUserDefaults standardUserDefaults] setInteger:1 forKey: @"recording"];
@@ -842,7 +842,7 @@ shouldSelectViewController:(UIViewController *)viewController
 - (void)didCancelNote
 {
 	[self.navigationController dismissViewControllerAnimated:YES completion:nil];
-    appDelegate = [[UIApplication sharedApplication] delegate];
+    appDelegate = [UIApplication sharedApplication].delegate;
     
 }
 
@@ -851,7 +851,7 @@ shouldSelectViewController:(UIViewController *)viewController
 {
 	//[self.navigationController dismissModalViewControllerAnimated:YES];
 	// update UI
-    appDelegate = [[UIApplication sharedApplication] delegate];
+    appDelegate = [UIApplication sharedApplication].delegate;
     appDelegate.isRecording = NO;
 	recording = NO;
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey: @"recording"];
@@ -876,29 +876,29 @@ shouldSelectViewController:(UIViewController *)viewController
 
 - (void)didPickNoteType:(NSNumber *)index
 {	
-	[noteManager.note setNote_type:index];
-    NSLog(@"Added note type: %d", [noteManager.note.note_type intValue]);
+	(noteManager.note).note_type = index;
+    NSLog(@"Added note type: %d", (noteManager.note.note_type).intValue);
     //do something here: may change to be the save as a separate view. Not prompt.
 }
 
 - (void)didEnterNoteDetails:(NSString *)details{
-    [noteManager.note setDetails:details];
+    (noteManager.note).details = details;
     NSLog(@"Note Added details: %@", noteManager.note.details);
 }
 
 - (void)didSaveImage:(NSData *)imgData{
-    [noteManager.note setImage_data:imgData];
-    NSLog(@"Added image, Size of Image(bytes):%lu", (unsigned long)[imgData length]);
+    (noteManager.note).image_data = imgData;
+    NSLog(@"Added image, Size of Image(bytes):%lu", (unsigned long)imgData.length);
 }
 
 - (void)getTripThumbnail:(NSData *)imgData{
-    [tripManager.trip setThumbnail:imgData];
-    NSLog(@"Trip Thumbnail, Size of Image(bytes):%lu", (unsigned long)[imgData length]);
+    (tripManager.trip).thumbnail = imgData;
+    NSLog(@"Trip Thumbnail, Size of Image(bytes):%lu", (unsigned long)imgData.length);
 }
 
 - (void)getNoteThumbnail:(NSData *)imgData{
-    [noteManager.note setThumbnail:imgData];
-    NSLog(@"Note Thumbnail, Size of Image(bytes):%lu", (unsigned long)[imgData length]);
+    (noteManager.note).thumbnail = imgData;
+    NSLog(@"Note Thumbnail, Size of Image(bytes):%lu", (unsigned long)imgData.length);
 }
 
 - (void)saveNote{

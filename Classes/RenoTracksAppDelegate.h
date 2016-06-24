@@ -63,7 +63,7 @@
 @property (nonatomic, assign) BOOL isRecording;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 
-- (NSString *)applicationDocumentsDirectory;
+@property (nonatomic, readonly, copy) NSString *applicationDocumentsDirectory;
 - (void)initUniqueIDHash;
 
 @end

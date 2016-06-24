@@ -32,6 +32,6 @@
 @property (nonatomic, strong) UIBarButtonItem *flipButton;
 @property (nonatomic, strong) UIView *infoView;
 
--(id)initWithNote:(Note *)note;
+-(instancetype)initWithNote:(Note *)note NS_DESIGNATED_INITIALIZER;
 
 @end

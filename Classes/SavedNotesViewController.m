@@ -68,7 +68,7 @@
 @synthesize notes;
 @synthesize selectedNote;
 
-- (id)initWithStyle:(UITableViewStyle)style
+- (instancetype)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
@@ -80,7 +80,7 @@
     return UIStatusBarStyleLightContent;
 }
 
-- (id)initWithManagedObjectContext:(NSManagedObjectContext*)context
+- (instancetype)initWithManagedObjectContext:(NSManagedObjectContext*)context
 {
     if (self = [super init]) {
 		self.managedObjectContext = context;
@@ -96,7 +96,7 @@
 	self.noteManager = manager;
 }
 
-- (id)initWithNoteManager:(NoteManager*)manager
+- (instancetype)initWithNoteManager:(NoteManager*)manager
 {
     if (self = [super init]) {
 		//NSLog(@"SavedTripsViewController::initWithTripManager");
@@ -112,16 +112,16 @@
 {
 	NSFetchRequest *request = [[NSFetchRequest alloc] init];
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Note" inManagedObjectContext:noteManager.managedObjectContext];
-	[request setEntity:entity];
-    [request setPredicate:[NSPredicate predicateWithFormat:@"recorded != nil"]];
+	request.entity = entity;
+    request.predicate = [NSPredicate predicateWithFormat:@"recorded != nil"];
 
     [request setReturnsDistinctResults:YES];
-    [request setPropertiesToFetch:[NSArray arrayWithObjects:@"note_type",@"recorded",nil]];
+    request.propertiesToFetch = @[@"note_type",@"recorded"];
 
 	// configure sort order
 	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"recorded" ascending:NO];
-	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
-	[request setSortDescriptors:sortDescriptors];
+	NSArray *sortDescriptors = @[sortDescriptor];
+	request.sortDescriptors = sortDescriptors;
 	
 	NSError *error;
 	NSInteger count = [noteManager.managedObjectContext countForFetchRequest:request error:&error];
@@ -132,10 +132,10 @@
 		// Handle the error.
 		NSLog(@"no saved notes");
 		if ( error != nil )
-			NSLog(@"Unresolved error2 %@, %@", error, [error userInfo]);
+			NSLog(@"Unresolved error2 %@, %@", error, error.userInfo);
 	}
 	
-	[self setNotes:mutableFetchResults];
+	self.notes = mutableFetchResults;
 	[self.tableView reloadData];
     
 }
@@ -197,7 +197,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [notes count];
+    return notes.count;
 }
 
 - (NoteCell *)getCellWithReuseIdentifier:(NSString *)reuseIdentifier
@@ -234,15 +234,15 @@
     static NSDateFormatter *dateFormatter = nil;
     if (dateFormatter == nil) {
         dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateStyle:NSDateFormatterLongStyle];
+        dateFormatter.dateStyle = NSDateFormatterLongStyle;
     }
     static NSDateFormatter *timeFormatter = nil;
     if (timeFormatter == nil) {
         timeFormatter = [[NSDateFormatter alloc] init];
-        [timeFormatter setTimeStyle:NSDateFormatterShortStyle];
+        timeFormatter.timeStyle = NSDateFormatterShortStyle;
     }
     
-    Note *note = (Note *)[notes objectAtIndex:indexPath.row];
+    Note *note = (Note *)notes[indexPath.row];
 	NoteCell *cell = nil;
     
     UIImage	*image;
@@ -250,7 +250,7 @@
     if(note.uploaded){
         cell = [self getCellWithReuseIdentifier:kCellReuseIdentifierCheck];
         
-        int index = [note.note_type intValue];
+        int index = (note.note_type).intValue;
         
         NSLog(@"note.purpose: %d",index);
         
@@ -285,7 +285,7 @@
     cell.textLabel.tag = kTagTitle;
     
     NSString *title = [[NSString alloc] init] ;
-    switch ([note.note_type intValue]) {
+    switch ((note.note_type).intValue) {
         case 0:
             title = @"Pavement issue";
             break;
@@ -326,13 +326,13 @@
             break;
     }
     
-    [cell.textLabel setFont:[UIFont systemFontOfSize:14]];
-    [cell.textLabel setTextColor:[UIColor grayColor]];
+    (cell.textLabel).font = [UIFont systemFontOfSize:14];
+    (cell.textLabel).textColor = [UIColor grayColor];
     
-    cell.textLabel.text = [NSString stringWithFormat:@"%@ at %@", [dateFormatter stringFromDate:[note recorded]], [timeFormatter stringFromDate:[note recorded]]];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@ at %@", [dateFormatter stringFromDate:note.recorded], [timeFormatter stringFromDate:note.recorded]];
     
-    [cell.detailTextLabel setFont:[UIFont boldSystemFontOfSize:18]];
-    [cell.detailTextLabel setTextColor:[UIColor blackColor]];
+    (cell.detailTextLabel).font = [UIFont boldSystemFontOfSize:18];
+    (cell.detailTextLabel).textColor = [UIColor blackColor];
     
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@",title];
     
@@ -399,7 +399,7 @@
 	if ( selectedNote )
 	{
 		NoteViewController *mvc = [[NoteViewController alloc] initWithNote:selectedNote];
-		[[self navigationController] pushViewController:mvc animated:YES];
+		[self.navigationController pushViewController:mvc animated:YES];
 		selectedNote = nil;
 	}
 }
@@ -410,7 +410,7 @@
     
     // load map view of note
     NoteViewController *mvc = [[NoteViewController alloc] initWithNote:note];
-    [[self navigationController] pushViewController:mvc animated:YES];
+    [self.navigationController pushViewController:mvc animated:YES];
     NSLog(@"displayUploadedNote");
 }
 
@@ -431,18 +431,18 @@
 		NSLog(@"Delete");
 		
         // Delete the managed object at the given index path.
-        NSManagedObject *noteToDelete = [notes objectAtIndex:indexPath.row];
+        NSManagedObject *noteToDelete = notes[indexPath.row];
         [noteManager.managedObjectContext deleteObject:noteToDelete];
 		
         // Update the array and table view.
         [notes removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:YES];
 		
         // Commit the change.
         NSError *error;
         if (![noteManager.managedObjectContext save:&error]) {
             // Handle the error.
-			NSLog(@"Unresolved error %@", [error localizedDescription]);
+			NSLog(@"Unresolved error %@", error.localizedDescription);
         }
     }
 	else if ( editingStyle == UITableViewCellEditingStyleInsert )
@@ -471,7 +471,7 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
-    selectedNote = (Note *)[notes objectAtIndex:indexPath.row];
+    selectedNote = (Note *)notes[indexPath.row];
     
     loading		= [LoadingView loadingViewInView:self.parentViewController.view messageString:@"Loading..."];
 	loading.tag = 999;
@@ -487,7 +487,7 @@
     else if ( selectedNote )
 	{
 		NoteViewController *mvc = [[NoteViewController alloc] initWithNote:selectedNote];
-		[[self navigationController] pushViewController:mvc animated:YES];
+		[self.navigationController pushViewController:mvc animated:YES];
 		selectedNote = nil;
 	}
 }

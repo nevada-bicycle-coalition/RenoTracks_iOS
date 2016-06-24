@@ -158,7 +158,7 @@
 	}
 }
 
-- (id)initWithFireDate:(NSDate *)date
+- (instancetype)initWithFireDate:(NSDate *)date
 			  interval:(NSTimeInterval)seconds
 			  delegate:(id <RecordingInProgressDelegate>)_delegate
 {
@@ -199,7 +199,7 @@
 @implementation ReminderManager
 @synthesize reminders;
 
-- (id)initWithRecordingInProgressDelegate:(id <RecordingInProgressDelegate>)delegate
+- (instancetype)initWithRecordingInProgressDelegate:(id <RecordingInProgressDelegate>)delegate
 {
 	if ( self = [super init] )
 	{
@@ -224,7 +224,7 @@
 - (void)enableReminders
 {
 	NSLog(@"enableReminders");
-	if ( [reminders count] )
+	if ( reminders.count )
 	{
 		NSEnumerator *enumerator = [reminders objectEnumerator];
 		Reminder *reminder;
@@ -237,7 +237,7 @@
 - (void)disableReminders
 {
 	NSLog(@"disableReminders");
-	if ( [reminders count] )
+	if ( reminders.count )
 	{
 		NSEnumerator *enumerator = [reminders objectEnumerator];
 		Reminder *reminder;

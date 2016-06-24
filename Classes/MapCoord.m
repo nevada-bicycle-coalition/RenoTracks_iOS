@@ -43,7 +43,7 @@
 @synthesize coordinate, title, subtitle, first, last;
 
 
-- (id) init
+- (instancetype) init
 {
 	if ( self = [super init] )
 	{

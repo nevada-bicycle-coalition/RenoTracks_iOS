@@ -54,7 +54,7 @@ const CGFloat kViewHeight = 44;
     return kViewHeight;
 }
 
-- (id)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame
 {
 	// use predetermined frame size
 	if (self = [super initWithFrame:CGRectMake(0.0, 0.0, kViewWidth, kViewHeight)])
@@ -75,7 +75,7 @@ const CGFloat kViewHeight = 44;
 	yCoord = (self.bounds.size.height - MAIN_FONT_SIZE) / 2;
 	point = CGPointMake(10.0 + self.image.size.width + 10.0, yCoord);
     
-    NSDictionary *attributes = [NSDictionary dictionaryWithObject:[UIFont systemFontOfSize:MAIN_FONT_SIZE] forKey: NSFontAttributeName];
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:MAIN_FONT_SIZE]};
     [self.title drawAtPoint:point withAttributes:attributes];
 
 }

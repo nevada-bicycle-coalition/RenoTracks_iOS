@@ -48,7 +48,7 @@
 
 @property (nonatomic, strong) NSMutableArray *reminders;
 
-- (id)initWithRecordingInProgressDelegate:(id <RecordingInProgressDelegate>)delegate;
+- (instancetype)initWithRecordingInProgressDelegate:(id <RecordingInProgressDelegate>)delegate NS_DESIGNATED_INITIALIZER;
 - (void)enableReminders;
 - (void)disableReminders;
 

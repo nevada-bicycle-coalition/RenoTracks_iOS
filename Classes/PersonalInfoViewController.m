@@ -48,7 +48,7 @@
 @synthesize age, email, gender, ethnicity, income, homeZIP, workZIP, schoolZIP;
 @synthesize cyclingFreq, riderType, riderHistory;
 
-- (id)initWithStyle:(UITableViewStyle)style {
+- (instancetype)initWithStyle:(UITableViewStyle)style {
     // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
     }
@@ -56,7 +56,7 @@
 }
 
 
-- (id)init
+- (instancetype)init
 {
 	NSLog(@"INIT");
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
@@ -65,7 +65,7 @@
 }
 
 
-- (id)initWithManagedObjectContext:(NSManagedObjectContext*)context
+- (instancetype)initWithManagedObjectContext:(NSManagedObjectContext*)context
 {
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
 		NSLog(@"PersonalInfoViewController::initWithManagedObjectContext");
@@ -134,7 +134,7 @@
 	NSError *error;
 	if (![managedObjectContext save:&error]) {
 		// Handle the error.
-		NSLog(@"createUser error %@, %@", error, [error localizedDescription]);
+		NSLog(@"createUser error %@, %@", error, error.localizedDescription);
 	}
 	
 	return noob;
@@ -161,21 +161,21 @@ typedef NS_ENUM(NSInteger, textFieldTags) {
 {
     [super viewDidLoad];
     
-    textFieldArray = [[NSArray alloc]initWithObjects:@"age",@"email",@"gender",@"ethnicity",@"income",@"homeZIP",@"workZIP",@"schoolZIP",@"cyclingFreq",@"rider_type",@"rider_history", nil];
+    textFieldArray = @[@"age",@"email",@"gender",@"ethnicity",@"income",@"homeZIP",@"workZIP",@"schoolZIP",@"cyclingFreq",@"rider_type",@"rider_history"];
     
-    genderArray = [[NSArray alloc]initWithObjects: @" ", @"Female",@"Male", nil];
+    genderArray = @[@" ", @"Female",@"Male"];
     
-    ageArray = [[NSArray alloc]initWithObjects: @" ", @"Less than 18", @"18-24", @"25-34", @"35-44", @"45-54", @"55-64", @"65+", nil];
+    ageArray = @[@" ", @"Less than 18", @"18-24", @"25-34", @"35-44", @"45-54", @"55-64", @"65+"];
     
-    ethnicityArray = [[NSArray alloc]initWithObjects: @" ", @"White", @"African American", @"Asian", @"Native American", @"Pacific Islander", @"Multi-racial", @"Hispanic / Mexican / Latino", @"Other", nil];
+    ethnicityArray = @[@" ", @"White", @"African American", @"Asian", @"Native American", @"Pacific Islander", @"Multi-racial", @"Hispanic / Mexican / Latino", @"Other"];
     
-    incomeArray = [[NSArray alloc]initWithObjects: @" ", @"Less than $20,000", @"$20,000 to $39,999", @"$40,000 to $59,999", @"$60,000 to $74,999", @"$75,000 to $99,999", @"$100,000 or greater", nil];
+    incomeArray = @[@" ", @"Less than $20,000", @"$20,000 to $39,999", @"$40,000 to $59,999", @"$60,000 to $74,999", @"$75,000 to $99,999", @"$100,000 or greater"];
     
-    cyclingFreqArray = [[NSArray alloc]initWithObjects: @" ", @"Less than once a month", @"Several times per month", @"Several times per week", @"Daily", nil];
+    cyclingFreqArray = @[@" ", @"Less than once a month", @"Several times per month", @"Several times per week", @"Daily"];
     
-    rider_typeArray = [[NSArray alloc]initWithObjects: @" ", @"Strong & fearless", @"Enthused & confident", @"Comfortable, but cautious", @"Interested, but concerned", nil];
+    rider_typeArray = @[@" ", @"Strong & fearless", @"Enthused & confident", @"Comfortable, but cautious", @"Interested, but concerned"];
     
-    rider_historyArray = [[NSArray alloc]initWithObjects: @" ", @"Since childhood", @"Several years", @"One year or less", @"Just trying it out / just started", nil];
+    rider_historyArray = @[@" ", @"Since childhood", @"Several years", @"One year or less", @"Just trying it out / just started"];
     
     
     CGRect pickerFrame = CGRectMake(0, 40, 0, 0);
@@ -231,7 +231,7 @@ typedef NS_ENUM(NSInteger, textFieldTags) {
 	
 	NSFetchRequest		*request = [[NSFetchRequest alloc] init];
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:managedObjectContext];
-	[request setEntity:entity];
+	request.entity = entity;
 	
 	NSError *error;
 	NSInteger count = [managedObjectContext countForFetchRequest:request error:&error];
@@ -239,7 +239,7 @@ typedef NS_ENUM(NSInteger, textFieldTags) {
 	if ( count == 0 )
 	{
 		// create an empty User entity
-		[self setUser:[self createUser]];
+		self.user = [self createUser];
 	}
 	
 	NSMutableArray *mutableFetchResults = [[managedObjectContext executeFetchRequest:request error:&error] mutableCopy];
@@ -247,26 +247,26 @@ typedef NS_ENUM(NSInteger, textFieldTags) {
 		// Handle the error.
 		NSLog(@"no saved user");
 		if ( error != nil )
-			NSLog(@"PersonalInfo viewDidLoad fetch error %@, %@", error, [error localizedDescription]);
+			NSLog(@"PersonalInfo viewDidLoad fetch error %@, %@", error, error.localizedDescription);
 	}
 	
-	[self setUser:[mutableFetchResults objectAtIndex:0]];
+	self.user = mutableFetchResults[0];
 	if ( user != nil )
 	{
 		// initialize text fields indexes to saved personal info
-		age.text            = [ageArray objectAtIndex:[user.age integerValue]];
+		age.text            = ageArray[(user.age).integerValue];
 		email.text          = user.email;
-		gender.text         = [genderArray objectAtIndex:[user.gender integerValue]];
-        ethnicity.text      = [ethnicityArray objectAtIndex:[user.ethnicity integerValue]];
-        income.text         = [incomeArray objectAtIndex:[user.income integerValue]];
+		gender.text         = genderArray[(user.gender).integerValue];
+        ethnicity.text      = ethnicityArray[(user.ethnicity).integerValue];
+        income.text         = incomeArray[(user.income).integerValue];
 		
         homeZIP.text        = user.homeZIP;
 		workZIP.text        = user.workZIP;
 		schoolZIP.text      = user.schoolZIP;
         
-        cyclingFreq.text        = [cyclingFreqArray objectAtIndex:[user.cyclingFreq integerValue]];
-        riderType.text          = [rider_typeArray objectAtIndex:[user.rider_type integerValue]];
-        riderHistory.text       = [rider_historyArray objectAtIndex:[user.rider_history integerValue]];
+        cyclingFreq.text        = cyclingFreqArray[(user.cyclingFreq).integerValue];
+        riderType.text          = rider_typeArray[(user.rider_type).integerValue];
+        riderHistory.text       = rider_historyArray[(user.rider_history).integerValue];
 		
     }
 	else
@@ -304,21 +304,21 @@ typedef NS_ENUM(NSInteger, textFieldTags) {
 	if ( user != nil )
 	{
         if(textField.inputView == demographicsPicker) {
-            [user setValue:[NSNumber numberWithInteger:[demographicsPicker selectedRowInComponent:0]] forKey:textFieldArray[textField.tag]];
+            [user setValue:@([demographicsPicker selectedRowInComponent:0]) forKey:textFieldArray[textField.tag]];
             NSArray *valuesArray = [self valueForKey:[NSString stringWithFormat:@"%@Array",textFieldArray[textField.tag]]];
             textField.text = valuesArray[[demographicsPicker selectedRowInComponent:0]];
         } else {
             [user setValue:textField.text forKey:textFieldArray[textField.tag]];
         }
         
-        if ([user hasChanges]) {
+        if (user.hasChanges) {
             self.navigationItem.rightBarButtonItem.enabled = YES;
         }
 		
 		NSError *error;
 		if (![managedObjectContext save:&error]) {
 			// Handle the error.
-			NSLog(@"PersonalInfo save textField error %@, %@", error, [error localizedDescription]);
+			NSLog(@"PersonalInfo save textField error %@, %@", error, error.localizedDescription);
         } else {
             //not sure what this does, but it was used when the button was there
             [delegate setSaved:YES];
@@ -565,7 +565,7 @@ typedef NS_ENUM(NSInteger, textFieldTags) {
 			switch ([indexPath indexAtPosition:1])
 			{
 				case 0:
-                    [[UIApplication sharedApplication] openURL:[request URL]];
+                    [[UIApplication sharedApplication] openURL:request.URL];
 					break;
 			}
 			break;
@@ -582,13 +582,13 @@ typedef NS_ENUM(NSInteger, textFieldTags) {
 - (NSInteger)pickerView:(UIPickerView *)thePickerView numberOfRowsInComponent:(NSInteger)component {
     
     NSArray *pickerArray = [self valueForKey:[NSString stringWithFormat:@"%@Array",textFieldArray[selectedTextField]]];
-    return [pickerArray count];
+    return pickerArray.count;
 }
 
 - (NSString *)pickerView:(UIPickerView *)thePickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     
     NSArray *pickerArray = [self valueForKey:[NSString stringWithFormat:@"%@Array",textFieldArray[selectedTextField]]];
-    return [pickerArray objectAtIndex:row];
+    return pickerArray[row];
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {

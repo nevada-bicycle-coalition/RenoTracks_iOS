@@ -94,8 +94,8 @@ UITextViewDelegate>
 @property (nonatomic, strong) NSMutableData *receivedData;
 
 
-- (id)initWithManagedObjectContext:(NSManagedObjectContext*)context;
-- (id)initWithTrip:(Trip*)trip;
+- (instancetype)initWithManagedObjectContext:(NSManagedObjectContext*)context NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithTrip:(Trip*)trip NS_DESIGNATED_INITIALIZER;
 - (BOOL)loadTrip:(Trip*)trip;
 
 - (void)createTrip;
@@ -105,18 +105,18 @@ UITextViewDelegate>
 - (void)saveNotes:(NSString*)notes;
 - (void)saveTrip;
 
-- (CLLocationDistance)getDistanceEstimate;
+@property (nonatomic, getter=getDistanceEstimate, readonly) CLLocationDistance distanceEstimate;
 
-- (NSInteger)getPurposeIndex;
+@property (nonatomic, getter=getPurposeIndex, readonly) NSInteger purposeIndex;
 
 //- (void)promptForTripNotes;
 
-- (NSInteger)countUnSavedTrips;
-- (NSInteger)countUnSyncedTrips;
-- (NSInteger)countZeroDistanceTrips;
+@property (nonatomic, readonly) NSInteger countUnSavedTrips;
+@property (nonatomic, readonly) NSInteger countUnSyncedTrips;
+@property (nonatomic, readonly) NSInteger countZeroDistanceTrips;
 
-- (BOOL)loadMostRecetUnSavedTrip;
-- (NSInteger)recalculateTripDistances;
+@property (nonatomic, readonly) BOOL loadMostRecetUnSavedTrip;
+@property (nonatomic, readonly) NSInteger recalculateTripDistances;
 - (CLLocationDistance)calculateTripDistance:(Trip*)_trip;
 
 @end

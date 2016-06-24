@@ -74,7 +74,7 @@
 
 - (void)displayUploadedTripMap;
 // DEPRECATED
-- (id)initWithManagedObjectContext:(NSManagedObjectContext*)context;
-- (id)initWithTripManager:(TripManager*)manager;
+- (instancetype)initWithManagedObjectContext:(NSManagedObjectContext*)context NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithTripManager:(TripManager*)manager NS_DESIGNATED_INITIALIZER;
 
 @end

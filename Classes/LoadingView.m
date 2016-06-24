@@ -112,14 +112,14 @@ CGPathRef NewPathWithRoundRect(CGRect rect, CGFloat cornerRadius)
 // returns the constructed view, already added as a subview of the aSuperview
 //	(and hence retained by the superview)
 //
-+ (id)loadingViewInView:(UIView *)aSuperview messageString:(NSString *)message
++ (instancetype)loadingViewInView:(UIView *)aSuperview messageString:(NSString *)message
 {
     if (message==NULL)
         NSLocalizedString(@"Loading...", nil);
     
 	// LoadingView *loadingView = [[[LoadingView alloc] initWithFrame:[aSuperview bounds]] autorelease];
 	CGRect frame    = CGRectMake(floor(0.5 * (320 - DEFAULT_LABEL_WIDTH)),
-								 floor(0.5 * ([[UIScreen mainScreen] bounds].size.height - DEFAULT_LABEL_HEIGHT)), 
+								 floor(0.5 * ([UIScreen mainScreen].bounds.size.height - DEFAULT_LABEL_HEIGHT)), 
 								 DEFAULT_LABEL_WIDTH, DEFAULT_LABEL_HEIGHT);
 	LoadingView *loadingView = [[LoadingView alloc] initWithFrame:frame];
 	
@@ -179,8 +179,8 @@ CGPathRef NewPathWithRoundRect(CGRect rect, CGFloat cornerRadius)
 	
 	// Set up the fade-in animation
 	CATransition *animation = [CATransition animation];
-	[animation setType:kCATransitionFade];
-	[[aSuperview layer] addAnimation:animation forKey:@"layerAnimation"];
+	animation.type = kCATransitionFade;
+	[aSuperview.layer addAnimation:animation forKey:@"layerAnimation"];
 	
 	return loadingView;
 }
@@ -213,14 +213,14 @@ CGPathRef NewPathWithRoundRect(CGRect rect, CGFloat cornerRadius)
 //
 - (void)removeView
 {
-	UIView *aSuperview = [self superview];
+	UIView *aSuperview = self.superview;
 	[super removeFromSuperview];
 
 	// Set up the animation
 	CATransition *animation = [CATransition animation];
-	[animation setType:kCATransitionFade];
+	animation.type = kCATransitionFade;
 	
-	[[aSuperview layer] addAnimation:animation forKey:@"layerAnimation"];
+	[aSuperview.layer addAnimation:animation forKey:@"layerAnimation"];
 }
 
 //

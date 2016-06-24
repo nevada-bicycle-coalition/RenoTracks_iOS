@@ -60,7 +60,7 @@
 @property (nonatomic, strong) UIView *infoView;
 @property (nonatomic, strong) MKPolyline* routeLine;
 
-- (id)initWithTrip:(Trip *)trip;
+- (instancetype)initWithTrip:(Trip *)trip NS_DESIGNATED_INITIALIZER;
 
 
 @end

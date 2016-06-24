@@ -43,7 +43,7 @@
 
 @synthesize customPickerArray, parent;
 
-- (id)init
+- (instancetype)init
 {
 	// use predetermined frame size
 	self = [super init];
@@ -294,7 +294,7 @@
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-	return [customPickerArray count];
+	return customPickerArray.count;
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
@@ -313,7 +313,7 @@
 {
     //fix for sutom pickerview in ioOS7
     // self.customPickerArrayis an array of UIImageView objects
-    UIView * myView = [self.customPickerArray objectAtIndex:row];
+    UIView * myView = (self.customPickerArray)[row];
     
     // first convert to a UIImage
     UIGraphicsBeginImageContextWithOptions(myView.bounds.size, NO, 0);

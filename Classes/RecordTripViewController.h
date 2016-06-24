@@ -163,8 +163,8 @@
 - (void)updateCounter:(NSTimer *)theTimer;
 
 //- (UIButton *)createSaveButton;
-- (UIButton *)createStartButton;
-- (UIButton *)createNoteButton;
+@property (nonatomic, readonly, strong) UIButton *createStartButton;
+@property (nonatomic, readonly, strong) UIButton *createNoteButton;
 
 - (void)displayUploadedTripMap;
 - (void)displayUploadedNote;

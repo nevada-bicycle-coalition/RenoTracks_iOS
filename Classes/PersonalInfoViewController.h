@@ -101,7 +101,7 @@
 @property (nonatomic) NSInteger selectedItem;
 
 // DEPRECATED
-- (id)initWithManagedObjectContext:(NSManagedObjectContext*)context;
+- (instancetype)initWithManagedObjectContext:(NSManagedObjectContext*)context NS_DESIGNATED_INITIALIZER;
 
 
 @end

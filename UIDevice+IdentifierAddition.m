@@ -85,7 +85,7 @@
 
 - (NSString *) uniqueDeviceIdentifier{
     
-    NSString *uniqueIdentifier  =[[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    NSString *uniqueIdentifier  =[UIDevice currentDevice].identifierForVendor.UUIDString;
     return uniqueIdentifier;
 }
 

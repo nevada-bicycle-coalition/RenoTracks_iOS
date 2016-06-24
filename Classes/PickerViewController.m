@@ -201,20 +201,20 @@
 
         
         if(row >= 7){
-            tempType = [NSNumber numberWithInteger:row-7];
+            tempType = @(row-7);
         }
         else if (row<=5){
-            tempType = [NSNumber numberWithInteger:11-row];
+            tempType = @(11-row);
         }
         
-        NSLog(@"tempType: %d", [tempType intValue]);
+        NSLog(@"tempType: %d", tempType.intValue);
         
         [delegate didPickNoteType:tempType];
     }	
 }
 
 
-- (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
+- (instancetype)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
 {
 	NSLog(@"initWithNibNamed");
 	if (self = [super initWithNibName:nibName bundle:nibBundle])
@@ -238,7 +238,7 @@
 }
 
 
-- (id)initWithPurpose:(NSInteger)index
+- (instancetype)initWithPurpose:(NSInteger)index
 {
 	if (self = [self init])
 	{

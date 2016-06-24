@@ -65,7 +65,7 @@
 
 @property (nonatomic, strong) IBOutlet UILabel *descriptionText;
 
-- (id)initWithPurpose:(NSInteger)index;
+- (instancetype)initWithPurpose:(NSInteger)index;
 
 - (IBAction)cancel:(id)sender;
 - (IBAction)save:(id)sender;

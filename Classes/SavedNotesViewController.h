@@ -35,8 +35,8 @@
 
 - (void)initNoteManager:(NoteManager*)manager;
 
-- (id)initWithManagedObjectContext:(NSManagedObjectContext*)context;
-- (id)initWithNoteManager:(NoteManager*)manager;
+- (instancetype)initWithManagedObjectContext:(NSManagedObjectContext*)context NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithNoteManager:(NoteManager*)manager NS_DESIGNATED_INITIALIZER;
 
 - (void)displayUploadedNote;
 
