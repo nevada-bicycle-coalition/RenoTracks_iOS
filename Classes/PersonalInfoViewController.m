@@ -48,6 +48,8 @@
 @synthesize age, email, gender, ethnicity, income, homeZIP, workZIP, schoolZIP;
 @synthesize cyclingFreq, riderType, riderHistory;
 
+UITapGestureRecognizer *tapToSelect;
+
 - (instancetype)initWithStyle:(UITableViewStyle)style {
     // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
@@ -166,10 +168,13 @@ typedef NS_ENUM(NSInteger, textFieldTags) {
     
 };
 
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    tapToSelect = [[UITapGestureRecognizer alloc]initWithTarget:self
+                                                                                 action:@selector(tapAway:)];
+    tapToSelect.delegate = self;
     
     textFieldArray = @[@"age",@"email",@"gender",@"ethnicity",@"income",@"homeZIP",@"workZIP",@"schoolZIP",@"cyclingFreq",@"rider_type",@"rider_history"];
     
@@ -302,6 +307,7 @@ typedef NS_ENUM(NSInteger, textFieldTags) {
     if(myTextField.inputView == demographicsPicker) {
         [demographicsPicker reloadAllComponents];
     }
+    [self.view addGestureRecognizer:tapToSelect];
     
 }
 
@@ -603,8 +609,27 @@ typedef NS_ENUM(NSInteger, textFieldTags) {
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     [self.view endEditing:YES];
+    [self.view removeGestureRecognizer:tapToSelect];
+
     
 }
+
+#pragma mark UIGesture Actions
+
+- (IBAction)tapAway:(UITapGestureRecognizer *)tapRecognizer
+{
+    [self.view endEditing:YES];
+    [self.view removeGestureRecognizer:tapToSelect];
+    
+}
+
+#pragma mark UIGestureRecognizerDelegate
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return true;
+}
+
 
 
 
