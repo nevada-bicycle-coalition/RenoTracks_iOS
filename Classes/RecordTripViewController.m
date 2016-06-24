@@ -519,12 +519,12 @@
     {
         NSLog(@"User Press Save Button");
         saveActionSheet = [[UIActionSheet alloc]
-                           initWithTitle:@""
+                           initWithTitle:nil
                            delegate:self
                            cancelButtonTitle:@"Continue"
                            destructiveButtonTitle:@"Discard"
                            otherButtonTitles:@"Save",nil];
-        //[saveActionSheet showInView:self.view];
+        
         [saveActionSheet showInView:[UIApplication sharedApplication].keyWindow];
     }
 	
