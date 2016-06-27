@@ -38,14 +38,9 @@
 	<key>CFBundleSignature</key>
 	<string>CAGT</string>
 	<key>CFBundleVersion</key>
-	<string>107</string>
+	<string>109</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Reno Tracks uses your GPS location data to log rides</string>
 	<key>NSMainNibFile</key>

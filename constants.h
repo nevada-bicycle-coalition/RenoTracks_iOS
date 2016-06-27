@@ -92,11 +92,11 @@
 
 #ifndef DEBUG
 
-#define kSaveURL            @"http://rtstage.nevadabike.org/post/"
+#define kSaveURL            @"https://rtstage.nevadabike.org/post/"
 
 #else
 
-#define kSaveURL			@"http://renotracks.nevadabike.org/post/"
+#define kSaveURL			@"https://renotracks.nevadabike.org/post/"
 
 #endif
 
