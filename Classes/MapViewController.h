@@ -53,14 +53,17 @@
 	UIView *infoView;
 }
 
-@property (nonatomic, retain) id <TripPurposeDelegate> delegate;
-@property (nonatomic, retain) Trip *trip;
-@property (nonatomic, retain) UIBarButtonItem *doneButton;
-@property (nonatomic, retain) UIBarButtonItem *flipButton;
-@property (nonatomic, retain) UIView *infoView;
-@property (nonatomic, retain) MKPolyline* routeLine;
+@property (nonatomic, strong) id <TripPurposeDelegate> delegate;
+@property (nonatomic, strong) Trip *trip;
+@property (nonatomic, strong) UIBarButtonItem *doneButton;
+@property (nonatomic, strong) UIBarButtonItem *flipButton;
+@property (nonatomic, strong) UIView *infoView;
+@property (nonatomic, strong) MKPolyline* routeLine;
 
-- (id)initWithTrip:(Trip *)trip;
+-(instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
+-(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)initWithTrip:(Trip *)trip NS_DESIGNATED_INITIALIZER;
 
 
 @end

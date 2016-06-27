@@ -42,7 +42,7 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
 @synthesize lastChosenMediaType;
 @synthesize imageData;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -146,22 +146,20 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
 - (void)imagePickerController:(UIImagePickerController *)picker
 didFinishPickingMediaWithInfo:(NSDictionary *)info {
     //original
-    UIImage *castedImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+    UIImage *castedImage = info[UIImagePickerControllerOriginalImage];
     //save to library
     UIImageWriteToSavedPhotosAlbum(castedImage,self, nil, nil);
     
     imageData = [[NSData alloc] initWithData:UIImageJPEGRepresentation([ImageResize imageWithImage:castedImage scaledToSizeWithSameAspectRatio:CGSizeMake(960, 640)], 1)];
     UIImage *thumbnail = [ImageResize imageWithImage:castedImage scaledToSizeWithSameAspectRatio:CGSizeMake(290, 192)];
     
-    NSLog(@"Size of Image(bytes):%d",[imageData length]);
+    NSLog(@"Size of Image(bytes):%lu",(unsigned long)imageData.length);
     self.image = thumbnail;
     [picker dismissViewControllerAnimated:YES completion:nil];
-    [picker release];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [picker dismissViewControllerAnimated:YES completion:nil];
-    [picker release];
 }
 
 #pragma mark  -
@@ -213,29 +211,6 @@ static UIImage *shrinkImage(UIImage *original, CGSize size) {
 }
 
 
-- (void)dealloc {
-    self.delegate = nil;
-    self.detailTextView = nil;
-    self.addPicButton = nil;
-    self.imageView = nil;
-    self.imageFrameView = nil;
-    self.image = nil;
-    self.imageFrame = nil;
-    self.imageData = nil;
-    self.lastChosenMediaType = nil;
-    
-    [delegate release];
-    [detailTextView release];
-    [addPicButton release];
-    [imageView release];
-    [imageFrameView release];
-    [image release];
-    [imageFrame release];
-    [imageData release];
-    [lastChosenMediaType release];
-    
-    [super dealloc];
-}
 
 
 @end

@@ -46,21 +46,21 @@
 
 #pragma mark init
 
-- initWithPostVars:(NSDictionary *)inPostVars with:(NSInteger) type image:(NSData*) imageData;
+- (instancetype) initWithPostVars:(NSDictionary *)inPostVars with:(NSInteger) type image:(NSData*) imageData;
 {
 	if (self = [super init])
 	{
 		// create request.
-        self.request = [[[NSMutableURLRequest alloc] init] autorelease];
-        [request setURL:[NSURL URLWithString:kSaveURL]];
-        [request setHTTPMethod:@"POST"];
+        self.request = [[NSMutableURLRequest alloc] init];
+        request.URL = [NSURL URLWithString:kSaveURL];
+        request.HTTPMethod = @"POST";
         
         // Nab the unique device id hash from our delegate.
-		RenoTracksAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+		RenoTracksAppDelegate *delegate = [UIApplication sharedApplication].delegate;
 		self.deviceUniqueIdHash = delegate.uniqueIDHash;
         
         self.postVars = [NSMutableDictionary dictionaryWithDictionary:inPostVars];
-        [postVars setObject:deviceUniqueIdHash forKey:@"device"];
+        postVars[@"device"] = deviceUniqueIdHash;
         
         if (type == 3) {
             [request setValue:@"3" forHTTPHeaderField:@"Cycleatl-Protocol-Version"];
@@ -83,7 +83,7 @@
             for (NSString *key in postVars) {
                 [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
                 [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];
-                [body appendData:[[NSString stringWithFormat:@"%@\r\n", [postVars objectForKey:key]] dataUsingEncoding:NSUTF8StringEncoding]];
+                [body appendData:[[NSString stringWithFormat:@"%@\r\n", postVars[key]] dataUsingEncoding:NSUTF8StringEncoding]];
             }                        
             
             // add image data
@@ -99,10 +99,10 @@
             [body appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
             
             // setting the body of the post to the reqeust
-            [request setHTTPBody:body];
+            request.HTTPBody = body;
             
             // set the content-length
-            NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[body length]];
+            NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)body.length];
             [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
             
         } else {
@@ -120,7 +120,7 @@
                 [postBody appendString:[NSString stringWithFormat:@"%@%@=%@",
                                         sep,
                                         key,
-                                        [postVars objectForKey:key]]];
+                                        postVars[key]]];
                 sep = @"&";
             }
             //append actual image data
@@ -133,11 +133,11 @@
             NSData *postBodyDataZipped = [ZipUtil gzipDeflate:originalData];
             
             NSLog(@"Initializing HTTP POST request to %@ of size %lu, orig size %lu",
-                  kSaveURL, (unsigned long)[postBodyDataZipped length], (unsigned long)[originalData length]);
+                  kSaveURL, (unsigned long)postBodyDataZipped.length, (unsigned long)originalData.length);
             
-            [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postBodyDataZipped length]] forHTTPHeaderField:@"Content-Length"];
+            [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)postBodyDataZipped.length] forHTTPHeaderField:@"Content-Length"];
             //set the POST body
-            [request setHTTPBody:postBodyDataZipped];
+            request.HTTPBody = postBodyDataZipped;
         }
         
 	}
@@ -152,20 +152,6 @@
 {
     
 	NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:delegate];
-	return [conn autorelease];
+	return conn;
 }
-
-- (void)dealloc
-{
-	self.request = nil;
-    self.postVars = nil;
-    self.deviceUniqueIdHash = nil;
-    
-	[postVars release];
-	[request release];
-	[deviceUniqueIdHash release];
-    
-    [super dealloc];
-}
-
 @end

@@ -28,7 +28,7 @@
     CGFloat targetWidth = targetSize.width;
     CGFloat targetHeight = targetSize.height;
     
-    CGImageRef imageRef = [sourceImage CGImage];
+    CGImageRef imageRef = sourceImage.CGImage;
     CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(imageRef);
     CGColorSpaceRef colorSpaceInfo = CGImageGetColorSpace(imageRef);
     
@@ -107,7 +107,7 @@
         }
     }
     
-    CGImageRef imageRef = [sourceImage CGImage];
+    CGImageRef imageRef = sourceImage.CGImage;
     CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(imageRef);
     CGColorSpaceRef colorSpaceInfo = CGImageGetColorSpace(imageRef);
     

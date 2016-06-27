@@ -107,7 +107,7 @@
 @synthesize trips, tripManager, selectedTrip;
 
 
-- (id)initWithManagedObjectContext:(NSManagedObjectContext*)context
+- (instancetype)initWithManagedObjectContext:(NSManagedObjectContext*)context
 {
     
     if (self = [super init]) {
@@ -124,7 +124,7 @@
 	self.tripManager = manager;
 }
 
-- (id)initWithTripManager:(TripManager*)manager
+- (instancetype)initWithTripManager:(TripManager*)manager
 {
     
     if (self = [super init]) {
@@ -151,32 +151,29 @@
 {
 	NSFetchRequest *request = [[NSFetchRequest alloc] init];
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Trip" inManagedObjectContext:tripManager.managedObjectContext];
-	[request setEntity:entity];
+	request.entity = entity;
 	
 	// configure sort order
 	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"start" ascending:NO];
-	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
-	[request setSortDescriptors:sortDescriptors];
-	[sortDescriptors release];
-	[sortDescriptor release];
+	NSArray *sortDescriptors = @[sortDescriptor];
+	request.sortDescriptors = sortDescriptors;
+    request.predicate = [NSPredicate predicateWithFormat:@"saved != nil"];
 	
 	NSError *error;
 	NSInteger count = [tripManager.managedObjectContext countForFetchRequest:request error:&error];
 	NSLog(@"count = %ld", (long)count);
-	
+    
 	NSMutableArray *mutableFetchResults = [[tripManager.managedObjectContext executeFetchRequest:request error:&error] mutableCopy];
 	if (mutableFetchResults == nil) {
 		// Handle the error.
 		NSLog(@"no saved trips");
 		if ( error != nil )
-			NSLog(@"Unresolved error2 %@, %@", error, [error userInfo]);
+			NSLog(@"Unresolved error2 %@, %@", error, error.userInfo);
 	}
 	
-	[self setTrips:mutableFetchResults];
+	self.trips = mutableFetchResults;
 	[self.tableView reloadData];
 
-	[mutableFetchResults release];
-	[request release];
 }
 
 
@@ -206,7 +203,6 @@
 											  otherButtonTitles:@"Recalculate", nil];
 		alert.tag = 202;
 		[alert show];
-		[alert release];
 	}
 	
 	// check for countUnSyncedTrips
@@ -219,7 +215,6 @@
 											  otherButtonTitles:@"OK", nil];
 		alert.tag = 303;
 		[alert show];
-		[alert release];
 	}
 	else
 		NSLog(@"no zero distance or unsynced trips found");
@@ -280,51 +275,40 @@
 
 - (void)_recalculateDistanceForSelectedTripMap
 {
-	// important if we call from a background thread
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]; // Top-level pool
-	
 	// instantiate a temporary TripManager to recalcuate distance
 	TripManager *mapTripManager = [[TripManager alloc] initWithTrip:selectedTrip];
 	CLLocationDistance newDist	= [mapTripManager calculateTripDistance:selectedTrip];
 	
 	// save updated distance to CoreData
-	[mapTripManager.trip setDistance:[NSNumber numberWithDouble:newDist]];
+	(mapTripManager.trip).distance = @(newDist);
 
 	NSError *error;
 	if (![mapTripManager.managedObjectContext save:&error]) {
 		// Handle the error.
-		NSLog(@"_recalculateDistanceForSelectedTripMap error %@, %@", error, [error localizedDescription]);
+		NSLog(@"_recalculateDistanceForSelectedTripMap error %@, %@", error, error.localizedDescription);
 	}
 	
-	[mapTripManager release];
 	tripManager.dirty = YES;
 	
 	[self performSelectorOnMainThread:@selector(_displaySelectedTripMap) withObject:nil waitUntilDone:NO];
-    [pool release];  // Release the objects in the pool.
 }
 
 
 - (void)_displaySelectedTripMap
 {
-	// important if we call from a background thread
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]; // Top-level pool
-
 	if ( selectedTrip )
 	{
 		MapViewController *mvc = [[MapViewController alloc] initWithTrip:selectedTrip];
-		[[self navigationController] pushViewController:mvc animated:YES];
-		[mvc release];
+		[self.navigationController pushViewController:mvc animated:YES];
 		selectedTrip = nil;
 	}
-
-    [pool release];  // Release the objects in the pool.
 }
 
 
 // display map view
 - (void)displaySelectedTripMap
 {
-	loading		= [[LoadingView loadingViewInView:self.parentViewController.view messageString:@"Loading..."] retain];
+	loading		= [LoadingView loadingViewInView:self.parentViewController.view messageString:@"Loading..."];
 	loading.tag = 909;
 	[self performSelectorInBackground:@selector(_recalculateDistanceForSelectedTripMap) withObject:nil];
     
@@ -341,7 +325,7 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [trips count];
+    return trips.count;
 }
 
 /*
@@ -356,7 +340,7 @@
 
 	if (cell == nil)
 	{
-		cell = [[[TripCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier] autorelease];
+		cell = [[TripCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
         
 		cell.detailTextLabel.numberOfLines = 2;
         if ([reuseIdentifier isEqual: kCellReuseIdentifierCheck])
@@ -367,7 +351,7 @@
 		{
 			// add exclamation point
 			UIImage		*image		= [UIImage imageNamed:@"failedUpload.png"];
-			UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
+			UIImageView *imageView	= [[UIImageView alloc] initWithImage:image];
 			imageView.frame = CGRectMake( kAccessoryViewX, kAccessoryViewY, image.size.width, image.size.height );
 			imageView.tag	= kTagImage;
 			cell.accessoryView = imageView;
@@ -383,7 +367,7 @@
 			{
 				// create activity indicator if needed
 				CGRect frame = CGRectMake( kAccessoryViewX - 10.0, kAccessoryViewY + 4.0, kActivityIndicatorSize, kActivityIndicatorSize );
-				inProgressIndicator = [[[UIActivityIndicatorView alloc] initWithFrame:frame] autorelease];
+				inProgressIndicator = [[UIActivityIndicatorView alloc] initWithFrame:frame];
 				inProgressIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
 				[inProgressIndicator sizeToFit];
 				[inProgressIndicator startAnimating];
@@ -416,58 +400,58 @@
     static NSDateFormatter *dateFormatter = nil;
     if (dateFormatter == nil) {
         dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateStyle:NSDateFormatterLongStyle];
+        dateFormatter.dateStyle = NSDateFormatterLongStyle;
     }
     
     static NSDateFormatter *timeFormatter = nil;
     if (timeFormatter == nil) {
         timeFormatter = [[NSDateFormatter alloc] init];
-        [timeFormatter setTimeStyle:NSDateFormatterShortStyle];
+        timeFormatter.timeStyle = NSDateFormatterShortStyle;
     }
     
-    Trip *trip = (Trip *)[trips objectAtIndex:indexPath.row];
+    Trip *trip = (Trip *)trips[indexPath.row];
     
     // check for recordingInProgress
 	Trip *recordingInProgress = [delegate getRecordingInProgress];
     
     
     if(cell == nil){
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         
         purposeText = [[UILabel alloc] initWithFrame:CGRectMake(10, 24, 120, 30)];
         purposeText.tag = PURPOSELABEL_TAG;
-        [purposeText setFont:[UIFont boldSystemFontOfSize:18]];
-        [purposeText setTextColor:[UIColor blackColor]];
+        purposeText.font = [UIFont boldSystemFontOfSize:18];
+        purposeText.textColor = [UIColor blackColor];
         [cell.contentView addSubview:purposeText];
     
         durationText = [[UILabel alloc] initWithFrame:CGRectMake(140, 24, 190, 30)];
         durationText.tag = DURATIONLABEL_TAG;
-        [durationText setFont:[UIFont systemFontOfSize:18]];
-        [durationText setTextColor:[UIColor blackColor]];
+        durationText.font = [UIFont systemFontOfSize:18];
+        durationText.textColor = [UIColor blackColor];
         [cell.contentView addSubview:durationText];
     
         timeText = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, 220, 25)];
         timeText.tag = TIMETEXT_TAG;
-        [timeText setFont:[UIFont systemFontOfSize:15]];
-        [timeText setTextColor:[UIColor grayColor]];
+        timeText.font = [UIFont systemFontOfSize:15];
+        timeText.textColor = [UIColor grayColor];
         [cell.contentView addSubview:timeText];
     
         CO2Text = [[UILabel alloc] initWithFrame:CGRectMake(10, 50, 190, 20)];
         CO2Text.tag = CO2TEXT_TAG;
-        [CO2Text setFont:[UIFont systemFontOfSize:12]];
-        [CO2Text setTextColor:[UIColor grayColor]];
+        CO2Text.font = [UIFont systemFontOfSize:12];
+        CO2Text.textColor = [UIColor grayColor];
         [cell.contentView addSubview:CO2Text];
     
         CaloryText = [[UILabel alloc] initWithFrame:CGRectMake(140, 50, 190, 20)];
         CaloryText.tag = CALORYTEXT_TAG;
-        [CaloryText setFont:[UIFont systemFontOfSize:12]];
-        [CaloryText setTextColor:[UIColor grayColor]];
+        CaloryText.font = [UIFont systemFontOfSize:12];
+        CaloryText.textColor = [UIColor grayColor];
         [cell.contentView addSubview:CaloryText];
         
         errorLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 24, 300, 30)];
         errorLabel.tag = errorLabel_TAG;
-        [errorLabel setFont:[UIFont boldSystemFontOfSize:18]];
-        [errorLabel setTextColor:[UIColor blackColor]];
+        errorLabel.font = [UIFont boldSystemFontOfSize:18];
+        errorLabel.textColor = [UIColor blackColor];
         [cell.contentView addSubview:errorLabel];
 
     } else {
@@ -485,8 +469,8 @@
     if ( trip.uploaded )
     {
         
-        int index = [TripPurpose getPurposeIndex:trip.purpose];
-        NSLog(@"trip.purpose: %d => %@", index, trip.purpose);
+        NSInteger index = [TripPurpose getPurposeIndex:trip.purpose];
+        NSLog(@"trip.purpose: %ld => %@", (long)index, trip.purpose);
         
         // add purpose icon
         switch ( index ) {
@@ -523,7 +507,7 @@
             default:
                 image = [UIImage imageNamed:@"GreenCheckMark2.png"];
         }
-        UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
+        UIImageView *imageView	= [[UIImageView alloc] initWithImage:image];
         imageView.frame			= CGRectMake( kAccessoryViewX, kAccessoryViewY, image.size.width, image.size.height );
         imageView.tag = PURPOSEICON_TAG;
         cell.accessoryView = imageView;
@@ -541,7 +525,7 @@
         
         // add exclamation point
         UIImage		*image		= [UIImage imageNamed:@"failedUpload.png"];
-        UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
+        UIImageView *imageView	= [[UIImageView alloc] initWithImage:image];
         imageView.frame = CGRectMake( kAccessoryViewX, kAccessoryViewY, image.size.width, image.size.height );
         imageView.tag	= kTagImage;
         cell.accessoryView = imageView;
@@ -562,13 +546,13 @@
     {
         
         
-        int index = [TripPurpose getPurposeIndex:trip.purpose];
-        NSLog(@"trip.purpose: %d => %@", index, trip.purpose);
+        NSInteger index = [TripPurpose getPurposeIndex:trip.purpose];
+        NSLog(@"trip.purpose: %ld => %@", (long)index, trip.purpose);
         
         // add purpose icon
         image = [UIImage imageNamed:kTripPurposeOtherRedIcon];
 
-        UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
+        UIImageView *imageView	= [[UIImageView alloc] initWithImage:image];
         imageView.frame			= CGRectMake( kAccessoryViewX, kAccessoryViewY, image.size.width, image.size.height );
         imageView.tag = PURPOSEICON_TAG;
         cell.accessoryView = imageView;
@@ -583,18 +567,18 @@
         //cell = [self getCellWithReuseIdentifier:kCellReuseIdentifierExclamation];
         
         // Delete the managed object at the given index path.
-        NSManagedObject *tripToDelete = [trips objectAtIndex:indexPath.row];
+        NSManagedObject *tripToDelete = trips[indexPath.row];
         [tripManager.managedObjectContext deleteObject:tripToDelete];
 		
         // Update the array and table view.
         [trips removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:NO];
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:NO];
 		
         // Commit the change.
         NSError *error;
         if (![tripManager.managedObjectContext save:&error]) {
             // Handle the error.
-			NSLog(@"Unresolved error %@", [error localizedDescription]);
+			NSLog(@"Unresolved error %@", error.localizedDescription);
         }
         
         //[self refreshTableView];
@@ -606,23 +590,23 @@
 		inputFormatter = [[NSDateFormatter alloc] init];
     }
 	
-	[inputFormatter setDateFormat:@"HH:mm:ss"];
+	inputFormatter.dateFormat = @"HH:mm:ss";
 	NSDate *fauxDate = [inputFormatter dateFromString:@"00:00:00"];
-	[inputFormatter setDateFormat:@"HH:mm:ss"];
-	NSLog(@"trip duration: %f", [trip.duration doubleValue]);
-	NSDate *outputDate = [[[NSDate alloc] initWithTimeInterval:(NSTimeInterval)[trip.duration doubleValue] sinceDate:fauxDate] autorelease];
+	inputFormatter.dateFormat = @"HH:mm:ss";
+	NSLog(@"trip duration: %f", (trip.duration).doubleValue);
+	NSDate *outputDate = [[NSDate alloc] initWithTimeInterval:(NSTimeInterval)(trip.duration).doubleValue sinceDate:fauxDate];
     
     //Add text to cell
     
     //purposeText.text = [NSString stringWithFormat:@"%@", trip.purpose];
     durationText.text = [NSString stringWithFormat:@"%@",[inputFormatter stringFromDate:outputDate]];
-    timeText.text = [NSString stringWithFormat:@"%@ at %@", [dateFormatter stringFromDate:[trip start]], [timeFormatter stringFromDate:[trip start]]];
+    timeText.text = [NSString stringWithFormat:@"%@ at %@", [dateFormatter stringFromDate:trip.start], [timeFormatter stringFromDate:trip.start]];
     
     //CO2 text
-    CO2Text.text = [NSString stringWithFormat:@"CO2 Saved: %.1f lbs", 0.93 * [trip.distance doubleValue] / 1609.344];
+    CO2Text.text = [NSString stringWithFormat:@"CO2 Saved: %.1f lbs", 0.93 * (trip.distance).doubleValue / 1609.344];
     
     //Calory text
-    double calory = 49 * [trip.distance doubleValue] / 1609.344 - 1.69;
+    double calory = 49 * (trip.distance).doubleValue / 1609.344 - 1.69;
     if (calory <= 0) {
         CaloryText.text = [NSString stringWithFormat:@"Calories Burned: 0 kcal"];
     }
@@ -655,7 +639,6 @@
 	
 	actionSheet.actionSheetStyle	= UIActionSheetStyleBlackTranslucent;
 	[actionSheet showInView:self.tabBarController.view];
-	[actionSheet release];	
 }
 
 
@@ -666,7 +649,7 @@
 	
 	// identify trip by row
 	//NSLog(@"didSelectRow: %d", indexPath.row);
-	selectedTrip = (Trip *)[trips objectAtIndex:indexPath.row];
+	selectedTrip = (Trip *)trips[indexPath.row];
 	//NSLog(@"%@", selectedTrip);
 
 	// check for recordingInProgress
@@ -677,11 +660,6 @@
 	{
 		if ( !selectedTrip.uploaded )
 		{
-			// init new TripManager instance with selected trip
-			// release previously set tripManager
-			if ( tripManager )
-				[tripManager release];
-			
 			tripManager = [[TripManager alloc] initWithTrip:selectedTrip];
 			//tripManager.activityDelegate = self;
 			tripManager.alertDelegate = self;
@@ -711,8 +689,7 @@
     
     // load map view of saved trip
     MapViewController *mvc = [[MapViewController alloc] initWithTrip:trip];
-    [[self navigationController] pushViewController:mvc animated:YES];
-    [mvc release];
+    [self.navigationController pushViewController:mvc animated:YES];
 }
 
 
@@ -723,18 +700,18 @@
 		NSLog(@"Delete");
 		
         // Delete the managed object at the given index path.
-        NSManagedObject *tripToDelete = [trips objectAtIndex:indexPath.row];
+        NSManagedObject *tripToDelete = trips[indexPath.row];
         [tripManager.managedObjectContext deleteObject:tripToDelete];
 		
         // Update the array and table view.
         [trips removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:YES];
 		
         // Commit the change.
         NSError *error;
         if (![tripManager.managedObjectContext save:&error]) {
             // Handle the error.
-			NSLog(@"Unresolved error %@", [error localizedDescription]);
+			NSLog(@"Unresolved error %@", error.localizedDescription);
         }
     }
 	else if ( editingStyle == UITableViewCellEditingStyleInsert )
@@ -787,9 +764,10 @@
 {
 	NSLog(@"actionSheet clickedButtonAtIndex %ld", (long)buttonIndex);
     
-	switch ( buttonIndex )
+	//TODO This needs to be reviewed, lots of commented code
+    NSError *error;
+    switch ( buttonIndex )
 	{
-			
 		case kActionSheetButtonDiscard:
 			NSLog(@"Discard");
 			
@@ -805,14 +783,13 @@
 			
 			
 			//[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
-			[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:YES];
+			[self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:YES];
 			//[self.tableView reloadData];
 			
 			// Commit the change.
-			NSError *error;
 			if (![tripManager.managedObjectContext save:&error]) {
 				// Handle the error.
-				NSLog(@"Unresolved error %@", [error localizedDescription]);
+				NSLog(@"Unresolved error %@", error.localizedDescription);
 			}
 			break;
 			
@@ -911,13 +888,13 @@
 #pragma mark TripPurposeDelegate methods
 
 
-- (NSString *)setPurpose:(unsigned int)index
+- (NSString *)setPurpose:(NSUInteger)index
 {
 	return [tripManager setPurpose:index];
 }
 
 
-- (NSString *)getPurposeString:(unsigned int)index
+- (NSString *)getPurposeString:(NSUInteger)index
 {
 	return [tripManager getPurposeString:index];
 }
@@ -929,29 +906,12 @@
 }
 
 
-- (void)didPickPurpose:(unsigned int)index
+- (void)didPickPurpose:(NSInteger)index
 {
 	[self.navigationController dismissViewControllerAnimated:YES completion:nil];
 	[tripManager setPurpose:index];
 	//[tripManager promptForTripNotes];
 }
-
-- (void)dealloc {
-    self.trips = nil;
-    self.managedObjectContext = nil;
-    self.delegate = nil;
-    self.tripManager = nil;
-    self.selectedTrip = nil;
-    
-    [delegate release];
-    [trips release];
-    [tripManager release];
-    [selectedTrip release];
-    [loading release];
-    
-    [super dealloc];
-}
-
 
 @end
 

@@ -40,6 +40,6 @@
 @protocol RecordingInProgressDelegate <NSObject>
 
 @required
-- (CLLocationManager*)getLocationManager;
-- (Trip*)getRecordingInProgress;
+@property (nonatomic, getter=getLocationManager, readonly, strong) CLLocationManager *locationManager;
+@property (nonatomic, getter=getRecordingInProgress, readonly, strong) Trip *recordingInProgress;
 @end

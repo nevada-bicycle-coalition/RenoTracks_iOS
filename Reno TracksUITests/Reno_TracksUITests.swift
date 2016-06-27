@@ -34,7 +34,7 @@ class Reno_TracksUITests: XCTestCase {
         let app = XCUIApplication()
         app.tabBars.buttons["Settings"].tap()
         
-        //FIXME adjustToPcikerWheelValue does not work
+        //TODO: adjustToPcikerWheelValue does not work
         //ageTextField.tap()
         //app.pickerWheels.element.adjustToPickerWheelValue("Less than 18")
         
@@ -43,7 +43,7 @@ class Reno_TracksUITests: XCTestCase {
         testPicker("Gender", in: app)
         testPicker("Ethnicity", in: app)
         testPicker("Home Income", in: app)
-        //FIXME unable to test ZIP fields
+        //TODO: unable to test ZIP fields
         //testTextField("Home ZIP", in: app)
         //testTextField("Work ZIP", in: app)
         //testTextField("School ZIP", in: app)
@@ -80,6 +80,19 @@ class Reno_TracksUITests: XCTestCase {
         //XCTAssert(app.staticTexts[values["Age"]!].exists)
     }
     
+    func testDiscardThenLoadTrips() {
+        let app = XCUIApplication()
+        app.buttons["Start"].tap()
+        sleep(3)
+        app.buttons["Save"].tap()
+        app.sheets.collectionViews.buttons["Discard"].tap()
+        app.tabBars.buttons["Trips"].tap()
+        
+
+    }
+    
+    
+    //MARK: - Helper Functions
     func testTextField(key:String, in app:XCUIApplication) {
         let textField = app.tables.cells.containingType(.StaticText, identifier:key).childrenMatchingType(.TextField).element
         if(textField.value as! String != "") {
