@@ -31,7 +31,7 @@
 @synthesize doneButton, flipButton, infoView, note;
 @synthesize delegate;
 
-- (id)initWithNote:(Note *)_note
+- (instancetype)initWithNote:(Note *)_note
 {
 	if (self = [super initWithNibName:@"NoteViewController" bundle:nil]) {
 		NSLog(@"NoteViewController initWithNote");
@@ -41,6 +41,15 @@
     return self;
 }
 
+-(instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    return [super initWithCoder:aDecoder];
+}
+
+-(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    return [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+}
 
 
 - (void)infoAction:(UIButton*)sender
@@ -51,11 +60,11 @@
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:0.75];
 	
-	[UIView setAnimationTransition:([infoView superview] ?
+	[UIView setAnimationTransition:(infoView.superview ?
 									UIViewAnimationTransitionFlipFromLeft : UIViewAnimationTransitionFlipFromRight)
 						   forView:self.view cache:YES];
 	
-	if ([infoView superview])
+	if (infoView.superview)
 		[infoView removeFromSuperview];
 	else
 		[self.view addSubview:infoView];
@@ -63,7 +72,7 @@
 	[UIView commitAnimations];
 	
 	// adjust our done/info buttons accordingly
-	if ([infoView superview] == self.view)
+	if (infoView.superview == self.view)
 		self.navigationItem.rightBarButtonItem = doneButton;
 	else
 		self.navigationItem.rightBarButtonItem = flipButton;
@@ -72,26 +81,26 @@
 - (void)initInfoView
 {
 	infoView = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,560)];
-    NSInteger textLength = [note.details length];
-    int row = 1+(textLength-1)/34;
+    NSInteger textLength = (note.details).length;
+    NSInteger row = 1+(textLength-1)/34;
     
     //Mark date details
-    NSDateFormatter *outputDateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-    [outputDateFormatter setDateStyle:kCFDateFormatterLongStyle];
+    NSDateFormatter *outputDateFormatter = [[NSDateFormatter alloc] init];
+    outputDateFormatter.dateStyle = kCFDateFormatterLongStyle;
     
-    NSDateFormatter *outputTimeFormatter = [[[NSDateFormatter alloc] init] autorelease];
-    [outputTimeFormatter setTimeStyle:kCFDateFormatterShortStyle];
+    NSDateFormatter *outputTimeFormatter = [[NSDateFormatter alloc] init];
+    outputTimeFormatter.timeStyle = kCFDateFormatterShortStyle;
     
     NSString *newDateString = [outputDateFormatter stringFromDate:note.recorded];
     NSString *newTimeString = [outputTimeFormatter stringFromDate:note.recorded];
     
-	if ([note.image_data length] != 0 && textLength != 0) {
+	if ((note.image_data).length != 0 && textLength != 0) {
         infoView.alpha = 1.0;
         infoView.backgroundColor = [UIColor blackColor];
         
-        UIScrollView *scrollView = [[[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 427)] autorelease];
+        UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 427)];
         
-        UIImageViewResizable *noteImageResize = [[[UIImageViewResizable alloc] initWithFrame:CGRectMake(0, 0, 320, 427)] autorelease];
+        UIImageViewResizable *noteImageResize = [[UIImageViewResizable alloc] initWithFrame:CGRectMake(0, 0, 320, 427)];
         
         noteImageResize.image= [UIImage imageWithData:note.image_data];
         noteImageResize.contentMode = UIViewContentModeScaleAspectFill;
@@ -100,12 +109,12 @@
         
         [infoView addSubview:scrollView];
         
-        UIImageView *bgImageHeader      = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 80)] autorelease];
+        UIImageView *bgImageHeader      = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 80)];
         bgImageHeader.backgroundColor = [UIColor blackColor];
         bgImageHeader.alpha = 0.8;
         [infoView addSubview:bgImageHeader];
         
-        UILabel *notesHeader		= [[[UILabel alloc] initWithFrame:CGRectMake(130,5,160,25)] autorelease];
+        UILabel *notesHeader		= [[UILabel alloc] initWithFrame:CGRectMake(130,5,160,25)];
         notesHeader.backgroundColor = [UIColor clearColor];
         notesHeader.font			= [UIFont boldSystemFontOfSize:18.0];
         notesHeader.opaque			= NO;
@@ -118,7 +127,7 @@
 //        bgImageText.alpha = 0.8;
 //        [infoView addSubview:bgImageText];
         
-        UITextView *notesText		= [[[UITextView alloc] initWithFrame:CGRectMake(0,30,320,25*row+25)] autorelease];
+        UITextView *notesText		= [[UITextView alloc] initWithFrame:CGRectMake(0,30,320,25*row+25)];
         notesText.backgroundColor	= [UIColor clearColor];
         notesText.editable			= NO;
         notesText.font				= [UIFont systemFontOfSize:16.0];
@@ -126,12 +135,12 @@
         notesText.textColor			= [UIColor whiteColor];
         [infoView addSubview:notesText];
     }
-    if ([note.image_data length] != 0 && textLength == 0) {
+    if ((note.image_data).length != 0 && textLength == 0) {
         infoView.alpha = 1.0;
         infoView.backgroundColor = [UIColor blackColor];
         
-        UIScrollView *scrollView = [[[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 427)] autorelease];
-        UIImageView *noteImage   = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 427)] autorelease];
+        UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 427)];
+        UIImageView *noteImage   = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 427)];
         noteImage.image= [UIImage imageWithData:note.image_data];
         noteImage.contentMode = UIViewContentModeScaleAspectFill;
         
@@ -141,11 +150,11 @@
         
         [infoView addSubview:noteImage];
     }
-    else if ([note.image_data length] == 0 && textLength != 0) {
+    else if ((note.image_data).length == 0 && textLength != 0) {
         infoView.alpha				= kInfoViewAlpha;
         infoView.backgroundColor	= [UIColor blackColor];
         
-        UILabel *notesHeader		= [[[UILabel alloc] initWithFrame:CGRectMake(130,5,160,25)] autorelease];
+        UILabel *notesHeader		= [[UILabel alloc] initWithFrame:CGRectMake(130,5,160,25)];
         notesHeader.backgroundColor = [UIColor clearColor];
         notesHeader.font			= [UIFont boldSystemFontOfSize:18.0];
         notesHeader.opaque			= NO;
@@ -153,7 +162,7 @@
         notesHeader.textColor		= [UIColor whiteColor];
         [infoView addSubview:notesHeader];
         
-        UITextView *notesText		= [[[UITextView alloc] initWithFrame:CGRectMake(0,30,320,200)] autorelease];
+        UITextView *notesText		= [[UITextView alloc] initWithFrame:CGRectMake(0,30,320,200)];
         notesText.backgroundColor	= [UIColor clearColor];
         notesText.editable			= NO;
         notesText.font				= [UIFont systemFontOfSize:16.0];
@@ -180,8 +189,8 @@
 	if ( note )
 	{
         //Mark nvigation header
-        NSString *title = [[[NSString alloc] init] autorelease];
-        switch ([note.note_type intValue]) {
+        NSString *title = [[NSString alloc] init];
+        switch ((note.note_type).intValue) {
             case 0:
                 title = @"Pavement issue";
                 break;
@@ -224,7 +233,7 @@
 
 		self.title = title;
 		
-		if ( ![note.details isEqual: @""] || ([note.image_data length] != 0))
+		if ( ![note.details isEqual: @""] || ((note.image_data).length != 0))
 		{
 			doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(infoAction:)];
 			
@@ -239,11 +248,11 @@
 		}
         
         CLLocationCoordinate2D noteCoordinate;
-        noteCoordinate.latitude = [note.latitude doubleValue];
-        noteCoordinate.longitude = [note.longitude doubleValue];
+        noteCoordinate.latitude = (note.latitude).doubleValue;
+        noteCoordinate.longitude = (note.longitude).doubleValue;
         NSLog(@"noteCoordinate is: %f, %f", noteCoordinate.latitude, noteCoordinate.longitude);
         
-        MKPointAnnotation *notePoint = [[[MKPointAnnotation alloc] init] autorelease];
+        MKPointAnnotation *notePoint = [[MKPointAnnotation alloc] init];
         notePoint.coordinate = noteCoordinate;
         notePoint.title = @"Mark";
         [noteView addAnnotation:notePoint];
@@ -269,7 +278,7 @@
     thumbnailOriginal = [self screenshot];
     
     CGRect clippedRect  = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y+160, self.view.frame.size.width, self.view.frame.size.height);
-    CGImageRef imageRef = CGImageCreateWithImageInRect([thumbnailOriginal CGImage], clippedRect);
+    CGImageRef imageRef = CGImageCreateWithImageInRect(thumbnailOriginal.CGImage, clippedRect);
     UIImage *newImage   = [UIImage imageWithCGImage:imageRef];
     CGImageRelease(imageRef);
     
@@ -280,8 +289,8 @@
     UIImage *thumbnail;
     thumbnail = shrinkImage1(newImage, size);
     
-    NSData *thumbnailData = [[[NSData alloc] initWithData:UIImageJPEGRepresentation(thumbnail, 0)] autorelease];
-    NSLog(@"Size of Thumbnail Image(bytes):%d",[thumbnailData length]);
+    NSData *thumbnailData = [[NSData alloc] initWithData:UIImageJPEGRepresentation(thumbnail, 0)];
+    NSLog(@"Size of Thumbnail Image(bytes):%lu",(unsigned long)thumbnailData.length);
     NSLog(@"Size: %f, %f", thumbnail.size.height, thumbnail.size.width);
     
     [delegate getNoteThumbnail:thumbnailData];
@@ -310,36 +319,31 @@ UIImage *shrinkImage1(UIImage *original, CGSize size) {
 - (UIImage*)screenshot
 {
     NSLog(@"Screen Shoot");
-    // Create a graphics context with the target size
-    // On iOS 4 and later, use UIGraphicsBeginImageContextWithOptions to take the scale into consideration
-    // On iOS prior to 4, fall back to use UIGraphicsBeginImageContext
-    CGSize imageSize = [[UIScreen mainScreen] bounds].size;
-    if (NULL != UIGraphicsBeginImageContextWithOptions)
-        UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
-    else
-        UIGraphicsBeginImageContext(imageSize);
+    // No longer supporting iOS < 4.0
+    CGSize imageSize = [UIScreen mainScreen].bounds.size;
+    UIGraphicsBeginImageContext(imageSize);
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     // Iterate over every window from back to front
-    for (UIWindow *window in [[UIApplication sharedApplication] windows])
+    for (UIWindow *window in [UIApplication sharedApplication].windows)
     {
-        if (![window respondsToSelector:@selector(screen)] || [window screen] == [UIScreen mainScreen])
+        if (![window respondsToSelector:@selector(screen)] || window.screen == [UIScreen mainScreen])
         {
             // -renderInContext: renders in the coordinate space of the layer,
             // so we must first apply the layer's geometry to the graphics context
             CGContextSaveGState(context);
             // Center the context around the window's anchor point
-            CGContextTranslateCTM(context, [window center].x, [window center].y);
+            CGContextTranslateCTM(context, window.center.x, window.center.y);
             // Apply the window's transform about the anchor point
-            CGContextConcatCTM(context, [window transform]);
+            CGContextConcatCTM(context, window.transform);
             // Offset by the portion of the bounds left of and above the anchor point
             CGContextTranslateCTM(context,
-                                  -[window bounds].size.width * [[window layer] anchorPoint].x,
-                                  -[window bounds].size.height * [[window layer] anchorPoint].y+50);
+                                  -window.bounds.size.width * window.layer.anchorPoint.x,
+                                  -window.bounds.size.height * window.layer.anchorPoint.y+50);
             
             // Render the layer hierarchy to the current context
-            [[window layer] renderInContext:context];
+            [window.layer renderInContext:context];
             
             // Restore the context
             CGContextRestoreGState(context);
@@ -363,14 +367,13 @@ UIImage *shrinkImage1(UIImage *original, CGSize size) {
     if (!noteAnnotation)
     {
         // If an existing pin view was not available, create one
-        noteAnnotation = [[[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"notePin"]
-                          autorelease];
-        if ([note.note_type intValue]>=0 && [note.note_type intValue]<=5) {
+        noteAnnotation = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"notePin"];
+        if ((note.note_type).intValue>=0 && (note.note_type).intValue<=5) {
             noteAnnotation.image = [UIImage imageNamed:@"noteIssueMapGlyph.png"];
             //noteAnnotation.centerOffset = CGPointMake(-(noteAnnotation.image.size.width/4),(noteAnnotation.image.size.height/3));
             NSLog(@"Note Pin Note This Issue");
         }
-        else if ([note.note_type intValue]>=6 && [note.note_type intValue]<=11) {
+        else if ((note.note_type).intValue>=6 && (note.note_type).intValue<=11) {
             noteAnnotation.image = [UIImage imageNamed:@"noteAssetMapGlyph.png"];
             //noteAnnotation.centerOffset = CGPointMake(-(noteAnnotation.image.size.width/4),(noteAnnotation.image.size.height/3));
             NSLog(@"Note Pin Note This Asset");
@@ -397,7 +400,7 @@ UIImage *shrinkImage1(UIImage *original, CGSize size) {
 
 - (void)mapViewDidFailLoadingMap:(MKMapView *)noteView withError:(NSError *)error
 {
-	NSLog(@"mapViewDidFailLoadingMap:withError: %@", [error localizedDescription]);
+	NSLog(@"mapViewDidFailLoadingMap:withError: %@", error.localizedDescription);
 }
 
 
@@ -409,20 +412,5 @@ UIImage *shrinkImage1(UIImage *original, CGSize size) {
 	[loading removeView];
 }
 
-- (void)dealloc {
-    self.note = nil;
-    self.doneButton = nil;
-    self.flipButton = nil;
-    self.infoView = nil;
-    
-	[doneButton release];
-	[flipButton release];
-    [infoView release];
-    [note release];
-    
-    [noteView release];
-    
-    [super dealloc];
-}
 
 @end

@@ -65,7 +65,7 @@
 #define kRetryTitle			@"Retry Upload?"
 #define	kSavingTitle		@"Uploading your trip"
 #define kSavingNoteTitle    @"Uploading your note"
-#define kSuccessTitle		@"Upload complete"
+#define kSuccessTitle		@"Upload Complete"
 #define kTripNotesTitle		@"Enter Comments Below"
 #define kConsentFor18Title  @"In order to send route data to the City of Reno, you must be at least 18."
 
@@ -90,8 +90,15 @@
 #define kInfoURL			@"http://renotracks.nevadabike.org/"
 #define kInstructionsURL	@"http://renotracks.nevadabike.org/RenoTrackshelp.html"
 
-#define kSaveURL			@"http://renotracks.nevadabike.org/post/"
-//#define kSaveURL            @"http://rtstage.nevadabike.org/post/"
+#ifndef DEBUG
+
+#define kSaveURL            @"https://rtstage.nevadabike.org/post/"
+
+#else
+
+#define kSaveURL			@"https://renotracks.nevadabike.org/post/"
+
+#endif
 
 //Reno Tracks Green
 #define renoGreen [UIColor colorWithRed:0.231 green:0.545 blue:0.220 alpha:1.000]

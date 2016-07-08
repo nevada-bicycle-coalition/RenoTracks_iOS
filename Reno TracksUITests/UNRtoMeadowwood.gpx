@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" creator="labs.coruscantconsulting.co.uk" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd">
+  <metadata>
+    <link href="http://www.coruscantconsulting.co.uk">
+      <text>Coruscant Consulting Ltd. Labs</text>
+    </link>
+    <!--desc>Map data copyright 2016 Google</desc-->
+    <!--copyright author="Google Inc">
+    	<year>2015</year>
+    	<license>https://developers.google.com/maps/terms</license>
+    </copyright-->
+    <!--url>https://www.google.co.uk/maps/dir/University+of+Nevada,+Reno,+North+Virginia+Street,+Reno,+NV/Meadowood+Mall,+Meadowood+Mall+Circle,+Reno,+NV/@39.5087585,-119.8355579,13z/am=t/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x809946d7874bd11f:0xe385628992fed618!2m2!1d-119.8154461!2d39.5436632!1m5!1m1!1s0x80993ff1335a9909:0xa0d13335a28f73b6!2m2!1d-119.7827348!2d39.4738643!3e1?hl=en</url-->
+    <time>2016-06-16T14:44:34Z</time>
+  </metadata>
+  <wpt lat="39.5436632" lon="-119.8154461">
+    <name>University of Nevada</name>
+    <desc>University of Nevada, Reno, 1664 North Virginia Street, Reno, NV 89557, United States</desc>
+    <time>2016-06-16T14:44:34Z</time>
+  </wpt>
+  <wpt lat="39.5427482" lon="-119.8172912">
+    <name>WP001</name>
+    <ele>1379.5920410156</ele>
+    <time>2016-06-16T14:45:17Z</time>
+  </wpt>
+  <wpt lat="39.5361934" lon="-119.8162236">
+    <name>WP002</name>
+    <ele>1372.3596191406</ele>
+    <time>2016-06-16T14:46:01Z</time>
+  </wpt>
+  <wpt lat="39.5369741" lon="-119.8121021">
+    <name>WP003</name>
+    <ele>1368.1982421875</ele>
+    <time>2016-06-16T14:52:44Z</time>
+  </wpt>
+  <wpt lat="39.5276545" lon="-119.8094314">
+    <name>WP004</name>
+    <ele>1366.7222900391</ele>
+    <time>2016-06-16T14:55:28Z</time>
+  </wpt>
+  <wpt lat="39.527354" lon="-119.8055921">
+    <name>WP005</name>
+    <ele>1356.9318847656</ele>
+    <time>2016-06-16T14:58:12Z</time>
+  </wpt>
+  <wpt lat="39.5257843" lon="-119.8055753">
+    <name>WP006</name>
+    <ele>1353.0135498047</ele>
+    <time>2016-06-16T15:00:55Z</time>
+  </wpt>
+  <wpt lat="39.5218776" lon="-119.7891471">
+    <name>WP007</name>
+    <ele>1353.0710449219</ele>
+    <time>2016-06-16T15:03:39Z</time>
+  </wpt>
+  <wpt lat="39.4869644" lon="-119.789197">
+    <name>WP008</name>
+    <ele>1351.9305419922</ele>
+    <time>2016-06-16T15:06:23Z</time>
+  </wpt>
+  <wpt lat="39.485613" lon="-119.7852775">
+    <name>WP009</name>
+    <ele>1356.5050048828</ele>
+    <time>2016-06-16T15:09:06Z</time>
+  </wpt>
+  <wpt lat="39.4768583" lon="-119.7861415">
+    <name>WP010</name>
+    <ele>1354.3608398438</ele>
+    <time>2016-06-16T15:11:50Z</time>
+  </wpt>
+  <wpt lat="39.4738643" lon="-119.7827348">
+    <name>Meadowood Mall</name>
+    <desc>Meadowood Mall, 5000 Meadowood Mall Circle, Reno, NV 89502, United States</desc>
+    <time>2016-06-16T15:14:34Z</time>
+  </wpt>
+</gpx>

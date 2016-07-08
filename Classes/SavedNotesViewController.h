@@ -28,15 +28,18 @@
     Note * selectedNote;
 }
 
-@property (nonatomic, retain) NSMutableArray *notes;
-@property (nonatomic, retain) NoteManager *noteManager;
-@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, retain) Note *selectedNote;
+@property (nonatomic, strong) NSMutableArray *notes;
+@property (nonatomic, strong) NoteManager *noteManager;
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, strong) Note *selectedNote;
 
 - (void)initNoteManager:(NoteManager*)manager;
 
-- (id)initWithManagedObjectContext:(NSManagedObjectContext*)context;
-- (id)initWithNoteManager:(NoteManager*)manager;
+-(instancetype)initWithStyle:(UITableViewStyle)style NS_DESIGNATED_INITIALIZER;
+-(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil NS_DESIGNATED_INITIALIZER;
+-(instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithManagedObjectContext:(NSManagedObjectContext*)context;
+- (instancetype)initWithNoteManager:(NoteManager*)manager;
 
 - (void)displayUploadedNote;
 

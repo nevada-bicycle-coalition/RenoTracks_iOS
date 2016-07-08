@@ -43,7 +43,7 @@
 
 @synthesize customPickerArray, parent;
 
-- (id)init
+- (instancetype)init
 {
 	// use predetermined frame size
 	self = [super init];
@@ -84,187 +84,159 @@
         CustomView *view;
         pickerCategory = [[NSUserDefaults standardUserDefaults] integerForKey:@"pickerCategory"];
         
+        //TODO Review this. Had a lot of releases prior to ARC
         if (pickerCategory == 0) {
 
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Commute";
             view.image = [UIImage imageNamed:kTripPurposeCommuteIcon];
             [viewArray addObject:view];
-            [view release];
 
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"School";
             view.image = [UIImage imageNamed:kTripPurposeSchoolIcon];
             [viewArray addObject:view];
-            [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Work-Related";
             view.image = [UIImage imageNamed:kTripPurposeWorkIcon];
             [viewArray addObject:view];
-            [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Exercise";
             view.image = [UIImage imageNamed:kTripPurposeExerciseIcon];
             [viewArray addObject:view];
-            [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Social";
             view.image = [UIImage imageNamed:kTripPurposeSocialIcon];
             [viewArray addObject:view];
-            [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Shopping";
             view.image = [UIImage imageNamed:kTripPurposeShoppingIcon];
             [viewArray addObject:view];
-            [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Errand";
             view.image = [UIImage imageNamed:kTripPurposeErrandIcon];
             [viewArray addObject:view];
-            [view release];
             
             //Bike events
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Bike Event";
             view.image = [UIImage imageNamed:kTripPurposeBikeEventIcon];
             [viewArray addObject:view];
-            [view release];
             
             //ScalleyCat
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"ScalleyCat";
             view.image = [UIImage imageNamed:kTripPurposeScalleyCatIcon];
             [viewArray addObject:view];
-            [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Other";
             view.image = [UIImage imageNamed:kTripPurposeOtherIcon];
             [viewArray addObject:view];
-            [view release];
         }
         else if (pickerCategory == 1){
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Pavement issue";
             //view.image = [UIImage imageNamed:kIssuePavementIssueIcon];
             [viewArray addObject:view];
-            [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Traffic signal";
             //view.image = [UIImage imageNamed:kIssueTrafficSignalIcon];
             [viewArray addObject:view];
-            [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Enforcement";
             //view.image = [UIImage imageNamed:kIssueEnforcementIcon];
             [viewArray addObject:view];
-            [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Rack Em Up";
             //view.image = [UIImage imageNamed:kIssueNeedParkingIcon];
             [viewArray addObject:view];
-            [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Bike lane issue";
             //view.image = [UIImage imageNamed:kIssueBikeLaneIssueIcon];
             [viewArray addObject:view];
-            [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Note this spot";
             //view.image = [UIImage imageNamed:kIssueNoteThisSpotIcon];
             [viewArray addObject:view];
-            [view release];
         }
         else if (pickerCategory == 2){
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Rack Em Up";
             //view.image = [UIImage imageNamed:kAssetBikeParkingIcon];
             [viewArray addObject:view];
-            [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Bike shops";
             //view.image = [UIImage imageNamed:kAssetBikeShopsIcon];
             [viewArray addObject:view];
-            [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Public restrooms";
             //view.image = [UIImage imageNamed:kAssetPublicRestroomsIcon];
             [viewArray addObject:view];
-            [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Secret passage";
             //view.image = [UIImage imageNamed:kAssetSecretPassageIcon];
             [viewArray addObject:view];
-            [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Water fountains";
             //view.image = [UIImage imageNamed:kAssetWaterFountainsIcon];
             [viewArray addObject:view];
-            [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Note this spot";
             //view.image = [UIImage imageNamed:kAssetNoteThisSpotIcon];
             [viewArray addObject:view];
-            [view release];
         }
         else if (pickerCategory == 3){
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Note this asset";
             view.image = [UIImage imageNamed:kNoteThisAsset];
             [viewArray addObject:view];
-            [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Water fountains";
             view.image = [UIImage imageNamed:kNoteThisAsset];
             [viewArray addObject:view];
-            [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Secret passage";
             view.image = [UIImage imageNamed:kNoteThisAsset];
             [viewArray addObject:view];
-            [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Public restrooms";
             view.image = [UIImage imageNamed:kNoteThisAsset];
             [viewArray addObject:view];
-            [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Bike shops";
             view.image = [UIImage imageNamed:kNoteThisAsset];
             [viewArray addObject:view];
-            [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Rack Em Up";
             view.image = [UIImage imageNamed:kNoteThisAsset];
             [viewArray addObject:view];
-            [view release];
             
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @" ";
             view.image = [UIImage imageNamed:kNoteBlank];
             [viewArray addObject:view];
-            [view release];
             
             
             
@@ -272,51 +244,39 @@
             view.title = @"Pavement issue";
             view.image = [UIImage imageNamed:kNoteThisIssue];
             [viewArray addObject:view];
-            [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Traffic signal";
             view.image = [UIImage imageNamed:kNoteThisIssue];
             [viewArray addObject:view];
-            [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Enforcement";
             view.image = [UIImage imageNamed:kNoteThisIssue];
             [viewArray addObject:view];
-            [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Rack Em Up";
             view.image = [UIImage imageNamed:kNoteThisIssue];
             [viewArray addObject:view];
-            [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Bike lane issue";
             view.image = [UIImage imageNamed:kNoteThisIssue];
             [viewArray addObject:view];
-            [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Note this issue";
             view.image = [UIImage imageNamed:kNoteThisIssue];
             [viewArray addObject:view];
-            [view release];
 
         }
 
 		self.customPickerArray = viewArray;
-		[viewArray release];
 	}
 	return self;
 }
 
-- (void)dealloc
-{
-	[customPickerArray release];
-	[super dealloc];
-}
 
 
 #pragma mark UIPickerViewDataSource
@@ -334,7 +294,7 @@
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-	return [customPickerArray count];
+	return customPickerArray.count;
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
@@ -353,7 +313,7 @@
 {
     //fix for sutom pickerview in ioOS7
     // self.customPickerArrayis an array of UIImageView objects
-    UIView * myView = [self.customPickerArray objectAtIndex:row];
+    UIView * myView = (self.customPickerArray)[row];
     
     // first convert to a UIImage
     UIGraphicsBeginImageContextWithOptions(myView.bounds.size, NO, 0);

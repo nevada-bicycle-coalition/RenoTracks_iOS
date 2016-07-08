@@ -7,7 +7,6 @@
 //
 
 #import "UIDevice+IdentifierAddition.h"
-#import "NSString+MD5Addition.h"
 
 #include <sys/socket.h> // Per msqr
 #include <sys/sysctl.h>
@@ -85,21 +84,9 @@
 #pragma mark Public Methods
 
 - (NSString *) uniqueDeviceIdentifier{
-//    NSString *macaddress = [[UIDevice currentDevice] macaddress];
-//    NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
-//    
-//    NSString *stringToHash = [NSString stringWithFormat:@"%@%@",macaddress,bundleIdentifier];
-//    NSString *uniqueIdentifier = [stringToHash stringFromMD5];
     
-    NSString *uniqueIdentifier  =[[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    NSString *uniqueIdentifier  =[UIDevice currentDevice].identifierForVendor.UUIDString;
     return uniqueIdentifier;
 }
-
-//- (NSString *) uniqueGlobalDeviceIdentifier{
-//    NSString *macaddress = [[UIDevice currentDevice] macaddress];
-//    NSString *uniqueIdentifier = [macaddress stringFromMD5];
-//    NSString *uniqueIdentifier = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
-//    return uniqueIdentifier;
-//}
 
 @end

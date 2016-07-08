@@ -43,7 +43,7 @@
 @synthesize coordinate, title, subtitle, first, last;
 
 
-- (id) init
+- (instancetype) init
 {
 	if ( self = [super init] )
 	{
@@ -58,19 +58,5 @@
 {
 	NSLog(@"%f lat, %f lon", coordinate.latitude, coordinate.longitude);
 }
-
-- (void)dealloc
-{
-    self.title = nil;
-    self.subtitle = nil;
-    self.first = nil;
-    self.last = nil;
- 
-    [title release];
-    [subtitle release];
-    
-    [super dealloc];
-}
-
 
 @end

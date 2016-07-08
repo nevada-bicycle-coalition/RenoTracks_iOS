@@ -44,7 +44,6 @@
 #import "SavedTripsViewController.h"
 #import "SavedNotesViewController.h"
 #import "TripManager.h"
-#import "NSString+MD5Addition.h"
 #import "UIDevice+IdentifierAddition.h"
 #import "constants.h"
 #import "DetailViewController.h"
@@ -83,10 +82,10 @@
     //[[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: unSelected, NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];
     
     // set selected and unselected icons
-    UITabBarItem *tabBarItem1 = [tabBar.items objectAtIndex:0];
-    UITabBarItem *tabBarItem2 = [tabBar.items objectAtIndex:1];
-    UITabBarItem *tabBarItem3 = [tabBar.items objectAtIndex:2];
-    UITabBarItem *tabBarItem4 = [tabBar.items objectAtIndex:3];
+    UITabBarItem *tabBarItem1 = (tabBar.items)[0];
+    UITabBarItem *tabBarItem2 = (tabBar.items)[1];
+    UITabBarItem *tabBarItem3 = (tabBar.items)[2];
+    UITabBarItem *tabBarItem4 = (tabBar.items)[3];
     // set unslected icons to default color of .png
     tabBarItem1.image = [[UIImage imageNamed:@"tabbar_record.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     tabBarItem2.image = [[UIImage imageNamed:@"tabbar_view.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -115,9 +114,9 @@
         //[[UITabBar appearance] setTintColor:plainWhite];
         [[UITabBar appearance] setBarTintColor:renoGreen];
         //[[UITabBar appearance] setSelectedImageTintColor:plainWhite];
-        [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:plainWhite, NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];
+        [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: plainWhite} forState:UIControlStateNormal];
         
-        [[UITabBar appearance] setSelectionIndicatorImage:[UIImage imageNamed:@"tabBarSelected.png"]];
+        [UITabBar appearance].selectionIndicatorImage = [UIImage imageNamed:@"tabBarSelected.png"];
         
 //        UIImage *selectionIndicatorImage = [[UIImage imageNamed:@"tabBarSelected.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 0, 0, 0)];
 //        
@@ -127,7 +126,7 @@
 
     }
 
-    NSManagedObjectContext *context = [self managedObjectContext];
+    NSManagedObjectContext *context = self.managedObjectContext;
     if (!context) {
         // Handle the error.
     }
@@ -136,21 +135,19 @@
 	[self initUniqueIDHash];
 	
 	// initialize trip manager with the managed object context
-	TripManager *tripManager = [[[TripManager alloc] initWithManagedObjectContext:context] autorelease];
-    NoteManager *noteManager = [[[NoteManager alloc] initWithManagedObjectContext:context] autorelease];
+	TripManager *tripManager = [[TripManager alloc] initWithManagedObjectContext:context];
+    NoteManager *noteManager = [[NoteManager alloc] initWithManagedObjectContext:context];
 	
-	UINavigationController	*recordNav	= (UINavigationController*)[tabBarController.viewControllers 
-																	objectAtIndex:0];
+	UINavigationController	*recordNav	= (UINavigationController*)(tabBarController.viewControllers)[0];
 	//[navCon popToRootViewControllerAnimated:NO];
-	RecordTripViewController *recordVC	= (RecordTripViewController *)[recordNav topViewController];
+	RecordTripViewController *recordVC	= (RecordTripViewController *)recordNav.topViewController;
 	[recordVC initTripManager:tripManager];
     [recordVC initNoteManager:noteManager];
 	
 	
-	UINavigationController	*tripsNav	= (UINavigationController*)[tabBarController.viewControllers 
-																	objectAtIndex:1];
+	UINavigationController	*tripsNav	= (UINavigationController*)(tabBarController.viewControllers)[1];
 	//[navCon popToRootViewControllerAnimated:NO];
-	SavedTripsViewController *tripsVC	= (SavedTripsViewController *)[tripsNav topViewController];
+	SavedTripsViewController *tripsVC	= (SavedTripsViewController *)tripsNav.topViewController;
 	tripsVC.delegate					= recordVC;
 	[tripsVC initTripManager:tripManager];
 
@@ -163,14 +160,13 @@
 	// set parent view so we can apply opacity mask to it
 	recordVC.parentView = tabBarController.view;
     
-    UINavigationController *notesNav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:2];
+    UINavigationController *notesNav = (UINavigationController*)(tabBarController.viewControllers)[2];
     
-    SavedNotesViewController *notesVC = (SavedNotesViewController *)[notesNav topViewController];
+    SavedNotesViewController *notesVC = (SavedNotesViewController *)notesNav.topViewController;
     [notesVC initNoteManager:noteManager];
 	
-	UINavigationController	*nav	= (UINavigationController*)[tabBarController.viewControllers 
-															 objectAtIndex:3];
-	PersonalInfoViewController *vc	= (PersonalInfoViewController *)[nav topViewController];
+	UINavigationController	*nav	= (UINavigationController*)(tabBarController.viewControllers)[3];
+	PersonalInfoViewController *vc	= (PersonalInfoViewController *)nav.topViewController;
 	vc.managedObjectContext			= context;
 
     window.rootViewController = tabBarController;
@@ -181,7 +177,7 @@
 - (void)initUniqueIDHash
 {
 	//self.uniqueIDHash = [[UIDevice currentDevice] uniqueGlobalDeviceIdentifier]; // save for later.
-    self.uniqueIDHash = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    self.uniqueIDHash = [UIDevice currentDevice].identifierForVendor.UUIDString;
 	NSLog(@"Hashed uniqueID: %@", uniqueIDHash);
 }
 
@@ -193,8 +189,8 @@
 	
     NSError *error = nil;
     if (managedObjectContext != nil) {
-        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
-			NSLog(@"applicationWillTerminate: Unresolved error %@, %@", error, [error userInfo]);
+        if (managedObjectContext.hasChanges && ![managedObjectContext save:&error]) {
+			NSLog(@"applicationWillTerminate: Unresolved error %@, %@", error, error.userInfo);
 			abort();
         } 
     }
@@ -202,7 +198,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *) application
 {
-    RenoTracksAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    RenoTracksAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     if(appDelegate.isRecording){
         NSLog(@"BACKGROUNDED and recording"); //set location service to startUpdatingLocation
         [appDelegate.locationManager startUpdatingLocation];
@@ -216,7 +212,7 @@
 - (void)applicationDidBecomeActive:(UIApplication *) application
 {
     //always turnon location updating when active.
-    RenoTracksAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    RenoTracksAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     //[appDelegate.locationManager stoptMonitoringSignificantLocationChanges];
     [appDelegate.locationManager startUpdatingLocation];
 }
@@ -235,10 +231,10 @@
         return managedObjectContext;
     }
 	
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+    NSPersistentStoreCoordinator *coordinator = self.persistentStoreCoordinator;
     if (coordinator != nil) {
         managedObjectContext = [[NSManagedObjectContext alloc] init];
-        [managedObjectContext setPersistentStoreCoordinator: coordinator];
+        managedObjectContext.persistentStoreCoordinator = coordinator;
     }
     return managedObjectContext;
 }
@@ -275,16 +271,15 @@
 	
     NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"CycleTracks.sqlite"]];
     
-    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption, nil];
+    NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption: @YES};
                              //[NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
     
 	NSError *error = nil;
-    persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
+    persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
     
     
     if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error]) {
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		NSLog(@"Unresolved error %@, %@", error, error.userInfo);
 		abort();
     }    
 	
@@ -299,31 +294,9 @@
  Returns the path to the application's Documents directory.
  */
 - (NSString *)applicationDocumentsDirectory {
-	return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+	return NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject;
 }
 
-
-#pragma mark -
-#pragma mark Memory management
-
-- (void)dealloc {
-    self.window = nil;
-    self.tabBarController = nil;
-    self.uniqueIDHash = nil;
-    self.isRecording = nil;
-    self.locationManager = nil;
-    
-    [tabBarController release];
-    [uniqueIDHash release];
-    [locationManager release];
-	[window release];
-    
-    [managedObjectContext release];
-    [managedObjectModel release];
-    [persistentStoreCoordinator release];
-    
-	[super dealloc];
-}
 
 
 @end

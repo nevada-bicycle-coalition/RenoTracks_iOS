@@ -58,25 +58,25 @@
     NSString *deviceUniqueIdHash1;
 }
 
-@property (nonatomic, retain) NSString *deviceUniqueIdHash1;
-@property (nonatomic, retain) id <ActivityIndicatorDelegate> activityDelegate;
-@property (nonatomic, retain) id <UIAlertViewDelegate> alertDelegate;
+@property (nonatomic, strong) NSString *deviceUniqueIdHash1;
+@property (nonatomic, strong) id <ActivityIndicatorDelegate> activityDelegate;
+@property (nonatomic, strong) id <UIAlertViewDelegate> alertDelegate;
 
-@property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 
-@property (nonatomic, retain) LoadingView *uploadingView;
+@property (nonatomic, strong) LoadingView *uploadingView;
 
-@property (nonatomic, retain) UIViewController *parent; 
+@property (nonatomic, strong) UIViewController *parent; 
 
 @property (assign) BOOL dirty;
-@property (nonatomic, retain) Note *note;
+@property (nonatomic, strong) Note *note;
 
-@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
-@property (nonatomic, retain) NSMutableData *receivedDataNoted;
+@property (nonatomic, strong) NSMutableData *receivedDataNoted;
 
 
-- (id)initWithManagedObjectContext:(NSManagedObjectContext*)context;
+- (instancetype)initWithManagedObjectContext:(NSManagedObjectContext*)context;
 
 - (void)saveNote;
 - (void)saveNote:(Note*)note;
@@ -85,7 +85,7 @@
 
 - (void)addLocation:(CLLocation*)locationNow;
 
-- (id)initWithNote:(Note*)note;
+- (instancetype)initWithNote:(Note*)note;
 - (BOOL)loadNote:(Note *)note;
 
 @end

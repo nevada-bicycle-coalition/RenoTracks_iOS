@@ -72,7 +72,7 @@
 	BOOL vibrate;
 }
 
-@property (nonatomic, retain) id <RecordingInProgressDelegate> delegate;
+@property (nonatomic, strong) id <RecordingInProgressDelegate> delegate;
 @property (assign) BOOL audible;
 @property (assign) BOOL battery;
 @property (assign) BOOL enabled;
@@ -148,7 +148,6 @@
 												  cancelButtonTitle:@"OK"
 												  otherButtonTitles:nil];
 			[alert show];
-			[alert release];
 			
 			// note this in saved data?
 			// exit app?
@@ -159,7 +158,7 @@
 	}
 }
 
-- (id)initWithFireDate:(NSDate *)date
+- (instancetype)initWithFireDate:(NSDate *)date
 			  interval:(NSTimeInterval)seconds
 			  delegate:(id <RecordingInProgressDelegate>)_delegate
 {
@@ -200,12 +199,12 @@
 @implementation ReminderManager
 @synthesize reminders;
 
-- (id)initWithRecordingInProgressDelegate:(id <RecordingInProgressDelegate>)delegate
+- (instancetype)initWithRecordingInProgressDelegate:(id <RecordingInProgressDelegate>)delegate
 {
 	if ( self = [super init] )
 	{
 		//NSLog(@"ReminderManager init");
-		reminders = [[NSMutableArray arrayWithCapacity:10] retain];
+		reminders = [NSMutableArray arrayWithCapacity:10];
 		
 		// add reminders here
 		if ( kEnableTestReminder )
@@ -225,7 +224,7 @@
 - (void)enableReminders
 {
 	NSLog(@"enableReminders");
-	if ( [reminders count] )
+	if ( reminders.count )
 	{
 		NSEnumerator *enumerator = [reminders objectEnumerator];
 		Reminder *reminder;
@@ -238,7 +237,7 @@
 - (void)disableReminders
 {
 	NSLog(@"disableReminders");
-	if ( [reminders count] )
+	if ( reminders.count )
 	{
 		NSEnumerator *enumerator = [reminders objectEnumerator];
 		Reminder *reminder;
@@ -246,15 +245,5 @@
 			reminder.enabled = NO;
 	}		
 }
-
-
-- (void)dealloc {
-    self.reminders = nil;
-    
-    [reminders release];
-    
-    [super dealloc];
-}
-
 
 @end

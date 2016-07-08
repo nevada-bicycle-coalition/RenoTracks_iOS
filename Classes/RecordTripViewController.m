@@ -63,15 +63,17 @@
 
 
 - (CLLocationManager *)getLocationManager {
-	appDelegate = [[UIApplication sharedApplication] delegate];
+	appDelegate = [UIApplication sharedApplication].delegate;
     if (appDelegate.locationManager != nil) {
         return appDelegate.locationManager;
     }
 	
-    appDelegate.locationManager = [[[CLLocationManager alloc] init] autorelease];
+    appDelegate.locationManager = [[CLLocationManager alloc] init];
     appDelegate.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     //locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     appDelegate.locationManager.delegate = self;
+    [appDelegate.locationManager requestAlwaysAuthorization];
+    
     
     return appDelegate.locationManager;
 }
@@ -80,59 +82,43 @@
     
 }
 
-- (void)locationManager:(CLLocationManager *)manager
-    didUpdateToLocation:(CLLocation *)newLocation
-           fromLocation:(CLLocation *)oldLocation
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(nonnull NSArray<CLLocation *> *)locations
 {
-	CLLocationDistance deltaDistance = [newLocation distanceFromLocation:oldLocation];
+    MKCoordinateRegion region = { locations.lastObject.coordinate, { 0.0078, 0.0068 } };
+    [mapView setRegion:region animated:YES];
     
-    if (!myLocation) {
-        myLocation = [newLocation retain];
-    }
-    else if ([myLocation distanceFromLocation:newLocation]) {
-        [myLocation release];
-        myLocation = [newLocation retain];
-    }
+    //TODO: Verify if this is needed. Used by note manager in this class
+    myLocation = locations.lastObject;
     
-	if ( !didUpdateUserLocation )
-	{
-		NSLog(@"zooming to current user location");
-		MKCoordinateRegion region = { newLocation.coordinate, { 0.0078, 0.0068 } };
-		[mapView setRegion:region animated:YES];
-
-		didUpdateUserLocation = YES;
-	}
-	
-	// only update map if deltaDistance is at least some epsilon 
-	else if ( deltaDistance > 1.0 )
-	{
-		//NSLog(@"center map to current user location");
-		[mapView setCenterCoordinate:newLocation.coordinate animated:YES];
-	}
-    
-	if ( recording )
-	{
-		// add to CoreData store
-		CLLocationDistance distance = [tripManager addCoord:newLocation];
-		self.distCounter.text = [NSString stringWithFormat:@"%.1f", distance / 1609.344];
+    if(recording) {
+        for (CLLocation *location in locations) {
+            // add to CoreData store
+            CLLocationDistance distance = [tripManager addCoord:location];
+            self.distCounter.text = [NSString stringWithFormat:@"%.1f", distance / 1609.344];
+            
+            //Calorie text
+            double calorie = 49 * distance / 1609.344 - 1.69;
+            if (calorie <= 0) {
+                calorieCount.text = [NSString stringWithFormat:@"0.0"];
+            }
+            else
+                calorieCount.text = [NSString stringWithFormat:@"%.1f", calorie];
+            
+            //CO2 text
+            C02Count.text = [NSString stringWithFormat:@"%.1f", 0.93 * distance / 1609.344];
         
-        //Calory text
-        double calory = 49 * distance / 1609.344 - 1.69;
-        if (calory <= 0) {
-            calorieCount.text = [NSString stringWithFormat:@"0.0"];
+        
         }
-        else
-            calorieCount.text = [NSString stringWithFormat:@"%.1f", calory];
         
-        //CO2 text
-        C02Count.text = [NSString stringWithFormat:@"%.1f", 0.93 * distance / 1609.344];
-	}
-	
-	// 	double mph = ( [trip.distance doubleValue] / 1609.344 ) / ( [trip.duration doubleValue] / 3600. );
-	if ( newLocation.speed >= 0. )
-		speedCounter.text = [NSString stringWithFormat:@"%.1f", newLocation.speed * 3600 / 1609.344];
-	else
-		speedCounter.text = @"0.0";
+    }
+    
+    //TODO: Test on actual device, failing with simulator test
+    // 	double mph = ( [trip.distance doubleValue] / 1609.344 ) / ( [trip.duration doubleValue] / 3600. );
+    if ( locations.lastObject.speed >= 0. )
+        speedCounter.text = [NSString stringWithFormat:@"%.1f", locations.lastObject.speed * 3600 / 1609.344];
+    else
+        speedCounter.text = @"0.0";
+    
 
 }
 
@@ -167,7 +153,7 @@
 	NSManagedObjectContext	*context = tripManager.managedObjectContext;
 	NSFetchRequest			*request = [[NSFetchRequest alloc] init];
 	NSEntityDescription		*entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:context];
-	[request setEntity:entity];
+	request.entity = entity;
 	
 	NSError *error;
 	NSInteger count = [context countForFetchRequest:request error:&error];
@@ -177,7 +163,7 @@
 		NSArray *fetchResults = [context executeFetchRequest:request error:&error];
 		if ( fetchResults != nil )
 		{
-			User *user = (User*)[fetchResults objectAtIndex:0];
+			User *user = (User*)fetchResults[0];
 			if (user			!= nil &&
 				(user.age		!= nil ||
 				 user.gender	!= nil ||
@@ -185,7 +171,7 @@
 				 user.homeZIP	!= nil ||
 				 user.workZIP	!= nil ||
 				 user.schoolZIP	!= nil ||
-				 ([user.cyclingFreq intValue] < 4 )))
+				 ((user.cyclingFreq).intValue < 4 )))
 			{
 				NSLog(@"found saved user info");
 				self.userInfoSaved = YES;
@@ -199,13 +185,12 @@
 			// Handle the error.
 			NSLog(@"no saved user");
 			if ( error != nil )
-				NSLog(@"PersonalInfo viewDidLoad fetch error %@, %@", error, [error localizedDescription]);
+				NSLog(@"PersonalInfo viewDidLoad fetch error %@, %@", error, error.localizedDescription);
 		}
 	}
 	else
 		NSLog(@"no saved user");
 	
-	[request release];
 	return response;
 }
 
@@ -234,7 +219,7 @@
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     
 	NSLog(@"RecordTripViewController viewDidLoad");
-    NSLog(@"Bundle ID: %@", [[NSBundle mainBundle] bundleIdentifier]);
+    NSLog(@"Bundle ID: %@", [NSBundle mainBundle].bundleIdentifier);
     [super viewDidLoad];
 	//[UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackTranslucent;
 	
@@ -257,7 +242,7 @@
 	[self.view addSubview:[self createStartButton]];
     [self.view addSubview:[self createNoteButton]];
 	
-    appDelegate = [[UIApplication sharedApplication] delegate];
+    appDelegate = [UIApplication sharedApplication].delegate;
     appDelegate.isRecording = NO;
 	self.recording = NO;
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey: @"recording"];
@@ -266,11 +251,12 @@
 	
 	// Start the location manager.
 	[[self getLocationManager] startUpdatingLocation];
+    [[self getLocationManager] requestAlwaysAuthorization];
     
-    NSManagedObjectContext *context = [appDelegate managedObjectContext];
+    NSManagedObjectContext *context = appDelegate.managedObjectContext;
     
     // setup the noteManager
-    [self initNoteManager:[[[NoteManager alloc] initWithManagedObjectContext:context]autorelease]];
+    [self initNoteManager:[[NoteManager alloc] initWithManagedObjectContext:context]];
 
 	// check if any user data has already been saved and pre-select personal info cell accordingly
 	if ( [self hasUserInfoBeenSaved] )
@@ -328,9 +314,8 @@
     
     // load map view of saved trip
     MapViewController *mvc = [[MapViewController alloc] initWithTrip:trip];
-    [[self navigationController] pushViewController:mvc animated:YES];
+    [self.navigationController pushViewController:mvc animated:YES];
     NSLog(@"displayUploadedTripMap");
-    [mvc release];
 }
 
 
@@ -340,9 +325,8 @@
     
     // load map view of note
     NoteViewController *mvc = [[NoteViewController alloc] initWithNote:note];
-    [[self navigationController] pushViewController:mvc animated:YES];
+    [self.navigationController pushViewController:mvc animated:YES];
     NSLog(@"displayUploadedNote");
-    [mvc release];
 }
 
 
@@ -361,7 +345,7 @@
 - (void)resetRecordingInProgress
 {
 	// reset button states
-    appDelegate = [[UIApplication sharedApplication] delegate];
+    appDelegate = [UIApplication sharedApplication].delegate;
     appDelegate.isRecording = NO;
 	recording = NO;
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey: @"recording"];
@@ -375,11 +359,11 @@
     [startButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [startButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
     [startButton setTitle:@"Start" forState:UIControlStateNormal];
-	[startButton setTitleColor:[[[UIColor alloc] initWithRed:255.0 / 255 green:255.0 / 255 blue:255.0 / 255 alpha:1.0 ] autorelease] forState:UIControlStateNormal];
+	[startButton setTitleColor:[[UIColor alloc] initWithRed:255.0 / 255 green:255.0 / 255 blue:255.0 / 255 alpha:1.0 ] forState:UIControlStateNormal];
     
 	// reset trip, reminder managers
 	NSManagedObjectContext *context = tripManager.managedObjectContext;
-	[self initTripManager:[[[TripManager alloc] initWithManagedObjectContext:context] autorelease]];
+	[self initTripManager:[[TripManager alloc] initWithManagedObjectContext:context]];
 	tripManager.dirty = YES;
 
 	[self resetCounter];
@@ -465,8 +449,7 @@
 			
 			// load map view of saved trip
 			MapViewController *mvc = [[MapViewController alloc] initWithTrip:trip];
-			[[self navigationController] pushViewController:mvc animated:YES];
-			[mvc release];
+			[self.navigationController pushViewController:mvc animated:YES];
 		}
 			break;
 	}
@@ -475,8 +458,8 @@
 
 - (NSDictionary *)newTripTimerUserInfo
 {
-    return [[NSDictionary dictionaryWithObjectsAndKeys:[NSDate date], @"StartDate",
-			tripManager, @"TripManager", nil ] retain ];
+    return @{@"StartDate": [NSDate date],
+			@"TripManager": tripManager};
 }
 
 
@@ -522,7 +505,7 @@
         startButton.titleLabel.font = [UIFont boldSystemFontOfSize: 18];
         
         // set recording flag so future location updates will be added as coords
-        appDelegate = [[UIApplication sharedApplication] delegate];
+        appDelegate = [UIApplication sharedApplication].delegate;
         appDelegate.isRecording = YES;
         recording = YES;
         [[NSUserDefaults standardUserDefaults] setInteger:1 forKey: @"recording"];
@@ -536,20 +519,22 @@
     {
         NSLog(@"User Press Save Button");
         saveActionSheet = [[UIActionSheet alloc]
-                           initWithTitle:@""
+                           initWithTitle:nil
                            delegate:self
                            cancelButtonTitle:@"Continue"
                            destructiveButtonTitle:@"Discard"
                            otherButtonTitles:@"Save",nil];
-        //[saveActionSheet showInView:self.view];
+        
         [saveActionSheet showInView:[UIApplication sharedApplication].keyWindow];
     }
 	
 }
 - (void)save
 {
-//	[[NSUserDefaults standardUserDefaults] setInteger:0 forKey: @"pickerCategory"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    //TODO: user defaults should not be used to determine picker category
+    //Could create a new init to handle the different categories or even different nibs
+	[[NSUserDefaults standardUserDefaults] setInteger:0 forKey: @"pickerCategory"];
+    
 	// go directly to TripPurpose, user can cancel from there
 	if ( YES )
 	{
@@ -558,10 +543,12 @@
 		PickerViewController *tripPurposePickerView = [[PickerViewController alloc]
 													  //initWithPurpose:[tripManager getPurposeIndex]];
 													  initWithNibName:@"TripPurposePicker" bundle:nil];
-		[tripPurposePickerView setDelegate:self];
+                                                    
+        
+        
+		tripPurposePickerView.delegate = self;
 		//[[self navigationController] pushViewController:pickerViewController animated:YES];
 		[self.navigationController presentViewController:tripPurposePickerView animated:YES completion:nil];
-		[tripPurposePickerView release];
 	}
 	
 	// prompt to confirm first
@@ -589,7 +576,6 @@
 		UITabBarController *tbc = (UITabBarController *)pvc.parentViewController;
 		
 		[actionSheet showFromTabBar:tbc.tabBar];
-		[actionSheet release];
 	}
     
 }
@@ -617,13 +603,12 @@
 		PickerViewController *notePickerView = [[PickerViewController alloc]
                                                        //initWithPurpose:[tripManager getPurposeIndex]];
                                                        initWithNibName:@"TripPurposePicker" bundle:nil];
-		[notePickerView setDelegate:self];
+		notePickerView.delegate = self;
 		//[[self navigationController] pushViewController:pickerViewController animated:YES];
 		[self.navigationController presentViewController:notePickerView animated:YES completion:nil];
         
         //add location information
         
-		[notePickerView release];
 	}
 	
 	// prompt to confirm first
@@ -651,7 +636,6 @@
 		UITabBarController *tbc = (UITabBarController *)pvc.parentViewController;
 		
 		[actionSheet showFromTabBar:tbc.tabBar];
-		[actionSheet release];
 	}
 }
 
@@ -680,12 +664,12 @@
 		
 		static NSDateFormatter *inputFormatter = nil;
 		if ( inputFormatter == nil )
-			inputFormatter = [[[NSDateFormatter alloc] init] autorelease];
+			inputFormatter = [[NSDateFormatter alloc] init];
 		
-		[inputFormatter setDateFormat:@"HH:mm:ss"];
+		inputFormatter.dateFormat = @"HH:mm:ss";
 		NSDate *fauxDate = [inputFormatter dateFromString:@"00:00:00"];
-		[inputFormatter setDateFormat:@"HH:mm:ss"];
-		NSDate *outputDate = [[[NSDate alloc] initWithTimeInterval:interval sinceDate:fauxDate] autorelease];
+		inputFormatter.dateFormat = @"HH:mm:ss";
+		NSDate *outputDate = [[NSDate alloc] initWithTimeInterval:interval sinceDate:fauxDate];
 		
 		timeCounter.text = [inputFormatter stringFromDate:outputDate];
 	}
@@ -702,17 +686,17 @@
 	//NSLog(@"updateCounter");
 	if ( shouldUpdateCounter )
 	{
-		NSDate *startDate = [[theTimer userInfo] objectForKey:@"StartDate"];
+		NSDate *startDate = theTimer.userInfo[@"StartDate"];
 		NSTimeInterval interval = [[NSDate date] timeIntervalSinceDate:startDate];
 
 		static NSDateFormatter *inputFormatter = nil;
 		if ( inputFormatter == nil )
 			inputFormatter = [[NSDateFormatter alloc] init];
 		
-		[inputFormatter setDateFormat:@"HH:mm:ss"];
+		inputFormatter.dateFormat = @"HH:mm:ss";
 		NSDate *fauxDate = [inputFormatter dateFromString:@"00:00:00"];
-		[inputFormatter setDateFormat:@"HH:mm:ss"];
-		NSDate *outputDate = [[[NSDate alloc] initWithTimeInterval:interval sinceDate:fauxDate] autorelease];
+		inputFormatter.dateFormat = @"HH:mm:ss";
+		NSDate *outputDate = [[NSDate alloc] initWithTimeInterval:interval sinceDate:fauxDate];
 		
 		//NSLog(@"Timer started on %@", startDate);
 		//NSLog(@"Timer started %f seconds ago", interval);
@@ -826,7 +810,7 @@ shouldSelectViewController:(UIViewController *)viewController
 #pragma mark TripPurposeDelegate methods
 
 
-- (NSString *)setPurpose:(unsigned int)index
+- (NSString *)setPurpose:(NSUInteger)index
 {
 	NSString *purpose = [tripManager setPurpose:index];
 	NSLog(@"setPurpose: %@", purpose);
@@ -837,7 +821,7 @@ shouldSelectViewController:(UIViewController *)viewController
 }
 
 
-- (NSString *)getPurposeString:(unsigned int)index
+- (NSString *)getPurposeString:(NSUInteger)index
 {
 	return [tripManager getPurposeString:index];
 }
@@ -846,7 +830,7 @@ shouldSelectViewController:(UIViewController *)viewController
 - (void)didCancelPurpose
 {
 	[self.navigationController dismissViewControllerAnimated:YES completion:nil];
-    appDelegate = [[UIApplication sharedApplication] delegate];
+    appDelegate = [UIApplication sharedApplication].delegate;
     appDelegate.isRecording = YES;
 	recording = YES;
     [[NSUserDefaults standardUserDefaults] setInteger:1 forKey: @"recording"];
@@ -858,16 +842,16 @@ shouldSelectViewController:(UIViewController *)viewController
 - (void)didCancelNote
 {
 	[self.navigationController dismissViewControllerAnimated:YES completion:nil];
-    appDelegate = [[UIApplication sharedApplication] delegate];
+    appDelegate = [UIApplication sharedApplication].delegate;
     
 }
 
 
-- (void)didPickPurpose:(unsigned int)index
+- (void)didPickPurpose:(NSInteger)index
 {
 	//[self.navigationController dismissModalViewControllerAnimated:YES];
 	// update UI
-    appDelegate = [[UIApplication sharedApplication] delegate];
+    appDelegate = [UIApplication sharedApplication].delegate;
     appDelegate.isRecording = NO;
 	recording = NO;
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey: @"recording"];
@@ -892,30 +876,29 @@ shouldSelectViewController:(UIViewController *)viewController
 
 - (void)didPickNoteType:(NSNumber *)index
 {	
-	[noteManager.note setNote_type:index];
-    NSLog(@"Added note type: %d", [noteManager.note.note_type intValue]);
+	(noteManager.note).note_type = index;
+    NSLog(@"Added note type: %d", (noteManager.note.note_type).intValue);
     //do something here: may change to be the save as a separate view. Not prompt.
 }
 
 - (void)didEnterNoteDetails:(NSString *)details{
-    [noteManager.note setDetails:details];
+    (noteManager.note).details = details;
     NSLog(@"Note Added details: %@", noteManager.note.details);
 }
 
 - (void)didSaveImage:(NSData *)imgData{
-    [noteManager.note setImage_data:imgData];
-    NSLog(@"Added image, Size of Image(bytes):%lu", (unsigned long)[imgData length]);
-    [imgData release];
+    (noteManager.note).image_data = imgData;
+    NSLog(@"Added image, Size of Image(bytes):%lu", (unsigned long)imgData.length);
 }
 
 - (void)getTripThumbnail:(NSData *)imgData{
-    [tripManager.trip setThumbnail:imgData];
-    NSLog(@"Trip Thumbnail, Size of Image(bytes):%lu", (unsigned long)[imgData length]);
+    (tripManager.trip).thumbnail = imgData;
+    NSLog(@"Trip Thumbnail, Size of Image(bytes):%lu", (unsigned long)imgData.length);
 }
 
 - (void)getNoteThumbnail:(NSData *)imgData{
-    [noteManager.note setThumbnail:imgData];
-    NSLog(@"Note Thumbnail, Size of Image(bytes):%lu", (unsigned long)[imgData length]);
+    (noteManager.note).thumbnail = imgData;
+    NSLog(@"Note Thumbnail, Size of Image(bytes):%lu", (unsigned long)imgData.length);
 }
 
 - (void)saveNote{
@@ -935,52 +918,6 @@ shouldSelectViewController:(UIViewController *)viewController
 		return tripManager.trip;
 	else
 		return nil;
-}
-
-
-- (void)dealloc {
-    
-    appDelegate.locationManager = nil;
-    self.startButton = nil;
-    self.infoButton = nil;
-    self.saveButton = nil;
-    self.noteButton = nil;
-    self.timeCounter = nil;
-    self.distCounter = nil;
-    self.saveActionSheet = nil;
-    self.timer = nil;
-    self.parentView = nil;
-    self.recording = nil;
-    self.shouldUpdateCounter = nil;
-    self.userInfoSaved = nil;
-    self.tripManager = nil;
-    self.noteManager = nil;
-    self.appDelegate = nil;
-    
-//    [appDelegate.locationManager release];
-    [appDelegate release];
-    [infoButton release];
-    [saveButton release];
-    [startButton release];
-    [noteButton release];
-    [timeCounter release];
-    [distCounter release];
-    [speedCounter release];
-    [saveActionSheet release];
-    [timer release];
-    [opacityMask release];
-    [parentView release];
-    [tripManager release];
-    [noteManager release];
-    [myLocation release];
-    
-    [managedObjectContext release];
-    [mapView release];
-    
-    [calorieCount release];
-    [C02Count release];
-
-    [super dealloc];
 }
 
 @end

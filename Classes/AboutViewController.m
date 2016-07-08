@@ -72,7 +72,7 @@
     //loads the instructions page everytime the app is started. good for testing.
     NSURL *url = [NSURL URLWithString:kInstructionsURL];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
+    request.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
     [webView loadRequest:request];
 }
 
@@ -84,9 +84,5 @@
 }
 
 
-- (void)dealloc {
-    [webView release];
-    [super dealloc];
-}
 
 @end
