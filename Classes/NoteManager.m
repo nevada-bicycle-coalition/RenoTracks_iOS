@@ -429,7 +429,7 @@
 				NSLog(@"TripManager setUploaded error %@, %@", error, error.localizedDescription);
 			}
             
-            [uploadingView loadingComplete:kSuccessTitle delayInterval:.7];
+            [uploadingView loadingComplete:kSuccessTitle delayInterval:1];
 		} else {
             
             [uploadingView loadingComplete:kServerError delayInterval:1.5];

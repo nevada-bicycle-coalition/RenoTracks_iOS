@@ -29,66 +29,103 @@ class Reno_TracksUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
-    func testDemographicsShouldUpdateWithPicker() {
+
+    //MARK: - Personal Info View
+    func testDemographicsShouldUpdateWithValues() {
         let app = XCUIApplication()
         app.tabBars.buttons["Settings"].tap()
-        
-        //TODO: adjustToPcikerWheelValue does not work
-        //ageTextField.tap()
-        //app.pickerWheels.element.adjustToPickerWheelValue("Less than 18")
         
         testPicker("Age", in: app)
         testTextField("Email", in: app)
         testPicker("Gender", in: app)
         testPicker("Ethnicity", in: app)
         testPicker("Home Income", in: app)
-        //TODO: unable to test ZIP fields
-        //testTextField("Home ZIP", in: app)
-        //testTextField("Work ZIP", in: app)
-        //testTextField("School ZIP", in: app)
+        testTextField("Home ZIP", in: app)
+        testTextField("Work ZIP", in: app)
+        testTextField("School ZIP", in: app)
         app.tables.element.swipeUp()
         testPicker("Cycle Frequency", in: app)
         testPicker("Rider Type", in: app)
         testPicker("Rider History", in: app)
-        
-        
     }
     
-    func testDemographicsPickerShouldUpdateOnChange () {
+    func testDemographicsDoneButtonShouldHideKeyboard() {
         let app = XCUIApplication()
         app.tabBars.buttons["Settings"].tap()
+        app.tables.cells.containingType(.StaticText, identifier:"Email").childrenMatchingType(.TextField).element.tap()
         
-        let ageTextField = app.tables.cells.containingType(.StaticText, identifier:"Age").childrenMatchingType(.TextField).element
-        ageTextField.tap()
-        //FIXME not finding options as static texts. Comes in as Other element type with no value
-        //XCTAssert(app.staticTexts[values["Age"]!].exists)
-        testPicker("Gender", in: app)
+        //Show Keyboard
+        XCTAssert(app.keyboards.count == 1)
+        app.keyboards.buttons["Done"].tap()
         
+        //Hide Keyboard
+        XCTAssert(app.keyboards.count == 0)
         
-        let genderTextField = app.tables.cells.containingType(.StaticText, identifier:"Gender").childrenMatchingType(.TextField).element
-        genderTextField.tap()
-        //XCTAssert(app.staticTexts[values["Gender"]!].exists)
-        
-        let emailTextField = app.tables.cells.containingType(.StaticText, identifier:"Email").childrenMatchingType(.TextField).element
-        emailTextField.tap()
-        XCTAssertFalse(app.pickerWheels.element.exists)
-        
-        testPicker("Age", in: app)
-        
-        //ageTextField.tap()
-        //XCTAssert(app.staticTexts[values["Age"]!].exists)
     }
     
-    func testDiscardThenLoadTrips() {
+    //MARK: - Create Trips
+    func testCreateTripWithDetails() {
+        let app = XCUIApplication()
+        app.buttons["Start"].tap()
+        sleep(5)
+        app.buttons["Save"].tap()
+        app.sheets.collectionViews.buttons["Save"].tap()
+        app.navigationBars["Trip Purpose"].buttons["Save"].tap()
+        app.typeText("Details")
+        app.navigationBars["Detail"].buttons["Save"].tap()
+        
+        
+        //Should Display Upload Complete
+        let predicate = NSPredicate(format: "exists == 1")
+        let query = app.staticTexts["Upload Complete"]
+        expectationForPredicate(predicate, evaluatedWithObject: query, handler: nil)
+        waitForExpectationsWithTimeout(5, handler: nil)
+        
+    }
+    
+    func testCreateTripWithoutDetails() {
+        let app = XCUIApplication()
+        app.buttons["Start"].tap()
+        sleep(5)
+        app.buttons["Save"].tap()
+        app.sheets.collectionViews.buttons["Save"].tap()
+        app.navigationBars["Trip Purpose"].buttons["Save"].tap()
+        app.navigationBars["Detail"].buttons["Save"].tap()
+        
+        
+        //Should Display Upload Complete
+        let predicate = NSPredicate(format: "exists == 1")
+        let query = app.staticTexts["Upload Complete"]
+        expectationForPredicate(predicate, evaluatedWithObject: query, handler: nil)
+        waitForExpectationsWithTimeout(5, handler: nil)
+        
+    }
+    
+    
+    func testDiscardTripThenLoadTripsShouldNotCrash() {
         let app = XCUIApplication()
         app.buttons["Start"].tap()
         sleep(3)
         app.buttons["Save"].tap()
         app.sheets.collectionViews.buttons["Discard"].tap()
         app.tabBars.buttons["Trips"].tap()
+    }
+    
+    //MARK: - Create Notes
+    func testCreateNoteWithoutImage() {
         
-
+        let app = XCUIApplication()
+        app.buttons["Mark"].tap()
+        app.pickerWheels.element.selectNextOption()
+        app.navigationBars["Mark"].buttons["Save"].tap()
+        app.navigationBars["Detail"].buttons["Save"].tap()
+        
+        //Should Display Upload Complete
+        let predicate = NSPredicate(format: "exists == 1")
+        let query = app.staticTexts["Upload Complete"]
+        expectationForPredicate(predicate, evaluatedWithObject: query, handler: nil)
+        waitForExpectationsWithTimeout(5, handler: nil)
+        
     }
     
     
@@ -101,44 +138,62 @@ class Reno_TracksUITests: XCTestCase {
         } else {
             textField.tap()
         }
+        
+        //Show Keyboard
+        XCTAssert(app.keyboards.count == 1)
+        
         app.typeText(values[key]!)
         NSThread.sleepForTimeInterval(0.5)
+        
+        //Update Value
         XCTAssertEqual((textField.value as! String), values[key])
+        
+        let tablesQuery = app.tables
+        if (tablesQuery.otherElements["TELL US ABOUT YOURSELF"].exists) {
+            tablesQuery.otherElements["TELL US ABOUT YOURSELF"].tap()
+        } else if (tablesQuery.otherElements["YOUR TYPICAL COMMUTE"].exists) {
+            tablesQuery.otherElements["YOUR TYPICAL COMMUTE"].tap()
+        } else if (tablesQuery.otherElements["HOW OFTEN DO YOU CYCLE"].exists) {
+            tablesQuery.otherElements["HOW OFTEN DO YOU CYCLE"].tap()
+        } else if (tablesQuery.otherElements["WHAT KIND OF RIDER ARE YOU?"].exists) {
+            tablesQuery.otherElements["WHAT KIND OF RIDER ARE YOU?"].tap()
+        } else if (tablesQuery.otherElements["HOW LONG HAVE YOU BEEN A CYCLIST?"].exists) {
+            tablesQuery.otherElements["HOW LONG HAVE YOU BEEN A CYCLIST?"].tap()
+        } else {
+            XCTAssert(false)
+        }
+        
+        //Hide Keyboard
+        XCTAssert(app.keyboards.count == 0)
+
+
     }
     
     func testPicker(key:String, in app:XCUIApplication) {
         let pickerTextField = app.tables.cells.containingType(.StaticText, identifier:key).childrenMatchingType(.TextField).element
-        
-        //Set to blank
         pickerTextField.tap()
-        app.pickerWheels.element.swipeDown()
-        XCTAssertEqual((pickerTextField.value as! String), " ")
         
-        //set to first option
+        //Show Picker Wheel
+        XCTAssert(app.pickerWheels.element.exists)
+        app.pickerWheels.element.swipeDown()
+        NSThread.sleepForTimeInterval(1.5)
+        
+        //Set to Blank
+        XCTAssertEqual((pickerTextField.value as! String), " ")
+    
+        //Hide Picker Wheel
+        XCTAssertFalse(app.pickerWheels.element.exists)
+        
         pickerTextField.tap()
         app.pickerWheels.element.selectNextOption()
-        NSThread.sleepForTimeInterval(0.5)
-        XCTAssertEqual((pickerTextField.value as! String), values[key])
-        
-    }
-    
-    func testPickerClick(key:String, in app:XCUIApplication) {
-        let pickerTextField = app.tables.cells.containingType(.StaticText, identifier:key).childrenMatchingType(.TextField).element
-        
-        //Set to blank
-        pickerTextField.tap()
-        app.pickerWheels.element.swipeDown()
-        XCTAssertEqual((pickerTextField.value as! String), " ")
+        NSThread.sleepForTimeInterval(1.5)
         
         //set to first option
-        pickerTextField.tap()
-        app.pickerWheels.element.selectNextOption()
-        NSThread.sleepForTimeInterval(0.5)
         XCTAssertEqual((pickerTextField.value as! String), values[key])
         
+        //Hide Picker Wheel
+        XCTAssertFalse(app.pickerWheels.element.exists)
+        
     }
-    
-
-    
     
 }

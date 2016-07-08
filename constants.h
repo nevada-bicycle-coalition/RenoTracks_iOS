@@ -65,7 +65,7 @@
 #define kRetryTitle			@"Retry Upload?"
 #define	kSavingTitle		@"Uploading your trip"
 #define kSavingNoteTitle    @"Uploading your note"
-#define kSuccessTitle		@"Upload complete"
+#define kSuccessTitle		@"Upload Complete"
 #define kTripNotesTitle		@"Enter Comments Below"
 #define kConsentFor18Title  @"In order to send route data to the City of Reno, you must be at least 18."
 

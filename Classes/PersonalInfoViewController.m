@@ -342,6 +342,12 @@ typedef NS_ENUM(NSInteger, textFieldTags) {
 	}
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
+    [self.view endEditing:YES];
+    [self.view removeGestureRecognizer:tapToSelect];
+    return YES;
+}
+
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

@@ -151,7 +151,7 @@
 		A2B263381801C8140015F89B /* workRelated@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B263181801C8140015F89B /* workRelated@2x.png */; };
 		A2B2633B1801D6460015F89B /* greyButtonHighlight.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B263391801D6460015F89B /* greyButtonHighlight.png */; };
 		A2B2633C1801D6460015F89B /* greyButtonHighlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B2633A1801D6460015F89B /* greyButtonHighlight@2x.png */; };
-		E91AA6AB1CFE185800840AD0 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91AA6AA1CFE185800840AD0 /* extensions.swift */; };
+		E91AA6AB1CFE185800840AD0 /* XCUIElement+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91AA6AA1CFE185800840AD0 /* XCUIElement+extension.swift */; };
 		E941427B1D1C986A00CA7B9A /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E941427A1D1C986A00CA7B9A /* libz.tbd */; };
 		E970FA851CF8A7C900A4E73B /* Reno_TracksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E970FA841CF8A7C900A4E73B /* Reno_TracksUITests.swift */; };
 		E9FDD35D1D0E7C0B00CD95A4 /* UNRtoMeadowwood.gpx in Resources */ = {isa = PBXBuildFile; fileRef = E9FDD35C1D0E7C0B00CD95A4 /* UNRtoMeadowwood.gpx */; };
@@ -348,7 +348,7 @@
 		A2B263181801C8140015F89B /* workRelated@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "workRelated@2x.png"; path = "TripPurposePickerIcons/workRelated@2x.png"; sourceTree = SOURCE_ROOT; };
 		A2B263391801D6460015F89B /* greyButtonHighlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greyButtonHighlight.png; sourceTree = "<group>"; };
 		A2B2633A1801D6460015F89B /* greyButtonHighlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greyButtonHighlight@2x.png"; sourceTree = "<group>"; };
-		E91AA6AA1CFE185800840AD0 /* extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
+		E91AA6AA1CFE185800840AD0 /* XCUIElement+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCUIElement+extension.swift"; sourceTree = "<group>"; };
 		E941427A1D1C986A00CA7B9A /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		E970FA821CF8A7C900A4E73B /* Reno TracksUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Reno TracksUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E970FA841CF8A7C900A4E73B /* Reno_TracksUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reno_TracksUITests.swift; sourceTree = "<group>"; };
@@ -678,7 +678,7 @@
 				E9FDD35C1D0E7C0B00CD95A4 /* UNRtoMeadowwood.gpx */,
 				E970FA841CF8A7C900A4E73B /* Reno_TracksUITests.swift */,
 				E970FA861CF8A7C900A4E73B /* Info.plist */,
-				E91AA6AA1CFE185800840AD0 /* extensions.swift */,
+				E91AA6AA1CFE185800840AD0 /* XCUIElement+extension.swift */,
 			);
 			path = "Reno TracksUITests";
 			sourceTree = "<group>";
@@ -920,7 +920,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E970FA851CF8A7C900A4E73B /* Reno_TracksUITests.swift in Sources */,
-				E91AA6AB1CFE185800840AD0 /* extensions.swift in Sources */,
+				E91AA6AB1CFE185800840AD0 /* XCUIElement+extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
