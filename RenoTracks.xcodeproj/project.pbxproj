@@ -350,6 +350,7 @@
 		A2B2633A1801D6460015F89B /* greyButtonHighlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greyButtonHighlight@2x.png"; sourceTree = "<group>"; };
 		E91AA6AA1CFE185800840AD0 /* XCUIElement+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCUIElement+extension.swift"; sourceTree = "<group>"; };
 		E941427A1D1C986A00CA7B9A /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		E94D53901D6306F90017AB77 /* keystoneToIGT-car.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "keystoneToIGT-car.gpx"; path = "Reno TracksUITests/keystoneToIGT-car.gpx"; sourceTree = "<group>"; };
 		E970FA821CF8A7C900A4E73B /* Reno TracksUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Reno TracksUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E970FA841CF8A7C900A4E73B /* Reno_TracksUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reno_TracksUITests.swift; sourceTree = "<group>"; };
 		E970FA861CF8A7C900A4E73B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -469,6 +470,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				E94D53901D6306F90017AB77 /* keystoneToIGT-car.gpx */,
 				64119AA81068672100C201F0 /* Trip Purpose data source */,
 				6411992B1068371B00C201F0 /* Data Model */,
 				080E96DDFE201D6D7F000001 /* Classes */,

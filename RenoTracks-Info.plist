@@ -41,7 +41,7 @@
 	<string>109</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSLocationAlwaysUsageDescription</key>
+	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Reno Tracks uses your GPS location data to log rides</string>
 	<key>NSMainNibFile</key>
 	<string>MainWindow</string>

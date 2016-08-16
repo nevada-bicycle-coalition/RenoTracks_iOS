@@ -72,7 +72,10 @@
     appDelegate.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     //locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     appDelegate.locationManager.delegate = self;
-    [appDelegate.locationManager requestAlwaysAuthorization];
+    [appDelegate.locationManager requestWhenInUseAuthorization];
+    appDelegate.locationManager.allowsBackgroundLocationUpdates = YES;
+    appDelegate.locationManager.activityType = CLActivityTypeFitness;
+    
     
     
     return appDelegate.locationManager;
