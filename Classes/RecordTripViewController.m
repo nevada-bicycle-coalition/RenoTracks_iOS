@@ -260,6 +260,7 @@
     
     // setup the noteManager
     [self initNoteManager:[[NoteManager alloc] initWithManagedObjectContext:context]];
+    [self initTripManager:[[TripManager alloc] initWithManagedObjectContext:context]];
 
 	// check if any user data has already been saved and pre-select personal info cell accordingly
 	if ( [self hasUserInfoBeenSaved] )

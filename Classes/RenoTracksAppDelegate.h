@@ -35,6 +35,7 @@
 //	For more information on the project, 
 //	e-mail Billy Charlton at the SFCTA <billy.charlton@sfcta.org>
 #import <CoreLocation/CoreLocation.h>
+#import "RenoTracks-Swift.h"
 
 @interface RenoTracksAppDelegate : NSObject <UIApplicationDelegate>
 {

@@ -65,6 +65,27 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
+    NSManagedObjectContext *context = self.managedObjectContext;
+    if (!context) {
+        // Handle the error.
+    }
+    
+    // init our unique ID hash
+    [self initUniqueIDHash];
+
+    // initialize trip manager with the managed object context
+    TripManager *tripManager = [[TripManager alloc] initWithManagedObjectContext:context];
+    NoteManager *noteManager = [[NoteManager alloc] initWithManagedObjectContext:context];
+    
+    UINavigationController	*recordNav	= (UINavigationController*)(tabBarController.viewControllers)[0];
+    //[navCon popToRootViewControllerAnimated:NO];
+    RecordTripViewController *recordVC	= (RecordTripViewController *)recordNav.topViewController;
+    [recordVC initTripManager:tripManager];
+    [recordVC initNoteManager:noteManager];
+
+    
+    
+    /*
 	// disable screen lock
 	//[UIApplication sharedApplication].idleTimerDisabled = NO;
 	[UIApplication sharedApplication].idleTimerDisabled = YES;
@@ -166,11 +187,12 @@
     [notesVC initNoteManager:noteManager];
 	
 	UINavigationController	*nav	= (UINavigationController*)(tabBarController.viewControllers)[3];
-	PersonalInfoViewController *vc	= (PersonalInfoViewController *)nav.topViewController;
-	vc.managedObjectContext			= context;
+    SettingsTableViewController *vc = (SettingsTableViewController *)nav.topViewController;
+    //PersonalInfoViewController *vc	= (PersonalInfoViewController *)nav.topViewController;
+	//vc.managedObjectContext			= context;
 
     window.rootViewController = tabBarController;
-	[window makeKeyAndVisible];	
+	[window makeKeyAndVisible];	*/
 }
 
 
