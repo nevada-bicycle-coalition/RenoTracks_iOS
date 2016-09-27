@@ -59,6 +59,7 @@
 //@synthesize consentFor18;
 @synthesize isRecording;
 @synthesize locationManager;
+@synthesize isBackground;
 
 #pragma mark -
 #pragma mark Application lifecycle
@@ -199,9 +200,11 @@
 - (void)applicationDidEnterBackground:(UIApplication *) application
 {
     RenoTracksAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    appDelegate.isBackground = YES;
     if(appDelegate.isRecording){
         NSLog(@"BACKGROUNDED and recording"); //set location service to startUpdatingLocation
         [appDelegate.locationManager startUpdatingLocation];
+        
     } else {
         NSLog(@"BACKGROUNDED and sitting idle"); //set location service to startMonitoringSignificantLocationChanges
         [appDelegate.locationManager stopUpdatingLocation];
@@ -213,6 +216,7 @@
 {
     //always turnon location updating when active.
     RenoTracksAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    appDelegate.isBackground = YES;
     //[appDelegate.locationManager stoptMonitoringSignificantLocationChanges];
     [appDelegate.locationManager startUpdatingLocation];
 }

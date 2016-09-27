@@ -61,6 +61,7 @@
 //@property (nonatomic, retain) UIAlertView *consentFor18;
 // added to handle location manager background service switching
 @property (nonatomic, assign) BOOL isRecording;
+@property (nonatomic, assign) BOOL isBackground;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 
 @property (nonatomic, readonly, copy) NSString *applicationDocumentsDirectory;

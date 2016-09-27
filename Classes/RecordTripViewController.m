@@ -109,6 +109,11 @@
             
             //CO2 text
             C02Count.text = [NSString stringWithFormat:@"%.1f", 0.93 * distance / 1609.344];
+            
+            if(appDelegate.isBackground) {
+                [appDelegate.locationManager allowDeferredLocationUpdatesUntilTraveled:CLLocationDistanceMax timeout:1800];
+                
+            }
         
         
         }
